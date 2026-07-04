@@ -228,6 +228,9 @@
   .spk-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-family:'Baloo Thai 2'; font-weight:700; color:var(--ink-soft)}
   #spkMicBtn.rec{background:linear-gradient(135deg,#FF6B6B,#c9436b); animation:spkpulse 1s infinite}
   @keyframes spkpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+  .spk-read{font-size:14.5px; color:#5B3FC0; margin-top:12px; font-weight:600}
+  .spk-vocab{display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:12px}
+  .vchip{background:#F4F1FF; border:1.5px solid var(--line); border-radius:10px; padding:4px 10px; font-size:12.5px; color:var(--ink)}
 </style>
 </head>
 <body>
@@ -258,6 +261,8 @@
       <div class="spk-card">
         <div class="spk-en" id="spkEn"></div>
         <div class="spk-th" id="spkTh"></div>
+        <div class="spk-read" id="spkRead"></div>
+        <div class="spk-vocab" id="spkVocab"></div>
         <div class="spk-heard" id="spkHeard"></div>
         <div class="spk-fb" id="spkFb"></div>
       </div>
@@ -1466,9 +1471,107 @@ function toggleMasterLessons(){ lessonsShown=!lessonsShown; const lw=document.ge
 /* ===== ENGLISH SPEAKING PRACTICE (ฝึกพูด) ===== */
 const SPEAK=[
  {id:'greet',emoji:'👋',color:'#4D9DE0',name:'ทักทาย',items:[
-   {en:'Hello!',th:'สวัสดี!'},{en:'Good morning.',th:'สวัสดีตอนเช้า'},{en:'How are you?',th:'สบายดีไหม'},
-   {en:'I am fine, thank you.',th:'ฉันสบายดี ขอบคุณ'},{en:'Nice to meet you.',th:'ยินดีที่ได้รู้จัก'},
-   {en:'See you later.',th:'ไว้เจอกันนะ'},{en:'Goodbye!',th:'ลาก่อน!'},{en:'Have a nice day.',th:'ขอให้เป็นวันที่ดี'}]},
+   {en:"Hi!",th:"สวัสดี (แบบไม่เป็นทางการ)",read:"ฮาย",vocab:[{w:"Hi",m:"สวัสดี"}]},
+   {en:"Hello!",th:"สวัสดี",read:"เฮล-โหล",vocab:[{w:"Hello",m:"สวัสดี"}]},
+   {en:"Hey!",th:"เฮ้ (ทักเพื่อน)",read:"เฮ้",vocab:[{w:"Hey",m:"เฮ้/นี่"}]},
+   {en:"Good morning!",th:"สวัสดีตอนเช้า",read:"กู๊ด มอร์-นิ่ง",vocab:[{w:"morning",m:"ตอนเช้า"}]},
+   {en:"Good afternoon!",th:"สวัสดีตอนบ่าย",read:"กู๊ด อาฟ-เตอร์-นูน",vocab:[{w:"afternoon",m:"ตอนบ่าย"}]},
+   {en:"Good evening!",th:"สวัสดีตอนเย็น",read:"กู๊ด อีฟ-นิ่ง",vocab:[{w:"evening",m:"ตอนเย็น"}]},
+   {en:"Good night!",th:"ราตรีสวัสดิ์",read:"กู๊ด ไนท์",vocab:[{w:"night",m:"กลางคืน"}]},
+   {en:"Welcome!",th:"ยินดีต้อนรับ",read:"เว็ล-คัม",vocab:[{w:"Welcome",m:"ต้อนรับ"}]},
+   {en:"Long time no see!",th:"ไม่ได้เจอกันนานเลย",read:"ลอง ไทม์ โน ซี",vocab:[{w:"long time",m:"นานมาก"}]},
+   {en:"Hi, everyone!",th:"สวัสดีทุกคน",read:"ฮาย เอฟ-รี-วัน",vocab:[{w:"everyone",m:"ทุกคน"}]},
+   {en:"How are you?",th:"สบายดีไหม",read:"ฮาว อาร์ ยู",vocab:[{w:"How",m:"อย่างไร"},{w:"you",m:"คุณ"}]},
+   {en:"How are you doing?",th:"เป็นอย่างไรบ้าง",read:"ฮาว อาร์ ยู ดู-อิ้ง",vocab:[{w:"doing",m:"กำลังทำ/เป็นไป"}]},
+   {en:"How's it going?",th:"เป็นไงบ้าง",read:"ฮาวส์ อิท โก-อิ้ง",vocab:[{w:"going",m:"ดำเนินไป"}]},
+   {en:"How have you been?",th:"ช่วงนี้เป็นอย่างไรบ้าง",read:"ฮาว แฮฟ ยู บีน",vocab:[{w:"been",m:"เป็นมา"}]},
+   {en:"I'm fine, thank you.",th:"ฉันสบายดี ขอบคุณ",read:"ไอม์ ไฟน์ แธงก์ ยู",vocab:[{w:"fine",m:"สบายดี"}]},
+   {en:"I'm good, thanks.",th:"ฉันสบายดี ขอบคุณ",read:"ไอม์ กู๊ด แธงก์ส",vocab:[{w:"good",m:"ดี"}]},
+   {en:"Pretty good.",th:"ค่อนข้างดีเลย",read:"พริท-ที กู๊ด",vocab:[{w:"pretty",m:"ค่อนข้าง"}]},
+   {en:"Not bad.",th:"ก็ไม่เลว",read:"น็อท แบด",vocab:[{w:"bad",m:"แย่/เลว"}]},
+   {en:"I'm great!",th:"ฉันสบายดีมาก",read:"ไอม์ เกรท",vocab:[{w:"great",m:"เยี่ยม"}]},
+   {en:"So-so.",th:"ก็งั้น ๆ",read:"โซ-โซ",vocab:[{w:"so-so",m:"งั้น ๆ"}]},
+   {en:"I'm a little tired.",th:"ฉันเหนื่อยนิดหน่อย",read:"ไอม์ อะ ลิท-เทิล ไทร์ด",vocab:[{w:"tired",m:"เหนื่อย"}]},
+   {en:"And you?",th:"แล้วคุณล่ะ",read:"แอนด์ ยู",vocab:[{w:"And",m:"และ/แล้ว"}]},
+   {en:"How about you?",th:"แล้วคุณล่ะ",read:"ฮาว อะ-เบาท์ ยู",vocab:[{w:"about",m:"เกี่ยวกับ"}]},
+   {en:"I'm happy today.",th:"วันนี้ฉันมีความสุข",read:"ไอม์ แฮพ-ปี ทู-เดย์",vocab:[{w:"happy",m:"มีความสุข"},{w:"today",m:"วันนี้"}]},
+   {en:"I'm okay.",th:"ฉันโอเค",read:"ไอม์ โอ-เค",vocab:[{w:"okay",m:"โอเค/ปกติ"}]},
+   {en:"What's your name?",th:"คุณชื่ออะไร",read:"วอทส์ ยัวร์ เนม",vocab:[{w:"name",m:"ชื่อ"}]},
+   {en:"My name is Nong.",th:"ฉันชื่อน้อง",read:"มาย เนม อิส น้อง",vocab:[{w:"My",m:"ของฉัน"}]},
+   {en:"I'm Nong.",th:"ฉันชื่อน้อง",read:"ไอม์ น้อง",vocab:[{w:"I'm",m:"ฉันเป็น/ฉันคือ"}]},
+   {en:"Nice to meet you.",th:"ยินดีที่ได้รู้จัก",read:"ไนซ์ ทู มีท ยู",vocab:[{w:"meet",m:"พบ/เจอ"}]},
+   {en:"Nice to meet you too.",th:"ยินดีที่ได้รู้จักเช่นกัน",read:"ไนซ์ ทู มีท ยู ทู",vocab:[{w:"too",m:"ด้วย/เช่นกัน"}]},
+   {en:"Where are you from?",th:"คุณมาจากไหน",read:"แวร์ อาร์ ยู ฟรอม",vocab:[{w:"Where",m:"ที่ไหน"}]},
+   {en:"I'm from Thailand.",th:"ฉันมาจากประเทศไทย",read:"ไอม์ ฟรอม ไท-แลนด์",vocab:[{w:"from",m:"จาก"}]},
+   {en:"How old are you?",th:"คุณอายุเท่าไร",read:"ฮาว โอลด์ อาร์ ยู",vocab:[{w:"old",m:"อายุ/แก่"}]},
+   {en:"I'm eleven years old.",th:"ฉันอายุสิบเอ็ดปี",read:"ไอม์ อิ-เลฟ-เวน เยียร์ส โอลด์",vocab:[{w:"years old",m:"อายุ...ปี"}]},
+   {en:"This is my friend.",th:"นี่คือเพื่อนของฉัน",read:"ดิส อิส มาย เฟรนด์",vocab:[{w:"friend",m:"เพื่อน"}]},
+   {en:"Let me introduce myself.",th:"ให้ฉันแนะนำตัวเองนะ",read:"เล็ท มี อิน-โทร-ดิวซ์ มาย-เซลฟ์",vocab:[{w:"introduce",m:"แนะนำ"}]},
+   {en:"Glad to meet you.",th:"ดีใจที่ได้พบคุณ",read:"แกลด ทู มีท ยู",vocab:[{w:"glad",m:"ดีใจ"}]},
+   {en:"Goodbye!",th:"ลาก่อน",read:"กู๊ด-บาย",vocab:[{w:"Goodbye",m:"ลาก่อน"}]},
+   {en:"Bye!",th:"บาย",read:"บาย",vocab:[{w:"Bye",m:"ลาก่อน"}]},
+   {en:"Bye bye!",th:"บ๊ายบาย",read:"บาย บาย",vocab:[{w:"Bye bye",m:"ลาก่อนน่ารัก ๆ"}]},
+   {en:"See you!",th:"แล้วเจอกัน",read:"ซี ยู",vocab:[{w:"See",m:"เห็น/เจอ"}]},
+   {en:"See you later.",th:"ไว้เจอกันนะ",read:"ซี ยู เล-เทอร์",vocab:[{w:"later",m:"ทีหลัง"}]},
+   {en:"See you tomorrow.",th:"ไว้เจอกันพรุ่งนี้",read:"ซี ยู ทู-มอร์-โรว์",vocab:[{w:"tomorrow",m:"พรุ่งนี้"}]},
+   {en:"See you soon.",th:"แล้วเจอกันเร็ว ๆ นี้",read:"ซี ยู ซูน",vocab:[{w:"soon",m:"เร็ว ๆ นี้"}]},
+   {en:"Take care.",th:"ดูแลตัวเองนะ",read:"เทค แคร์",vocab:[{w:"care",m:"ดูแล/ระวัง"}]},
+   {en:"Have a nice day.",th:"ขอให้เป็นวันที่ดี",read:"แฮฟ อะ ไนซ์ เดย์",vocab:[{w:"nice",m:"ดี/น่ารื่นรมย์"}]},
+   {en:"Have a good weekend.",th:"ขอให้สุดสัปดาห์สนุกนะ",read:"แฮฟ อะ กู๊ด วีค-เอนด์",vocab:[{w:"weekend",m:"สุดสัปดาห์"}]},
+   {en:"Good luck!",th:"ขอให้โชคดี",read:"กู๊ด ลัค",vocab:[{w:"luck",m:"โชค"}]},
+   {en:"Talk to you later.",th:"ไว้คุยกันนะ",read:"ทอล์ค ทู ยู เล-เทอร์",vocab:[{w:"talk",m:"พูดคุย"}]},
+   {en:"Please.",th:"ได้โปรด",read:"พลีส",vocab:[{w:"Please",m:"ได้โปรด"}]},
+   {en:"Thank you.",th:"ขอบคุณ",read:"แธงก์ ยู",vocab:[{w:"Thank",m:"ขอบคุณ"}]},
+   {en:"Thank you very much.",th:"ขอบคุณมาก",read:"แธงก์ ยู เว-รี มัช",vocab:[{w:"very much",m:"มาก ๆ"}]},
+   {en:"Thanks a lot.",th:"ขอบคุณมากเลย",read:"แธงก์ส อะ ล็อท",vocab:[{w:"a lot",m:"มากมาย"}]},
+   {en:"You're welcome.",th:"ด้วยความยินดี",read:"ยัวร์ เว็ล-คัม",vocab:[{w:"welcome",m:"ยินดี"}]},
+   {en:"No problem.",th:"ไม่มีปัญหา",read:"โน พร็อบ-เลม",vocab:[{w:"problem",m:"ปัญหา"}]},
+   {en:"Excuse me.",th:"ขอโทษนะ (ขอทาง/เรียกความสนใจ)",read:"เอ็กซ์-คิวส์ มี",vocab:[{w:"Excuse",m:"ขอโทษ/ขออนุญาต"}]},
+   {en:"I'm sorry.",th:"ฉันขอโทษ",read:"ไอม์ ซอ-รี",vocab:[{w:"sorry",m:"เสียใจ/ขอโทษ"}]},
+   {en:"Sorry, my mistake.",th:"ขอโทษ ฉันผิดเอง",read:"ซอ-รี มาย มิส-เทค",vocab:[{w:"mistake",m:"ความผิดพลาด"}]},
+   {en:"That's okay.",th:"ไม่เป็นไร",read:"แดทส์ โอ-เค",vocab:[{w:"That's",m:"นั่น/มันเป็น"}]},
+   {en:"After you.",th:"เชิญคุณก่อน",read:"อาฟ-เตอร์ ยู",vocab:[{w:"After",m:"หลัง/ก่อนคุณ"}]},
+   {en:"May I come in?",th:"ขอเข้าไปได้ไหม",read:"เมย์ ไอ คัม อิน",vocab:[{w:"come in",m:"เข้ามา"}]},
+   {en:"Pardon me.",th:"ขอโทษนะ (ขอพูดซ้ำ)",read:"พาร์-ดอน มี",vocab:[{w:"Pardon",m:"ขอโทษ/อภัย"}]},
+   {en:"It's my pleasure.",th:"ด้วยความยินดี",read:"อิทส์ มาย เพล-เชอร์",vocab:[{w:"pleasure",m:"ความยินดี"}]},
+   {en:"Never mind.",th:"ไม่เป็นไร",read:"เน-เวอร์ ไมนด์",vocab:[{w:"mind",m:"ใส่ใจ/กังวล"}]},
+   {en:"How's your day?",th:"วันนี้เป็นอย่างไรบ้าง",read:"ฮาวส์ ยัวร์ เดย์",vocab:[{w:"day",m:"วัน"}]},
+   {en:"Have a great day!",th:"ขอให้เป็นวันที่ยอดเยี่ยม",read:"แฮฟ อะ เกรท เดย์",vocab:[{w:"great",m:"ยอดเยี่ยม"}]},
+   {en:"What's up?",th:"เป็นไงบ้าง",read:"วอทส์ อัพ",vocab:[{w:"up",m:"ขึ้น/เป็นไง"}]},
+   {en:"Nothing much.",th:"ก็ไม่มีอะไรมาก",read:"นัธ-ธิง มัช",vocab:[{w:"Nothing",m:"ไม่มีอะไร"}]},
+   {en:"I'm hungry.",th:"ฉันหิว",read:"ไอม์ ฮัง-กรี",vocab:[{w:"hungry",m:"หิว"}]},
+   {en:"I'm sleepy.",th:"ฉันง่วง",read:"ไอม์ สลี-ปี",vocab:[{w:"sleepy",m:"ง่วง"}]},
+   {en:"I'm excited!",th:"ฉันตื่นเต้น",read:"ไอม์ อิค-ไซ-เท็ด",vocab:[{w:"excited",m:"ตื่นเต้น"}]},
+   {en:"I'm a bit nervous.",th:"ฉันประหม่านิดหน่อย",read:"ไอม์ อะ บิท เนอ-เวิส",vocab:[{w:"nervous",m:"ประหม่า/กังวล"}]},
+   {en:"Are you okay?",th:"คุณโอเคไหม",read:"อาร์ ยู โอ-เค",vocab:[{w:"okay",m:"สบายดี"}]},
+   {en:"Cheer up!",th:"ยิ้มสู้ เอาน่า",read:"เชียร์ อัพ",vocab:[{w:"Cheer up",m:"ให้กำลังใจ"}]},
+   {en:"Don't worry.",th:"ไม่ต้องกังวล",read:"โดนท์ วอ-รี",vocab:[{w:"worry",m:"กังวล"}]},
+   {en:"It's alright.",th:"ไม่เป็นไรหรอก",read:"อิทส์ ออล-ไรท์",vocab:[{w:"alright",m:"ไม่เป็นไร"}]},
+   {en:"Good morning, teacher.",th:"สวัสดีตอนเช้า คุณครู",read:"กู๊ด มอร์-นิ่ง ที-เชอร์",vocab:[{w:"teacher",m:"ครู"}]},
+   {en:"May I ask a question?",th:"ขอถามคำถามได้ไหม",read:"เมย์ ไอ อาสค์ อะ เควส-ชั่น",vocab:[{w:"question",m:"คำถาม"}]},
+   {en:"Can you help me?",th:"ช่วยฉันหน่อยได้ไหม",read:"แคน ยู เฮลพ์ มี",vocab:[{w:"help",m:"ช่วย"}]},
+   {en:"I don't understand.",th:"ฉันไม่เข้าใจ",read:"ไอ โดนท์ อัน-เดอร์-สแตนด์",vocab:[{w:"understand",m:"เข้าใจ"}]},
+   {en:"Could you repeat that?",th:"พูดซ้ำอีกครั้งได้ไหม",read:"คูด ยู รี-พีท แดท",vocab:[{w:"repeat",m:"พูดซ้ำ"}]},
+   {en:"Thank you, teacher.",th:"ขอบคุณครับ/ค่ะ คุณครู",read:"แธงก์ ยู ที-เชอร์",vocab:[{w:"Thank you",m:"ขอบคุณ"}]},
+   {en:"Sorry, I'm late.",th:"ขอโทษที่มาสาย",read:"ซอ-รี ไอม์ เลท",vocab:[{w:"late",m:"สาย"}]},
+   {en:"May I go out?",th:"ขอออกไปข้างนอกได้ไหม",read:"เมย์ ไอ โก เอาท์",vocab:[{w:"go out",m:"ออกไปข้างนอก"}]},
+   {en:"Let's work together.",th:"มาทำงานด้วยกันเถอะ",read:"เล็ทส์ เวิร์ค ทู-เก-เธอร์",vocab:[{w:"together",m:"ด้วยกัน"}]},
+   {en:"Well done!",th:"ทำได้ดีมาก",read:"เวล ดัน",vocab:[{w:"Well done",m:"ทำได้ดี"}]},
+   {en:"Happy birthday!",th:"สุขสันต์วันเกิด",read:"แฮพ-ปี เบิร์ธ-เดย์",vocab:[{w:"birthday",m:"วันเกิด"}]},
+   {en:"Merry Christmas!",th:"สุขสันต์วันคริสต์มาส",read:"เม-รี คริส-มัส",vocab:[{w:"Merry",m:"รื่นเริง/สุขสันต์"}]},
+   {en:"Happy New Year!",th:"สวัสดีปีใหม่",read:"แฮพ-ปี นิว เยียร์",vocab:[{w:"New Year",m:"ปีใหม่"}]},
+   {en:"Congratulations!",th:"ยินดีด้วย",read:"คอน-แกร-จู-เล-ชั่นส์",vocab:[{w:"Congratulations",m:"ยินดีด้วย"}]},
+   {en:"Good job!",th:"ทำได้ดีมาก",read:"กู๊ด จ็อบ",vocab:[{w:"job",m:"งาน/ผลงาน"}]},
+   {en:"You can do it!",th:"คุณทำได้แน่นอน",read:"ยู แคน ดู อิท",vocab:[{w:"can",m:"สามารถ"}]},
+   {en:"Keep going!",th:"สู้ต่อไป",read:"คีพ โก-อิ้ง",vocab:[{w:"Keep",m:"ทำต่อไป"}]},
+   {en:"Best wishes.",th:"ด้วยความปรารถนาดี",read:"เบสท์ วิช-เชส",vocab:[{w:"wishes",m:"คำอวยพร"}]},
+   {en:"Get well soon.",th:"ขอให้หายป่วยเร็ว ๆ",read:"เก็ท เวล ซูน",vocab:[{w:"well",m:"สุขภาพดี/หาย"}]},
+   {en:"Have fun!",th:"ขอให้สนุกนะ",read:"แฮฟ ฟัน",vocab:[{w:"fun",m:"สนุก"}]},
+   {en:"Enjoy your meal.",th:"ทานให้อร่อยนะ",read:"เอ็น-จอย ยัวร์ มีล",vocab:[{w:"meal",m:"มื้ออาหาร"}]},
+   {en:"Have a safe trip.",th:"ขอให้เดินทางปลอดภัย",read:"แฮฟ อะ เซฟ ทริพ",vocab:[{w:"safe",m:"ปลอดภัย"}]},
+   {en:"See you again.",th:"แล้วพบกันใหม่",read:"ซี ยู อะ-เกน",vocab:[{w:"again",m:"อีกครั้ง"}]},
+   {en:"All the best!",th:"ขอให้โชคดีที่สุด",read:"ออล เดอะ เบสท์",vocab:[{w:"best",m:"ดีที่สุด"}]}
+  ]},
  {id:'intro',emoji:'🙋',color:'#2BC4A8',name:'แนะนำตัว',items:[
    {en:'My name is Nong.',th:'ฉันชื่อน้อง'},{en:'I am ten years old.',th:'ฉันอายุสิบขวบ'},{en:'I am a student.',th:'ฉันเป็นนักเรียน'},
    {en:'I live in Bangkok.',th:'ฉันอาศัยอยู่ที่กรุงเทพฯ'},{en:'I have one brother.',th:'ฉันมีพี่ชายหนึ่งคน'},
@@ -1523,6 +1626,8 @@ function curPhrase(){ return spkUnit.items[spkIdx]; }
 function renderSpeakCard(){ const p=curPhrase();
   document.getElementById('spkEn').innerHTML=p.en;
   document.getElementById('spkTh').textContent=p.th;
+  document.getElementById('spkRead').innerHTML = p.read ? ('🗣️ คำอ่าน: <b>'+p.read+'</b>') : '';
+  document.getElementById('spkVocab').innerHTML = (p.vocab&&p.vocab.length) ? p.vocab.map(v=>'<span class="vchip"><b>'+v.w+'</b> = '+v.m+'</span>').join('') : '';
   document.getElementById('spkHeard').textContent='';
   const fb=document.getElementById('spkFb'); fb.textContent=''; fb.className='spk-fb';
   document.getElementById('spkNextBtn').style.display='none';
