@@ -217,6 +217,17 @@
   .lgroup.open .lgroup-body{display:block}
   .lgroup-body .lesson{box-shadow:none; border:1.5px solid var(--line); margin-bottom:10px}
   .lgroup-body .lesson:last-child{margin-bottom:2px}
+  .notice{background:#F3EFFD; border:1.5px solid var(--line); border-radius:12px; padding:10px 14px; font-size:13.5px; color:var(--ink-soft); margin:10px 2px}
+  .spk-card{background:var(--card); border:2px solid var(--line); border-radius:20px; padding:28px 20px; text-align:center; box-shadow:var(--shadow); margin-top:6px}
+  .spk-en{font-size:26px; font-weight:800; color:var(--ink); font-family:'Baloo Thai 2'; line-height:1.35}
+  .spk-th{font-size:15px; color:var(--ink-soft); margin-top:8px}
+  .spk-heard{font-size:13px; color:#8a86a8; margin-top:16px; min-height:18px}
+  .spk-fb{font-size:15.5px; font-weight:800; margin-top:8px; min-height:22px}
+  .spk-fb.good{color:#1c9b85} .spk-fb.bad{color:#c9436b}
+  .spk-controls{display:flex; gap:12px; justify-content:center; margin-top:18px; flex-wrap:wrap}
+  .spk-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-family:'Baloo Thai 2'; font-weight:700; color:var(--ink-soft)}
+  #spkMicBtn.rec{background:linear-gradient(135deg,#FF6B6B,#c9436b); animation:spkpulse 1s infinite}
+  @keyframes spkpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 </style>
 </head>
 <body>
@@ -234,11 +245,36 @@
     <div class="stat"><b id="stStreak">1</b><span>🔥 วัน</span></div>
   </div>
 
+  <div class="screen" id="speak">
+    <button class="skiplink" style="margin-bottom:10px" onclick="stopSpeech();go('home')">← กลับหน้าหลัก</button>
+    <div id="speakHome">
+      <div class="hero"><h1>🎤 ฝึกพูดภาษาอังกฤษ</h1><p>ฟังเสียงเจ้าของภาษา แล้วพูดตาม ระบบจะฟังเสียงเราและให้คะแนนคำที่พูดถูก ฝึกทีละบทจนคล่อง แล้วรับ XP!</p></div>
+      <div class="notice" id="speakSupport"></div>
+      <div class="sectitle">เลือกบทที่อยากฝึก</div>
+      <div class="grid" id="speakUnits"></div>
+    </div>
+    <div id="speakPractice" style="display:none">
+      <div class="spk-top"><button class="skiplink" onclick="exitSpeakUnit()">← เลือกบทอื่น</button><span id="spkProg"></span></div>
+      <div class="spk-card">
+        <div class="spk-en" id="spkEn"></div>
+        <div class="spk-th" id="spkTh"></div>
+        <div class="spk-heard" id="spkHeard"></div>
+        <div class="spk-fb" id="spkFb"></div>
+      </div>
+      <div class="spk-controls">
+        <button class="btn ghost" onclick="speakTTS()">🔊 ฟังเสียง</button>
+        <button class="btn" id="spkMicBtn">🎤 พูดตาม</button>
+      </div>
+      <div style="text-align:center;margin-top:14px"><button class="btn lg" id="spkNextBtn" onclick="nextSpeakCard()" style="display:none">ถัดไป →</button></div>
+    </div>
+  </div>
+
   <div class="screen active" id="home">
     <div class="hero">
       <h1>ตะลุยสอบเข้า ม.ต้น เตรียมอุดมฯ 🎯</h1>
       <p>ฝึกข้อสอบครบ 5 วิชา <b id="totalQ">200</b>+ ข้อ • เรียนสรุปบทเรียนพร้อมภาพก่อน • พร้อมเฉลย วิธีคิด และเทคนิค • เลือกระดับความยาก • โหมดจับเวลาแบบสนามสอบ • ดูจุดที่ต้องเน้น</p>
       <div class="herobtns">
+        <button class="btn" onclick="openSpeak()">🎤 ฝึกพูดอังกฤษ</button>
         <button class="btn" onclick="startDaily(false)">⚡ ภารกิจรวมมิตร</button>
         <button class="btn ghost" onclick="startDaily(true)">⏱️ จำลองสนามสอบ</button>
         <button class="btn ghost" onclick="go('weak')">📊 จุดที่ต้องเน้น</button>
@@ -1330,7 +1366,7 @@ async function storageSet(key,val){
 /* ============================================================ STATE ============================================================ */
 let state = freshState();
 function freshState(){
-  return { name:"", xp:0, stars:0, badges:[], streak:1, totalCorrect:0, totalQuizzes:0, attempted:[], subj:{}, topicStats:{}, seen:{} };
+  return { name:"", xp:0, stars:0, badges:[], streak:1, totalCorrect:0, totalQuizzes:0, attempted:[], subj:{}, topicStats:{}, seen:{}, speak:{} };
 }
 function levelOf(xp){ return Math.floor(xp/100)+1; }
 async function loadState(){ try{ const v=await storageGet(KEY); if(v) state=Object.assign(freshState(), JSON.parse(v)); }catch(e){} }
@@ -1426,6 +1462,112 @@ let lessonsShown=true;
 function toggleMasterLessons(){ lessonsShown=!lessonsShown; const lw=document.getElementById('lessonWrap'); if(lw) lw.style.display=lessonsShown?'block':'none';
   const ch=document.getElementById('lmChev'); if(ch) ch.style.transform=lessonsShown?'rotate(0deg)':'rotate(-90deg)';
   const st=document.getElementById('lmState'); if(st) st.textContent=lessonsShown?'ซ่อน':'แสดง'; }
+
+/* ===== ENGLISH SPEAKING PRACTICE (ฝึกพูด) ===== */
+const SPEAK=[
+ {id:'greet',emoji:'👋',color:'#4D9DE0',name:'ทักทาย',items:[
+   {en:'Hello!',th:'สวัสดี!'},{en:'Good morning.',th:'สวัสดีตอนเช้า'},{en:'How are you?',th:'สบายดีไหม'},
+   {en:'I am fine, thank you.',th:'ฉันสบายดี ขอบคุณ'},{en:'Nice to meet you.',th:'ยินดีที่ได้รู้จัก'},
+   {en:'See you later.',th:'ไว้เจอกันนะ'},{en:'Goodbye!',th:'ลาก่อน!'},{en:'Have a nice day.',th:'ขอให้เป็นวันที่ดี'}]},
+ {id:'intro',emoji:'🙋',color:'#2BC4A8',name:'แนะนำตัว',items:[
+   {en:'My name is Nong.',th:'ฉันชื่อน้อง'},{en:'I am ten years old.',th:'ฉันอายุสิบขวบ'},{en:'I am a student.',th:'ฉันเป็นนักเรียน'},
+   {en:'I live in Bangkok.',th:'ฉันอาศัยอยู่ที่กรุงเทพฯ'},{en:'I have one brother.',th:'ฉันมีพี่ชายหนึ่งคน'},
+   {en:'My favorite color is blue.',th:'สีที่ฉันชอบคือสีน้ำเงิน'},{en:'I like playing football.',th:'ฉันชอบเล่นฟุตบอล'},
+   {en:'Nice to meet you too.',th:'ยินดีที่ได้รู้จักเช่นกัน'}]},
+ {id:'school',emoji:'🏫',color:'#FF9F40',name:'ที่โรงเรียน',items:[
+   {en:'I go to school by bus.',th:'ฉันไปโรงเรียนโดยรถบัส'},{en:'May I go to the toilet?',th:'ขอไปห้องน้ำได้ไหม'},
+   {en:'I do not understand.',th:'ฉันไม่เข้าใจ'},{en:'Can you help me, please?',th:'ช่วยฉันหน่อยได้ไหม'},
+   {en:'What page is it?',th:'หน้าไหนคะ/ครับ'},{en:'Thank you, teacher.',th:'ขอบคุณครับ/ค่ะ คุณครู'},
+   {en:'I have a lot of homework.',th:'ฉันมีการบ้านเยอะเลย'},{en:'Let us study together.',th:'มาเรียนด้วยกันเถอะ'}]},
+ {id:'food',emoji:'🍜',color:'#FF6B6B',name:'อาหารและร้านค้า',items:[
+   {en:'I am hungry.',th:'ฉันหิว'},{en:'I would like some rice.',th:'ฉันขอข้าวหน่อย'},{en:'How much is it?',th:'ราคาเท่าไร'},
+   {en:'Can I see the menu, please?',th:'ขอดูเมนูหน่อยได้ไหม'},{en:'This is delicious!',th:'อันนี้อร่อยมาก!'},
+   {en:'Water, please.',th:'ขอน้ำหน่อย'},{en:'I want to buy this.',th:'ฉันอยากซื้ออันนี้'},{en:'Here is the money.',th:'นี่เงินค่ะ/ครับ'}]},
+ {id:'direction',emoji:'🧭',color:'#9B5DE5',name:'ทิศทางและการเดินทาง',items:[
+   {en:'Where is the toilet?',th:'ห้องน้ำอยู่ที่ไหน'},{en:'How do I get to the station?',th:'ไปสถานีได้อย่างไร'},
+   {en:'Turn left.',th:'เลี้ยวซ้าย'},{en:'Turn right.',th:'เลี้ยวขวา'},{en:'Go straight.',th:'ตรงไป'},
+   {en:'It is over there.',th:'อยู่ตรงนั้น'},{en:'I am lost.',th:'ฉันหลงทาง'},{en:'Thank you for your help.',th:'ขอบคุณที่ช่วยเหลือ'}]},
+ {id:'daily',emoji:'💬',color:'#4DA1FF',name:'บทสนทนาประจำวัน',items:[
+   {en:'What time is it?',th:'ตอนนี้กี่โมง'},{en:'What day is it today?',th:'วันนี้วันอะไร'},
+   {en:'What is your favorite food?',th:'อาหารที่คุณชอบคืออะไร'},{en:'Do you like music?',th:'คุณชอบดนตรีไหม'},
+   {en:'I am happy today.',th:'วันนี้ฉันมีความสุข'},{en:'What are you doing?',th:'คุณกำลังทำอะไรอยู่'},
+   {en:'Let us play together.',th:'มาเล่นด้วยกันเถอะ'},{en:'See you tomorrow.',th:'ไว้เจอกันพรุ่งนี้'}]},
+ {id:'ask',emoji:'❓',color:'#F4A259',name:'คำถามที่พบบ่อย',items:[
+   {en:'What is this?',th:'นี่คืออะไร'},{en:'Where are you from?',th:'คุณมาจากไหน'},{en:'How old are you?',th:'คุณอายุเท่าไร'},
+   {en:'Can you speak English?',th:'คุณพูดภาษาอังกฤษได้ไหม'},{en:'Do you understand?',th:'คุณเข้าใจไหม'},
+   {en:'What does this mean?',th:'อันนี้แปลว่าอะไร'},{en:'Can you say it again?',th:'พูดอีกครั้งได้ไหม'},{en:'May I ask a question?',th:'ขอถามคำถามได้ไหม'}]},
+ {id:'manners',emoji:'🌟',color:'#2BC4A8',name:'มารยาทและให้กำลังใจ',items:[
+   {en:'Please.',th:'ได้โปรด / กรุณา'},{en:'Thank you very much.',th:'ขอบคุณมาก'},{en:'You are welcome.',th:'ด้วยความยินดี'},
+   {en:'Excuse me.',th:'ขอโทษนะ (ขอทาง/เรียกความสนใจ)'},{en:'I am sorry.',th:'ฉันขอโทษ'},{en:'Good job!',th:'ทำได้ดีมาก!'},
+   {en:'Congratulations!',th:'ยินดีด้วย!'},{en:'Do not worry.',th:'ไม่ต้องกังวลนะ'}]},
+];
+let spkUnit=null, spkIdx=0, recog=null, recognizing=false;
+function speakSupported(){ return !!(window.SpeechRecognition||window.webkitSpeechRecognition); }
+function stopSpeech(){ try{ if(recog) recog.abort(); }catch(e){} recognizing=false; try{ speechSynthesis.cancel(); }catch(e){} }
+function openSpeak(){ go('speak'); document.getElementById('speakHome').style.display='block'; document.getElementById('speakPractice').style.display='none';
+  document.getElementById('speakSupport').innerHTML = speakSupported()
+    ? '🎤 แตะปุ่ม “พูดตาม” แล้วออกเสียงให้ชัด ระบบจะฟังและไฮไลต์คำที่พูดถูก (ต้องอนุญาตให้ใช้ไมโครโฟน)'
+    : '🔊 อุปกรณ์/เบราว์เซอร์นี้อาจไม่รองรับการฟังเสียงพูด (แนะนำ Chrome บนคอมพิวเตอร์หรือแอนดรอยด์) — ยังฝึกฟังและกด “ผ่าน” ได้ตามปกติ';
+  renderSpeakUnits(); }
+function speakDone(uid){ return (state.speak&&state.speak[uid]||[]).length; }
+function renderSpeakUnits(){ document.getElementById('speakUnits').innerHTML=SPEAK.map(u=>{
+    const done=speakDone(u.id), total=u.items.length, pct=Math.round(done/total*100);
+    return `<button class="subj" onclick="startSpeakUnit('${u.id}')"><div class="ic" style="background:${u.color}">${u.emoji}</div><h3>${u.name}</h3><div class="meta">${done}/${total} ประโยค ${done>=total?'✅':''}</div><div class="pbar"><div class="pfill" style="width:${pct}%;background:${u.color}"></div></div></button>`;
+  }).join(''); }
+function startSpeakUnit(uid){ spkUnit=SPEAK.find(u=>u.id===uid); if(!spkUnit) return;
+  const done=new Set(state.speak&&state.speak[uid]||[]);
+  let first=spkUnit.items.findIndex((_,i)=>!done.has(uid+'#'+i)); spkIdx=first<0?0:first;
+  document.getElementById('speakHome').style.display='none'; document.getElementById('speakPractice').style.display='block';
+  renderSpeakCard(); }
+function curPhrase(){ return spkUnit.items[spkIdx]; }
+function renderSpeakCard(){ const p=curPhrase();
+  document.getElementById('spkEn').innerHTML=p.en;
+  document.getElementById('spkTh').textContent=p.th;
+  document.getElementById('spkHeard').textContent='';
+  const fb=document.getElementById('spkFb'); fb.textContent=''; fb.className='spk-fb';
+  document.getElementById('spkNextBtn').style.display='none';
+  document.getElementById('spkProg').textContent='ประโยค '+(spkIdx+1)+'/'+spkUnit.items.length;
+  const mic=document.getElementById('spkMicBtn'); mic.classList.remove('rec');
+  if(speakSupported()){ mic.textContent='🎤 พูดตาม'; mic.onclick=toggleRecog; }
+  else { mic.textContent='✅ พูดตามแล้ว'; mic.onclick=passManually; }
+  recognizing=false; setTimeout(speakTTS,300); }
+function speakTTS(){ try{ const u=new SpeechSynthesisUtterance(curPhrase().en); u.lang='en-US'; u.rate=0.9;
+   const vs=speechSynthesis.getVoices(); const v=vs.find(x=>/^en/i.test(x.lang)); if(v) u.voice=v;
+   speechSynthesis.cancel(); speechSynthesis.speak(u); }catch(e){} }
+function normW(s){ return (s||'').toLowerCase().replace(/[^a-z0-9'\s]/g,' ').split(/\s+/).filter(Boolean); }
+function toggleRecog(){ if(recognizing){ try{ recog&&recog.stop(); }catch(e){} return; }
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition; if(!SR){ passManually(); return; }
+  try{ recog=new SR(); }catch(e){ passManually(); return; }
+  recog.lang='en-US'; recog.interimResults=false; recog.maxAlternatives=1;
+  const mic=document.getElementById('spkMicBtn');
+  recog.onresult=(e)=>{ gradeSpeech(e.results[0][0].transcript); };
+  recog.onerror=(e)=>{ const fb=document.getElementById('spkFb'); fb.className='spk-fb bad';
+    fb.textContent = (e&&e.error==='not-allowed') ? 'ยังไม่ได้อนุญาตไมโครโฟน โปรดกดอนุญาตแล้วลองใหม่' : 'ไม่ได้ยินเสียงชัดเจน ลองกด 🔊 ฟังก่อน แล้วพูดใหม่'; };
+  recog.onend=()=>{ recognizing=false; mic.classList.remove('rec'); if(mic.textContent.indexOf('กำลังฟัง')>=0) mic.textContent='🎤 พูดอีกครั้ง'; };
+  recognizing=true; mic.textContent='🔴 กำลังฟัง...'; mic.classList.add('rec');
+  try{ recog.start(); }catch(e){ recognizing=false; } }
+function gradeSpeech(said){ const p=curPhrase(); const saidSet=new Set(normW(said));
+  const disp=p.en.split(/\s+/); let matched=0,total=0;
+  const html=disp.map(w=>{ const n=normW(w).join(''); if(!n) return w; total++; const ok=saidSet.has(n); if(ok)matched++;
+    return '<span style="color:'+(ok?'#1c9b85':'#c9436b')+';font-weight:800">'+w+'</span>'; }).join(' ');
+  document.getElementById('spkEn').innerHTML=html;
+  document.getElementById('spkHeard').textContent='เราได้ยินว่า: '+said;
+  const ratio=total?matched/total:0; const fb=document.getElementById('spkFb');
+  if(ratio>=0.6){ markSpeakPassed(); beep(true); miniConfetti(); fb.textContent='เยี่ยมมาก! 🎉 พูดถูก '+matched+'/'+total+' คำ'; fb.className='spk-fb good'; }
+  else { beep(false); fb.textContent='เกือบแล้ว! พูดถูก '+matched+'/'+total+' คำ ลองอีกครั้งนะ'; fb.className='spk-fb bad'; }
+  document.getElementById('spkNextBtn').style.display='inline-block'; }
+function passManually(){ markSpeakPassed(); beep(true); miniConfetti();
+  const fb=document.getElementById('spkFb'); fb.textContent='ผ่านแล้ว 🎉 อย่าลืมออกเสียงตามให้ชัด ๆ นะ'; fb.className='spk-fb good';
+  document.getElementById('spkNextBtn').style.display='inline-block'; }
+function markSpeakPassed(){ const uid=spkUnit.id, id=uid+'#'+spkIdx;
+  if(!state.speak) state.speak={}; if(!state.speak[uid]) state.speak[uid]=[];
+  if(!state.speak[uid].includes(id)){ state.speak[uid].push(id); state.xp=(state.xp||0)+8; saveState(); renderTop(); } }
+function nextSpeakCard(){ if(recognizing){ try{ recog.stop(); }catch(e){} }
+  spkIdx++; if(spkIdx>=spkUnit.items.length){ finishSpeakUnit(); return; } renderSpeakCard(); }
+function finishSpeakUnit(){ try{ bigConfetti(); }catch(e){} beep(true);
+  document.getElementById('speakPractice').style.display='none'; document.getElementById('speakHome').style.display='block'; renderSpeakUnits(); }
+function exitSpeakUnit(){ stopSpeech();
+  document.getElementById('speakPractice').style.display='none'; document.getElementById('speakHome').style.display='block'; renderSpeakUnits(); }
 
 function openSubject(id){
   currentSubjectId=id; selectedDiff="all";
