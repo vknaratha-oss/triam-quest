@@ -231,6 +231,36 @@
   .spk-read{font-size:14.5px; color:#5B3FC0; margin-top:12px; font-weight:600}
   .spk-vocab{display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:12px}
   .vchip{background:#F4F1FF; border:1.5px solid var(--line); border-radius:10px; padding:4px 10px; font-size:12.5px; color:var(--ink)}
+  .auth-form{display:flex; flex-direction:column; gap:10px; margin:6px 0}
+  .auth-form input, #nameInput{width:100%; padding:12px 14px; border:2px solid var(--line); border-radius:12px; font-family:'Sarabun'; font-size:15px; box-sizing:border-box}
+  .auth-form input:focus{outline:none; border-color:var(--brand)}
+  .auth-msg{font-size:13px; font-weight:700; min-height:18px; text-align:center; margin:4px 0}
+  .auth-plabel{font-size:12.5px; color:var(--ink-soft); margin:2px 2px 6px}
+  .auth-chips{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px}
+  .auth-chip{background:#F4F1FF; border:2px solid var(--line); border-radius:12px; padding:8px 12px; font-family:'Baloo Thai 2'; font-weight:700; font-size:13.5px; color:var(--ink); cursor:pointer}
+  .auth-chip:hover{border-color:var(--brand)}
+  .auth-note{font-size:11.5px; color:var(--ink-soft); background:#F7F5FF; border-radius:10px; padding:9px 11px; margin-top:14px; line-height:1.5}
+  #authGate .mbox{max-height:92vh; overflow:auto}
+  .prof-bar{display:flex; gap:10px; justify-content:flex-end; margin:0 2px 12px; flex-wrap:wrap}
+  .prof-btn{background:var(--card); border:2px solid var(--line); border-radius:12px; padding:8px 13px; font-family:'Baloo Thai 2'; font-weight:700; font-size:13.5px; color:var(--ink); cursor:pointer}
+  .prof-btn:hover{border-color:var(--brand)}
+  .prof-btn.ghost{color:#c9436b}
+  .pf-card{background:var(--card); border:2px solid var(--line); border-radius:16px; padding:16px; box-shadow:var(--shadow); margin-bottom:6px}
+  .pf-head{display:flex; align-items:center; gap:14px}
+  .pf-ava{font-size:40px}
+  .pf-name{font-family:'Baloo Thai 2'; font-weight:800; font-size:20px; color:var(--ink)}
+  .pf-sub{font-size:13px; color:var(--ink-soft); margin-top:2px}
+  .pf-xpbar{height:10px; background:#EFECFA; border-radius:999px; overflow:hidden; margin-top:12px}
+  .pf-xpbar i{display:block; height:100%; background:linear-gradient(90deg,var(--brand),var(--gold))}
+  .pf-xptext{font-size:12px; color:var(--ink-soft); margin-top:5px}
+  .pf-row{display:flex; align-items:center; gap:10px; padding:6px 0; font-size:14px}
+  .pf-row>span{flex:0 0 42%; font-weight:600}
+  .pf-bar{flex:1; height:9px; background:#EFECFA; border-radius:999px; overflow:hidden}
+  .pf-bar i{display:block; height:100%; border-radius:999px}
+  .pf-row b{flex:0 0 auto; font-size:12.5px; color:var(--ink-soft)}
+  .pf-histbox{max-height:320px; overflow:auto}
+  .pf-hist{font-size:13px; padding:7px 2px; border-bottom:1px dashed var(--line)}
+  .pf-time{color:var(--ink-soft); font-size:11.5px; margin-right:6px}
 </style>
 </head>
 <body>
@@ -274,7 +304,16 @@
     </div>
   </div>
 
+  <div class="screen" id="profile">
+    <button class="skiplink" style="margin-bottom:10px" onclick="go('home')">← กลับหน้าหลัก</button>
+    <div id="profileBody"></div>
+  </div>
+
   <div class="screen active" id="home">
+    <div class="prof-bar">
+      <button class="prof-btn" onclick="renderProfile();go('profile')">👤 โปรไฟล์ & ประวัติ</button>
+      <button class="prof-btn ghost" onclick="logout()">🚪 ออกจากระบบ</button>
+    </div>
     <div class="hero">
       <h1>ตะลุยสอบเข้า ม.ต้น เตรียมอุดมฯ 🎯</h1>
       <p>ฝึกข้อสอบครบ 5 วิชา <b id="totalQ">200</b>+ ข้อ • เรียนสรุปบทเรียนพร้อมภาพก่อน • พร้อมเฉลย วิธีคิด และเทคนิค • เลือกระดับความยาก • โหมดจับเวลาแบบสนามสอบ • ดูจุดที่ต้องเน้น</p>
@@ -372,6 +411,20 @@
   </div>
 </div>
 
+<div class="modal" id="authGate">
+  <div class="mbox" style="max-width:430px; text-align:left">
+    <div style="text-align:center"><div style="font-size:46px">🦉</div>
+      <h2 id="authTitle" style="margin:6px 0">เข้าสู่ระบบ</h2>
+      <p style="margin-top:0; color:var(--ink-soft); font-size:14px">เตรียมเควสต์ • แยกความก้าวหน้าของนักเรียนแต่ละคน</p></div>
+    <div id="authProfiles"></div>
+    <div id="authForm" class="auth-form"></div>
+    <div id="authMsg" class="auth-msg"></div>
+    <button class="btn lg" id="authSubmit" style="width:100%; justify-content:center; margin-top:4px" onclick="authDoSubmit()">เข้าสู่ระบบ</button>
+    <div style="text-align:center; margin-top:10px"><span id="authSwitch" onclick="authToggleMode()" style="color:var(--brand); cursor:pointer; text-decoration:underline; font-size:13.5px"></span></div>
+    <div class="auth-note" id="authNote">🔒 โปรไฟล์และรหัสผ่านเก็บเฉพาะในเบราว์เซอร์เครื่องนี้ (เข้ารหัสแบบ SHA-256) ใช้แยกความก้าวหน้าของแต่ละคน — ไม่ใช่ระบบบัญชีปลอดภัยระดับสูง และหากลืมรหัสผ่านจะกู้คืนไม่ได้</div>
+  </div>
+</div>
+
 <div class="modal" id="nameModal">
   <div class="mbox">
     <div style="font-size:46px">🦉</div>
@@ -399,6 +452,7 @@
 <div class="toast" id="toast"></div>
 <div class="confetti" id="confettiBox"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* ============================================================
    คลังข้อสอบ — ระดับสอบเข้า ม.1  (d: e=ง่าย m=ปานกลาง h=ยาก)
@@ -1371,11 +1425,177 @@ async function storageSet(key,val){
 /* ============================================================ STATE ============================================================ */
 let state = freshState();
 function freshState(){
-  return { name:"", xp:0, stars:0, badges:[], streak:1, totalCorrect:0, totalQuizzes:0, attempted:[], subj:{}, topicStats:{}, seen:{}, speak:{} };
+  return { name:"", xp:0, stars:0, badges:[], streak:1, totalCorrect:0, totalQuizzes:0, attempted:[], subj:{}, topicStats:{}, seen:{}, speak:{}, history:[] };
 }
 function levelOf(xp){ return Math.floor(xp/100)+1; }
-async function loadState(){ try{ const v=await storageGet(KEY); if(v) state=Object.assign(freshState(), JSON.parse(v)); }catch(e){} }
-async function saveState(){ await storageSet(KEY, JSON.stringify(state)); }
+/* ===== CLOUD SYNC (Supabase) — ใส่คีย์ 2 ค่านี้เพื่อเปิด "บัญชีจริงข้ามอุปกรณ์" ===== */
+const SUPABASE_URL = "";      /* <<< วาง Project URL ที่นี่ เช่น https://xxxx.supabase.co */
+const SUPABASE_ANON_KEY = ""; /* <<< วาง anon public key ที่นี่ */
+let supa=null, cloudSaveTimer=null;
+try{ if(SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase && window.supabase.createClient){ supa=window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } }catch(e){ supa=null; }
+function cloudMode(){ return !!supa; }
+async function cloudResume(){ try{ const { data }=await supa.auth.getSession();
+    if(data && data.session){ currentUser=data.session.user.id; await loadState();
+      if(!state.name){ const u=data.session.user; state.name=(u.user_metadata&&u.user_metadata.name)||u.email; }
+      enterApp(); return true; } }catch(e){} return false; }
+async function cloudSignUp(name,email,pw){ const { data, error }=await supa.auth.signUp({ email, password:pw, options:{ data:{ name } } });
+  if(error) throw error;
+  if(data.session){ currentUser=data.session.user.id; state=freshState(); state.name=name; addHistory('register'); await cloudSaveState(); enterApp(); }
+  else { authMsg('สมัครสำเร็จ! กรุณายืนยันอีเมลในกล่องจดหมายก่อน แล้วกลับมาเข้าสู่ระบบ', true); authMode='login'; setTimeout(authRender,1600); } }
+async function cloudSignIn(email,pw){ const { data, error }=await supa.auth.signInWithPassword({ email, password:pw });
+  if(error) throw error; currentUser=data.user.id; await loadState();
+  if(!state.name){ state.name=(data.user.user_metadata&&data.user.user_metadata.name)||email; }
+  addHistory('login'); await cloudSaveState(); enterApp(); }
+async function cloudSignOut(){ try{ await supa.auth.signOut(); }catch(e){} }
+async function cloudReset(email){ const { error }=await supa.auth.resetPasswordForEmail(email, { redirectTo: location.href.split('#')[0] }); if(error) throw error; }
+async function cloudLoadState(){ try{ const { data, error }=await supa.from('progress').select('data').eq('user_id',currentUser).maybeSingle();
+    if(!error && data && data.data){ state=Object.assign(freshState(), data.data); } }catch(e){} }
+async function cloudSaveState(){ try{ await supa.from('progress').upsert({ user_id:currentUser, data:state, updated_at:new Date().toISOString() }, { onConflict:'user_id' }); }catch(e){} }
+function cloudErr(e){ const m=(((e&&e.message)||'')+'').toLowerCase();
+  if(m.indexOf('invalid login')>=0) return 'อีเมลหรือรหัสผ่านไม่ถูกต้อง';
+  if(m.indexOf('already')>=0 && m.indexOf('regist')>=0) return 'อีเมลนี้ถูกใช้สมัครแล้ว ลองเข้าสู่ระบบ';
+  if(m.indexOf('confirm')>=0) return 'กรุณายืนยันอีเมลก่อนเข้าสู่ระบบ';
+  if(m.indexOf('network')>=0||m.indexOf('fetch')>=0||m.indexOf('failed to')>=0) return 'เชื่อมต่อไม่ได้ ตรวจอินเทอร์เน็ตหรือคีย์ Supabase';
+  if(m.indexOf('at least')>=0||m.indexOf('6 char')>=0) return 'รหัสผ่านสั้นเกินไป (อย่างน้อย 6 ตัว)';
+  return 'เกิดข้อผิดพลาด: '+((e&&e.message)||'ไม่ทราบสาเหตุ'); }
+function authRenderCloud(){ const isLogin=authMode==='login';
+  document.getElementById('authTitle').textContent=isLogin?'เข้าสู่ระบบ':'สมัครสมาชิก';
+  const note=document.getElementById('authNote'); if(note) note.textContent='☁️ บัญชีคลาวด์ (Supabase) — เข้าระบบได้จากทุกอุปกรณ์ ข้อมูลเก็บบนคลาวด์อย่างปลอดภัย และกู้รหัสผ่านทางอีเมลได้';
+  document.getElementById('authProfiles').innerHTML='';
+  const kd=' onkeydown="if(event.key===\'Enter\')authDoSubmit()"';
+  let f=isLogin
+    ? '<input id="authEmail" type="email" maxlength="60" placeholder="อีเมล"'+kd+'><input id="authPw" type="password" maxlength="64" placeholder="รหัสผ่าน"'+kd+'>'
+    : '<input id="authName" maxlength="16" placeholder="ชื่อเล่น (แสดงในแอป)"'+kd+'><input id="authEmail" type="email" maxlength="60" placeholder="อีเมล"'+kd+'><input id="authPw" type="password" maxlength="64" placeholder="ตั้งรหัสผ่าน (อย่างน้อย 6 ตัว)"'+kd+'><input id="authPw2" type="password" maxlength="64" placeholder="ยืนยันรหัสผ่าน"'+kd+'>';
+  if(isLogin) f+='<div style="text-align:right"><a onclick="authForgot()" style="color:var(--brand);cursor:pointer;text-decoration:underline;font-size:12.5px">ลืมรหัสผ่าน?</a></div>';
+  document.getElementById('authForm').innerHTML=f;
+  document.getElementById('authSubmit').textContent=isLogin?'เข้าสู่ระบบ':'สมัครสมาชิก 🚀';
+  document.getElementById('authSwitch').textContent=isLogin?'ยังไม่มีบัญชี? สมัครสมาชิก':'มีบัญชีแล้ว? เข้าสู่ระบบ';
+  authMsg(''); }
+async function authDoSubmitCloud(){ const isLogin=authMode==='login';
+  const email=(((document.getElementById('authEmail')||{}).value)||'').trim();
+  const pw=((document.getElementById('authPw')||{}).value)||'';
+  if(!email || email.indexOf('@')<0){ authMsg('กรุณากรอกอีเมลให้ถูกต้อง'); return; }
+  if(pw.length<6){ authMsg('รหัสผ่านอย่างน้อย 6 ตัวอักษร'); return; }
+  authMsg('กำลังดำเนินการ...', true);
+  try{ if(isLogin){ await cloudSignIn(email,pw); }
+    else { const name=(((document.getElementById('authName')||{}).value)||'').trim()||email.split('@')[0];
+      const pw2=((document.getElementById('authPw2')||{}).value)||'';
+      if(pw!==pw2){ authMsg('รหัสผ่านทั้งสองช่องไม่ตรงกัน'); return; }
+      await cloudSignUp(name,email,pw); } }
+  catch(e){ authMsg(cloudErr(e)); } }
+async function authForgot(){ const email=(((document.getElementById('authEmail')||{}).value)||'').trim();
+  if(!email || email.indexOf('@')<0){ authMsg('พิมพ์อีเมลในช่องก่อน แล้วกด ลืมรหัสผ่าน'); return; }
+  try{ await cloudReset(email); authMsg('ส่งลิงก์รีเซ็ตรหัสผ่านไปที่อีเมลแล้ว ✉️ (ตรวจกล่อง Junk ด้วย)', true); }
+  catch(e){ authMsg(cloudErr(e)); } }
+
+/* ===== ACCOUNTS / AUTH (local profiles) ===== */
+const ACCTS_KEY="tq_accounts_v1", CUR_KEY="tq_current_v1";
+let currentUser=null, accounts={}, authMode="login";
+function userKey(){ return KEY+"__"+currentUser; }
+async function loadAccounts(){ try{ const v=await storageGet(ACCTS_KEY); accounts=v?JSON.parse(v):{}; }catch(e){ accounts={}; } }
+async function saveAccounts(){ await storageSet(ACCTS_KEY, JSON.stringify(accounts)); }
+function randSalt(){ try{ const a=new Uint8Array(8); crypto.getRandomValues(a); return Array.from(a).map(x=>x.toString(16).padStart(2,'0')).join(''); }catch(e){ return Math.random().toString(36).slice(2)+Date.now().toString(36); } }
+async function sha256hex(str){
+  try{ const buf=await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join(''); }
+  catch(e){ let h=5381; for(let i=0;i<str.length;i++){ h=((h<<5)+h)^str.charCodeAt(i); } return 'fb'+(h>>>0).toString(16); }
+}
+async function hashPw(pw,salt){ return await sha256hex(salt+':'+pw); }
+
+async function loadState(){ if(!currentUser) return; if(cloudMode()){ await cloudLoadState(); return; } try{ const v=await storageGet(userKey()); if(v) state=Object.assign(freshState(), JSON.parse(v)); }catch(e){} }
+async function saveState(){ if(!currentUser) return;
+  if(cloudMode()){ if(cloudSaveTimer) clearTimeout(cloudSaveTimer); cloudSaveTimer=setTimeout(cloudSaveState, 800); return; }
+  try{ await storageSet(userKey(), JSON.stringify(state)); }catch(e){} }
+function addHistory(k, extra){ if(!state.history) state.history=[]; state.history.unshift(Object.assign({t:Date.now(), k}, extra||{})); if(state.history.length>60) state.history.length=60; }
+
+function showAuth(){ authMode=cloudMode()?'login':(Object.keys(accounts).length?'login':'register'); authRender(); document.getElementById('authGate').classList.add('show'); }
+function enterApp(){ document.getElementById('authGate').classList.remove('show'); const gr=document.getElementById('globalReset'); if(gr) gr.style.display='block'; renderTop(); renderHome(); go('home'); }
+function authToggleMode(){ authMode=authMode==='login'?'register':'login'; authRender(); }
+function authMsg(m,ok){ const el=document.getElementById('authMsg'); if(el){ el.textContent=m||''; el.style.color=ok?'#1c9b85':'#c9436b'; } }
+function authRender(){
+  if(cloudMode()) return authRenderCloud();
+  const isLogin=authMode==='login';
+  document.getElementById('authTitle').textContent=isLogin?'เข้าสู่ระบบ':'สมัครโปรไฟล์ใหม่';
+  const names=Object.values(accounts).map(a=>a.name);
+  document.getElementById('authProfiles').innerHTML = names.length
+    ? '<div class="auth-plabel">โปรไฟล์ในเครื่องนี้ (แตะเพื่อเลือก):</div><div class="auth-chips">'+names.map(n=>'<button class="auth-chip" onclick="authPick(\''+n.replace(/[\\\\\']/g,'')+'\')">👤 '+n+'</button>').join('')+'</div>'
+    : '';
+  const kd=' onkeydown="if(event.key===\'Enter\')authDoSubmit()"';
+  const f=isLogin
+    ? '<input id="authName" maxlength="16" placeholder="ชื่อโปรไฟล์"'+kd+'><input id="authPw" type="password" maxlength="32" placeholder="รหัสผ่าน"'+kd+'>'
+    : '<input id="authName" maxlength="16" placeholder="ตั้งชื่อเล่น (ใช้เข้าระบบ)"'+kd+'><input id="authPw" type="password" maxlength="32" placeholder="ตั้งรหัสผ่าน (อย่างน้อย 4 ตัว)"'+kd+'><input id="authPw2" type="password" maxlength="32" placeholder="พิมพ์รหัสผ่านอีกครั้ง"'+kd+'>';
+  document.getElementById('authForm').innerHTML=f;
+  document.getElementById('authSubmit').textContent=isLogin?'เข้าสู่ระบบ':'สมัคร & เริ่มเรียน 🚀';
+  document.getElementById('authSwitch').textContent=isLogin?'ยังไม่มีโปรไฟล์? สมัครใหม่':'มีโปรไฟล์แล้ว? เข้าสู่ระบบ';
+  authMsg('');
+}
+function authPick(n){ authMode='login'; authRender(); const el=document.getElementById('authName'); if(el) el.value=n; const pw=document.getElementById('authPw'); if(pw) pw.focus(); }
+async function authDoSubmit(){
+  if(cloudMode()) return authDoSubmitCloud();
+  const name=(document.getElementById('authName').value||'').trim();
+  const pw=document.getElementById('authPw').value||'';
+  if(!name){ authMsg('กรุณากรอกชื่อโปรไฟล์'); return; }
+  if(pw.length<4){ authMsg('รหัสผ่านอย่างน้อย 4 ตัวอักษร'); return; }
+  const key=name.toLowerCase();
+  if(authMode==='register'){
+    const pw2=(document.getElementById('authPw2')||{}).value||'';
+    if(pw!==pw2){ authMsg('รหัสผ่านทั้งสองช่องไม่ตรงกัน'); return; }
+    if(accounts[key]){ authMsg('มีชื่อโปรไฟล์นี้แล้ว ลองเข้าสู่ระบบแทน'); return; }
+    const salt=randSalt(), hash=await hashPw(pw,salt);
+    accounts[key]={name,salt,hash,created:Date.now()}; await saveAccounts();
+    currentUser=key; await storageSet(CUR_KEY,key);
+    state=freshState(); state.name=name; addHistory('register'); await saveState();
+    enterApp();
+  } else {
+    const acct=accounts[key];
+    if(!acct){ authMsg('ไม่พบโปรไฟล์นี้ ตรวจชื่ออีกครั้ง หรือสมัครใหม่'); return; }
+    const h=await hashPw(pw,acct.salt);
+    if(h!==acct.hash){ authMsg('รหัสผ่านไม่ถูกต้อง'); return; }
+    currentUser=key; await storageSet(CUR_KEY,key); await loadState();
+    if(!state.name) state.name=acct.name;
+    addHistory('login'); await saveState();
+    enterApp();
+  }
+}
+async function logout(){
+  if(cloudMode()){ if(cloudSaveTimer) clearTimeout(cloudSaveTimer); try{ await cloudSaveState(); }catch(e){} try{ await cloudSignOut(); }catch(e){} currentUser=null; }
+  else { await saveState(); currentUser=null; await storageSet(CUR_KEY,''); }
+  const gr=document.getElementById('globalReset'); if(gr) gr.style.display='none'; showAuth(); }
+async function deleteProfile(){ if(!currentUser) return;
+  if(cloudMode()){ if(confirm('ล้างข้อมูลความก้าวหน้าบนคลาวด์ แล้วออกจากระบบ? (บัญชีอีเมลยังอยู่ เข้าใหม่ได้)')){ try{ await supa.from('progress').delete().eq('user_id',currentUser); }catch(e){} try{ await cloudSignOut(); }catch(e){} currentUser=null; showAuth(); } return; }
+  if(confirm('ลบโปรไฟล์นี้และความก้าวหน้าทั้งหมดอย่างถาวร?')){
+    try{ await storageSet(userKey(),''); }catch(e){}
+    delete accounts[currentUser]; await saveAccounts(); currentUser=null; await storageSet(CUR_KEY,''); showAuth(); }
+}
+function renderProfile(){
+  const el=document.getElementById('profileBody'); if(!el) return;
+  const lv=levelOf(state.xp), into=state.xp%100;
+  const subjRows=Object.entries(SUBJECTS).map(([id,s])=>{
+    const done=Math.min((state.seen[id]||[]).length, s.qs.length), pct=Math.round(done/s.qs.length*100);
+    return '<div class="pf-row"><span>'+s.emoji+' '+s.name+'</span><div class="pf-bar"><i style="width:'+pct+'%;background:'+s.color+'"></i></div><b>'+done+'/'+s.qs.length+'</b></div>';
+  }).join('');
+  let spkDone=0,spkTotal=0; (typeof SPEAK!=='undefined'?SPEAK:[]).forEach(u=>{ spkTotal+=u.items.length; spkDone+=(state.speak&&state.speak[u.id]||[]).length; });
+  const spkPct=spkTotal?Math.round(spkDone/spkTotal*100):0;
+  const hist=(state.history||[]).slice(0,30).map(ev=>{
+    const d=new Date(ev.t), dt=d.toLocaleDateString('th-TH')+' '+d.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
+    let txt=ev.k;
+    if(ev.k==='quiz') txt='📝 ทำแบบฝึกหัด '+(ev.s||'')+' ได้ '+ev.sc+'/'+ev.n+' '+('⭐'.repeat(ev.st||0)||'')+' +'+ev.xp+' XP';
+    else if(ev.k==='speak') txt='🎤 ฝึกพูดจบบท '+(ev.u||'');
+    else if(ev.k==='register') txt='🎉 สมัครโปรไฟล์';
+    else if(ev.k==='login') txt='🔑 เข้าสู่ระบบ';
+    return '<div class="pf-hist"><span class="pf-time">'+dt+'</span> '+txt+'</div>';
+  }).join('') || '<div class="pf-hist" style="color:var(--ink-soft)">ยังไม่มีประวัติ เริ่มทำแบบฝึกหัดกันเลย!</div>';
+  el.innerHTML=
+    '<div class="pf-card"><div class="pf-head"><div class="pf-ava">🦉</div><div><div class="pf-name">'+(state.name||'นักเรียน')+'</div><div class="pf-sub">Lv.'+lv+' • '+state.xp+' XP • 🔥 '+(state.streak||1)+' วัน • ⭐ '+(state.stars||0)+'</div></div></div>'+
+    '<div class="pf-xpbar"><i style="width:'+into+'%"></i></div><div class="pf-xptext">'+into+'/100 XP ไปเลเวลถัดไป</div></div>'+
+    '<div class="sectitle">ความก้าวหน้าข้อสอบ</div><div class="pf-card">'+subjRows+'</div>'+
+    '<div class="sectitle">ความก้าวหน้าฝึกพูด</div><div class="pf-card"><div class="pf-row"><span>🎤 ฝึกพูดอังกฤษ</span><div class="pf-bar"><i style="width:'+spkPct+'%;background:#4D9DE0"></i></div><b>'+spkDone+'/'+spkTotal+'</b></div></div>'+
+    '<div class="sectitle">ประวัติการเรียนล่าสุด</div><div class="pf-card pf-histbox">'+hist+'</div>'+
+    '<div style="text-align:center;margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'+
+    '<button class="btn ghost" onclick="logout()">🚪 ออกจากระบบ</button>'+
+    '<button class="btn ghost" onclick="resetAll()">♻️ ล้างความก้าวหน้า</button>'+
+    '<button class="skiplink" style="color:#c9436b" onclick="deleteProfile()">ลบโปรไฟล์นี้</button></div>';
+}
 
 /* ============================================================ HOME ============================================================ */
 function totalQuestions(){ return Object.values(SUBJECTS).reduce((s,x)=>s+x.qs.length,0); }
@@ -2352,7 +2572,7 @@ function markSpeakPassed(){ const uid=spkUnit.id, id=uid+'#'+spkIdx;
   if(!state.speak[uid].includes(id)){ state.speak[uid].push(id); state.xp=(state.xp||0)+8; saveState(); renderTop(); } }
 function nextSpeakCard(){ if(recognizing){ try{ recog.stop(); }catch(e){} }
   spkIdx++; if(spkIdx>=spkUnit.items.length){ finishSpeakUnit(); return; } renderSpeakCard(); }
-function finishSpeakUnit(){ try{ bigConfetti(); }catch(e){} beep(true);
+function finishSpeakUnit(){ try{ bigConfetti(); }catch(e){} beep(true); addHistory('speak',{u:spkUnit?spkUnit.name:''}); saveState();
   document.getElementById('speakPractice').style.display='none'; document.getElementById('speakHome').style.display='block'; renderSpeakUnits(); }
 function exitSpeakUnit(){ stopSpeech();
   document.getElementById('speakPractice').style.display='none'; document.getElementById('speakHome').style.display='block'; renderSpeakUnits(); }
@@ -2486,6 +2706,7 @@ function finishQuiz(){ clearTimer();
   let xpGain=correct*10+(quiz.best>=3?15:0)+stars*5+(quiz.timed?10:0);
   const prevLevel=levelOf(state.xp);
   state.xp+=xpGain; state.stars+=stars; state.totalQuizzes++; state.totalCorrect+=correct;
+  addHistory('quiz',{s: quiz.mixed?'ภารกิจรวมมิตร':(SUBJECTS[quiz.subjId]?SUBJECTS[quiz.subjId].name:''), sc:correct, n:total, st:stars, xp:xpGain});
   if(!quiz.mixed){ const id=quiz.subjId; const sp=state.subj[id]||{answered:0,correct:0,bestStars:0};
     sp.answered+=total; sp.correct+=correct; sp.bestStars=Math.max(sp.bestStars,stars); state.subj[id]=sp;
     if(!state.attempted.includes(id)) state.attempted.push(id);
@@ -2579,9 +2800,9 @@ function beep(ok){ try{ ac=ac||new (window.AudioContext||window.webkitAudioConte
 /* ============================================================ NAME + INIT ============================================================ */
 function saveName(){ const v=document.getElementById('nameInput').value.trim();
   state.name=v||"นักเรียน"; document.getElementById('nameModal').classList.remove('show'); saveState(); renderHome(); }
-function resetAll(){ if(confirm("ต้องการล้างความก้าวหน้าทั้งหมดและเริ่มใหม่หรือไม่?")){
-  state=freshState(); saveState(); document.getElementById('nameInput').value="";
-  document.getElementById('nameModal').classList.add('show'); renderHome(); } }
+function resetAll(){ if(confirm("ล้างความก้าวหน้าของโปรไฟล์นี้ทั้งหมด? (ชื่อและรหัสผ่านยังอยู่)")){
+  const nm=state.name; state=freshState(); state.name=nm; addHistory('reset'); saveState(); renderTop(); renderHome();
+  if(document.getElementById('profile').classList.contains('active')) renderProfile(); } }
 document.getElementById('nameInput').addEventListener('keydown',e=>{ if(e.key==='Enter') saveName(); });
 
 /* ===== SCRATCHPAD (กระดาษทด) ===== */
@@ -2608,8 +2829,15 @@ function initScratch(){ sCanvas=document.getElementById('scratchCanvas'); if(!sC
 
 (async function init(){ Object.entries(SUBJECTS).forEach(([sid,s])=>{ s.qs.forEach((q,idx)=>{ q.id=sid+'-'+idx; }); });
   initScratch();
-  await loadState(); renderHome();
-  if(!state.name) document.getElementById('nameModal').classList.add('show'); })();
+  if(cloudMode()){
+    try{ supa.auth.onAuthStateChange((ev)=>{ if(ev==='PASSWORD_RECOVERY'){ const np=prompt('ตั้งรหัสผ่านใหม่ (อย่างน้อย 6 ตัว):'); if(np&&np.length>=6){ supa.auth.updateUser({password:np}).then(()=>alert('เปลี่ยนรหัสผ่านสำเร็จ! เข้าสู่ระบบด้วยรหัสใหม่ได้เลย')).catch(()=>alert('เปลี่ยนรหัสผ่านไม่สำเร็จ ลองใหม่อีกครั้ง')); } } }); }catch(e){}
+    const resumed=await cloudResume(); if(!resumed){ renderHome(); showAuth(); }
+  } else {
+    await loadAccounts();
+    let cur=""; try{ cur=(await storageGet(CUR_KEY))||""; }catch(e){}
+    if(cur && accounts[cur]){ currentUser=cur; await loadState(); enterApp(); }
+    else { renderHome(); showAuth(); }
+  } })();
 </script>
 </body>
 </html>
