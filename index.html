@@ -1429,8 +1429,8 @@ function freshState(){
 }
 function levelOf(xp){ return Math.floor(xp/100)+1; }
 /* ===== CLOUD SYNC (Supabase) — ใส่คีย์ 2 ค่านี้เพื่อเปิด "บัญชีจริงข้ามอุปกรณ์" ===== */
-const SUPABASE_URL = "";      /* <<< วาง Project URL ที่นี่ เช่น https://xxxx.supabase.co */
-const SUPABASE_ANON_KEY = ""; /* <<< วาง anon public key ที่นี่ */
+const SUPABASE_URL = "https://tixckqsplfmlucxfmmug.supabase.co";      /* Project URL */
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpeGNrcXNwbGZtbHVjeGZtbXVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMyNDg1MTQsImV4cCI6MjA5ODgyNDUxNH0.YITrrjqM9Okllktj1Q0Py7oS3w3d1d7_eJ2bPF4wtno"; /* anon public key */
 let supa=null, cloudSaveTimer=null;
 try{ if(SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase && window.supabase.createClient){ supa=window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } }catch(e){ supa=null; }
 function cloudMode(){ return !!supa; }
