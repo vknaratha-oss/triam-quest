@@ -272,6 +272,37 @@
   .vc-choice.correct{background:#E6FBF5; border-color:#1c9b85; color:#1c9b85; font-weight:800}
   .vc-choice.wrong{background:#FDECEF; border-color:#c9436b; color:#c9436b}
   .vc-choice.disabled{pointer-events:none; opacity:.75}
+  .gm-stage{display:flex; align-items:center; gap:10px; margin:36px 0 8px}
+  .gm-stage:first-child{margin-top:6px}
+  .gm-flag{font-size:24px}
+  .gm-stage h2{font-family:'Baloo Thai 2'; font-weight:700; font-size:17px; margin:0; color:var(--ink)}
+  .gm-stage-sub{color:var(--ink-soft); font-size:12.5px; margin-left:auto; font-weight:600}
+  .gm-map-card{
+    background:#FBF3DF; border:2px solid #E4D9B8; border-radius:22px;
+    box-shadow:var(--shadow); padding:14px 10px 6px; position:relative; overflow:hidden;
+  }
+  .gm-map-card::before{
+    content:""; position:absolute; inset:8px; border:2px dashed rgba(201,154,62,.35);
+    border-radius:16px; pointer-events:none;
+  }
+  .gm-map-card svg{display:block; width:100%; height:auto}
+  .gm-node-content{width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; padding:10px 14px; font-family:'Sarabun'; box-sizing:border-box}
+  .gm-node-title{font-family:'Baloo Thai 2'; font-weight:700; font-size:17px; line-height:1.2}
+  .gm-node-sub{font-size:12.5px; font-weight:600; opacity:.8; margin-top:2px}
+  .gm-node-rules{margin:6px 0 0; padding-left:18px; font-size:12px; line-height:1.5}
+  .gm-node-rules li{margin-bottom:1px}
+  .gm-node-example{margin-top:6px; font-size:12.5px; font-weight:700; font-style:italic; background:rgba(255,255,255,.65); border-radius:8px; padding:4px 8px; display:inline-block}
+  .gm-c-purple .gm-node-title,.gm-c-purple .gm-node-sub,.gm-c-purple .gm-node-example{color:#5B3FC0}
+  .gm-c-blue .gm-node-title,.gm-c-blue .gm-node-sub,.gm-c-blue .gm-node-example{color:#2c7fc0}
+  .gm-c-teal .gm-node-title,.gm-c-teal .gm-node-sub,.gm-c-teal .gm-node-example{color:#1c9b85}
+  .gm-c-orange .gm-node-title,.gm-c-orange .gm-node-sub,.gm-c-orange .gm-node-example{color:#E8702A}
+  .gm-center-content{width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; color:#fff; font-family:'Baloo Thai 2'}
+  .gm-center-content .ct1{font-size:16px; font-weight:800; line-height:1.25}
+  .gm-center-content .ct2{font-size:11.5px; font-weight:600; opacity:.9; margin-top:3px}
+  .gm-footnote{margin-top:14px; padding:12px 16px; background:rgba(255,255,255,.55); border-radius:12px; font-size:13px; color:var(--ink-soft); line-height:1.7}
+  .gm-footnote b{color:var(--ink)}
+  .qimg{display:flex; justify-content:center; align-items:center; background:#FAF8FF; border:2px solid var(--line); border-radius:14px; padding:12px; margin:6px 0 16px}
+  .qimg svg{max-width:280px; width:100%; height:auto}
 </style>
 </head>
 <body>
@@ -339,8 +370,15 @@
     </div>
   </div>
 
+  <div class="screen" id="grammarmap">
+    <button class="skiplink" style="margin-bottom:10px" onclick="go('home')">← กลับหน้าหลัก</button>
+    <div class="hero"><h1>🗺️ แผนที่ไวยากรณ์อังกฤษ</h1><p>13 ด่านสำคัญที่ต้องผ่านให้ได้ก่อนขึ้น ม.1 — ตามเส้นทางประจำแต่ละด่าน แล้วจำกฎ + ตัวอย่างให้ขึ้นใจ</p></div>
+    <div id="gmWrap"></div>
+  </div>
+
   <div class="screen active" id="home">
     <div class="prof-bar">
+      <button class="prof-btn" onclick="openGrammarMap()">🗺️ แผนที่ไวยากรณ์</button>
       <button class="prof-btn" onclick="renderProfile();go('profile')">👤 โปรไฟล์ & ประวัติ</button>
       <button class="prof-btn ghost" onclick="logout()">🚪 ออกจากระบบ</button>
     </div>
@@ -401,6 +439,7 @@
     </div>
     <div class="qcard">
       <div class="qtagrow"><span class="qtag" id="qtag">วิชา</span><span class="qdiff" id="qdiff">ระดับ</span></div>
+      <div class="qimg" id="qimg" style="display:none"></div>
       <p class="qtext" id="qtext">คำถาม...</p>
       <div class="opts" id="opts"></div>
       <div class="explain" id="explain">
@@ -677,7 +716,23 @@ math:{ name:"คณิตศาสตร์", emoji:"🔢", color:"#4D9DE0",
   {q:"สนามรูปสี่เหลี่ยมผืนผ้า กว้าง 8 เมตร ยาว 15 เมตร ต้องการล้อมรั้วรอบสนาม ต้องใช้รั้วยาวกี่เมตร?",c:["46 เมตร","120 เมตร","23 เมตร","60 เมตร"],a:0,d:"m",topic:"เรขาคณิต",s:"เส้นรอบรูป = 2×(8+15) = 46",t:"ล้อมรอบ = เส้นรอบรูป = 2×(กว้าง+ยาว)"},
   {q:"กระเบื้องสี่เหลี่ยมจัตุรัสด้าน 50 ซม. ปูพื้นห้องกว้าง 3 เมตร ยาว 4 เมตร ต้องใช้กระเบื้องกี่แผ่น?",c:["48 แผ่น","24 แผ่น","96 แผ่น","12 แผ่น"],a:0,d:"h",topic:"เรขาคณิต",s:"พื้นห้อง = 300×400 = 120,000 ตร.ซม., กระเบื้อง = 50×50 = 2,500 → 120,000 ÷ 2,500 = 48",t:"แปลงหน่วยให้เท่ากันก่อน แล้วเอาพื้นที่ห้องหารพื้นที่กระเบื้อง"},
   {q:"ถังน้ำทรงสี่เหลี่ยม กว้าง 50 ซม. ยาว 40 ซม. สูง 30 ซม. จุน้ำได้เต็มที่กี่ลิตร? (1,000 ลบ.ซม. = 1 ลิตร)",c:["60 ลิตร","6 ลิตร","600 ลิตร","120 ลิตร"],a:0,d:"h",topic:"เรขาคณิต",s:"ปริมาตร = 50×40×30 = 60,000 ลบ.ซม. = 60 ลิตร",t:"หาปริมาตรเป็น ลบ.ซม. ก่อน แล้วหาร 1,000 เป็นลิตร"},
-  {q:"รูปสามเหลี่ยมมีพื้นที่ 24 ตารางเซนติเมตร ฐานยาว 8 ซม. มีความสูงกี่เซนติเมตร?",c:["6 ซม.","3 ซม.","12 ซม.","4 ซม."],a:0,d:"m",topic:"เรขาคณิต",s:"พื้นที่ = 1/2 × ฐาน × สูง → 24 = 1/2 × 8 × สูง → สูง = 6",t:"ย้อนสูตรพื้นที่สามเหลี่ยม: สูง = พื้นที่ × 2 ÷ ฐาน"}
+  {q:"รูปสามเหลี่ยมมีพื้นที่ 24 ตารางเซนติเมตร ฐานยาว 8 ซม. มีความสูงกี่เซนติเมตร?",c:["6 ซม.","3 ซม.","12 ซม.","4 ซม."],a:0,d:"m",topic:"เรขาคณิต",s:"พื้นที่ = 1/2 × ฐาน × สูง → 24 = 1/2 × 8 × สูง → สูง = 6",t:"ย้อนสูตรพื้นที่สามเหลี่ยม: สูง = พื้นที่ × 2 ÷ ฐาน"},
+  {q:"รูปสี่เหลี่ยมจัตุรัสด้านยาว 14 ซม. มีวงกลมวงหนึ่งแนบสัมผัสด้านทั้งสี่ (เส้นผ่านศูนย์กลาง 14 ซม.) พื้นที่ส่วนที่แรเงา (4 มุม) เท่ากับกี่ตารางเซนติเมตร? (กำหนด π = 22/7)",c:["42","154","196","21"],a:0,d:"h",topic:"พื้นที่แรเงา",s:"พื้นที่สี่เหลี่ยม = 14×14 = 196, พื้นที่วงกลม = 22/7×7×7 = 154, พื้นที่แรเงา = 196−154 = 42 ตร.ซม.",t:"โจทย์แรเงามุม: พื้นที่แรเงา = พื้นที่สี่เหลี่ยม − พื้นที่วงกลมที่แนบใน",img:`<svg viewBox="0 0 200 216" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="20" width="160" height="160" fill="#FFE1A8" stroke="#2B2350" stroke-width="2"/><circle cx="100" cy="100" r="80" fill="#fff" stroke="#2B2350" stroke-width="2"/><text x="100" y="206" text-anchor="middle" font-size="12" fill="#2B2350">ด้านสี่เหลี่ยม = 14 ซม.</text></svg>`},
+  {q:"สี่เหลี่ยมจัตุรัสด้านยาว 14 ซม. เขียนเสี้ยววงกลมรัศมี 14 ซม. จากมุมสองมุมที่อยู่ตรงข้ามกัน ทำให้เกิดส่วนโค้งซ้อนทับกันเป็นรูปใบโพธิ์ตรงกลาง พื้นที่รูปใบโพธิ์เท่ากับกี่ตารางเซนติเมตร? (กำหนด π = 22/7)",c:["112","154","196","56"],a:0,d:"h",topic:"พื้นที่แรเงา",s:"เสี้ยววงกลมแต่ละอันมีพื้นที่ = 1/4×22/7×14×14 = 154 ตร.ซม. สองอันรวม = 308 ส่วนที่เกินสี่เหลี่ยมคือส่วนที่ซ้อนทับกันสองครั้ง จึงลบสี่เหลี่ยมออกหนึ่งครั้ง: พื้นที่ใบโพธิ์ = 308−196 = 112 ตร.ซม.",t:"รูปใบโพธิ์จากเสี้ยววงกลม 2 อัน: พื้นที่ใบ = (2×เสี้ยววงกลม) − พื้นที่สี่เหลี่ยม",img:`<svg viewBox="0 0 200 216" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="20" width="160" height="160" fill="none" stroke="#2B2350" stroke-width="2"/><path d="M180,20 A160,160 0 0 1 20,180" fill="none" stroke="#4D9DE0" stroke-width="2"/><path d="M20,180 A160,160 0 0 1 180,20" fill="none" stroke="#FF9F40" stroke-width="2"/><path d="M180,20 A160,160 0 0 1 20,180 A160,160 0 0 1 180,20 Z" fill="#FFE1A8" opacity="0.9"/><text x="100" y="206" text-anchor="middle" font-size="12" fill="#2B2350">ด้านสี่เหลี่ยม = 14 ซม.</text></svg>`},
+  {q:"สี่เหลี่ยมจัตุรัสด้านยาว 28 ซม. บรรจุวงกลม 4 วง เรียงกัน 2×2 แต่ละวงมีเส้นผ่านศูนย์กลาง 14 ซม. สัมผัสกันพอดี พื้นที่ส่วนที่แรเงา (นอกวงกลมทั้งสี่) เท่ากับกี่ตารางเซนติเมตร? (กำหนด π = 22/7)",c:["168","616","784","154"],a:0,d:"h",topic:"พื้นที่แรเงา",s:"พื้นที่สี่เหลี่ยม = 28×28 = 784, วงกลมแต่ละวง = 22/7×7×7 = 154, สี่วง = 616, พื้นที่แรเงา = 784−616 = 168 ตร.ซม.",t:"หลายวงกลมในสี่เหลี่ยม: รวมพื้นที่วงกลมทั้งหมดก่อน แล้วลบจากพื้นที่สี่เหลี่ยม",img:`<svg viewBox="0 0 200 216" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="20" width="160" height="160" fill="#FFE1A8" stroke="#2B2350" stroke-width="2"/><circle cx="60" cy="60" r="40" fill="#fff" stroke="#2B2350" stroke-width="1.5"/><circle cx="140" cy="60" r="40" fill="#fff" stroke="#2B2350" stroke-width="1.5"/><circle cx="60" cy="140" r="40" fill="#fff" stroke="#2B2350" stroke-width="1.5"/><circle cx="140" cy="140" r="40" fill="#fff" stroke="#2B2350" stroke-width="1.5"/><text x="100" y="206" text-anchor="middle" font-size="12" fill="#2B2350">ด้านสี่เหลี่ยม = 28 ซม.</text></svg>`},
+  {q:"วงกลมสองวงมีจุดศูนย์กลางร่วมกัน วงใหญ่รัศมี 14 ซม. วงเล็กรัศมี 7 ซม. พื้นที่วงแหวน (ส่วนที่แรเงาระหว่างวงกลมสองวง) เท่ากับกี่ตารางเซนติเมตร? (กำหนด π = 22/7)",c:["462","616","154","308"],a:0,d:"h",topic:"พื้นที่แรเงา",s:"พื้นที่วงใหญ่ = 22/7×14×14 = 616, พื้นที่วงเล็ก = 22/7×7×7 = 154, พื้นที่วงแหวน = 616−154 = 462 ตร.ซม.",t:"วงแหวน (Annulus): พื้นที่ = π×(รัศมีใหญ่² − รัศมีเล็ก²)",img:`<svg viewBox="0 0 200 216" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="80" fill="#FFE1A8" stroke="#2B2350" stroke-width="2"/><circle cx="100" cy="100" r="40" fill="#fff" stroke="#2B2350" stroke-width="2"/><text x="100" y="30" text-anchor="middle" font-size="12" fill="#2B2350">R = 14 ซม.</text><text x="100" y="103" text-anchor="middle" font-size="11" fill="#2B2350">r = 7</text><text x="100" y="206" text-anchor="middle" font-size="12" fill="#2B2350">(หน่วย: ซม.)</text></svg>`},
+  {q:"วงกลมเส้นผ่านศูนย์กลาง 14 ซม. มีสี่เหลี่ยมข้าวหลามตัด (สี่เหลี่ยมจัตุรัสหมุน 45°) จารึกอยู่ภายในพอดี โดยมีเส้นทแยงมุมยาวเท่ากับเส้นผ่านศูนย์กลาง พื้นที่ส่วนที่แรเงา (นอกสี่เหลี่ยม ในวงกลม) เท่ากับกี่ตารางเซนติเมตร? (กำหนด π = 22/7)",c:["56","154","98","196"],a:0,d:"h",topic:"พื้นที่แรเงา",s:"พื้นที่วงกลม = 22/7×7×7 = 154, พื้นที่สี่เหลี่ยมข้าวหลามตัด = (14×14)÷2 = 98 (ใช้สูตรเส้นทแยงมุม×เส้นทแยงมุม÷2), พื้นที่แรเงา = 154−98 = 56 ตร.ซม.",t:"สี่เหลี่ยมข้าวหลามตัดในวงกลม: พื้นที่สี่เหลี่ยม = (เส้นทแยงมุม×เส้นทแยงมุม)÷2 แล้วลบจากพื้นที่วงกลม",img:`<svg viewBox="0 0 200 216" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="80" fill="#E8F4FF" stroke="#2B2350" stroke-width="2"/><polygon points="100,20 180,100 100,180 20,100" fill="#fff" stroke="#2B2350" stroke-width="2"/><text x="100" y="206" text-anchor="middle" font-size="12" fill="#2B2350">เส้นผ่านศูนย์กลาง = 14 ซม.</text></svg>`},
+  {q:"เสี้ยววงกลม (1 ใน 4 ของวงกลม) รัศมี 7 ซม. มีสามเหลี่ยมมุมฉากที่มีด้านประกอบมุมฉากเป็นรัศมีทั้งสองเส้น (ยาวด้านละ 7 ซม.) พื้นที่ส่วนโค้งที่แรเงา (เสี้ยววงกลม−สามเหลี่ยม) เท่ากับกี่ตารางเซนติเมตร? (กำหนด π = 22/7)",c:["14","38.5","24.5","49"],a:0,d:"h",topic:"พื้นที่แรเงา",s:"พื้นที่เสี้ยววงกลม = 1/4×22/7×7×7 = 38.5, พื้นที่สามเหลี่ยม = 1/2×7×7 = 24.5, พื้นที่แรเงา = 38.5−24.5 = 14 ตร.ซม.",t:"ส่วนโค้งวงกลม (Segment) = พื้นที่เสี้ยววงกลม − พื้นที่สามเหลี่ยมมุมฉากที่เกิดจากรัศมีสองเส้น",img:`<svg viewBox="0 0 200 216" xmlns="http://www.w3.org/2000/svg"><path d="M20,180 L140,180 A120,120 0 0 0 20,60 Z" fill="#E9FBF3" stroke="none"/><polygon points="20,180 140,180 20,60" fill="#fff"/><path d="M20,180 L140,180 A120,120 0 0 0 20,60 Z" fill="none" stroke="#2B2350" stroke-width="2"/><line x1="20" y1="180" x2="140" y2="180" stroke="#2B2350" stroke-width="2"/><line x1="20" y1="180" x2="20" y2="60" stroke="#2B2350" stroke-width="2"/><text x="90" y="206" text-anchor="middle" font-size="12" fill="#2B2350">รัศมี = 7 ซม.</text></svg>`},
+  {q:"สี่เหลี่ยมผืนผ้ากว้าง 10 ซม. ยาว 20 ซม. ถูกตัดครึ่งวงกลมเส้นผ่านศูนย์กลาง 10 ซม. ออกจากด้านซ้าย และมีครึ่งวงกลมขนาดเดียวกันต่อเติมออกไปทางด้านขวา (ขนาดเท่ากันทุกประการ) พื้นที่รูปที่ได้ทั้งหมดเท่ากับกี่ตารางเซนติเมตร?",c:["200","250","178.5","221.5"],a:0,d:"h",topic:"พื้นที่แรเงา",s:"ครึ่งวงกลมที่ตัดออกกับที่ต่อเติมมีขนาดเท่ากันทุกประการ พื้นที่ที่หายไปทางซ้ายเท่ากับพื้นที่ที่เพิ่มมาทางขวาพอดี พื้นที่รวมจึงเท่ากับพื้นที่สี่เหลี่ยมผืนผ้าเดิม = 10×20 = 200 ตร.ซม.",t:"เทคนิค 'ย้ายพื้นที่': เมื่อตัดชิ้นหนึ่งออกแล้วต่อชิ้นที่เท่ากันทุกประการเข้าไปแทน พื้นที่รวมจะไม่เปลี่ยนแปลง ไม่ต้องคำนวณครึ่งวงกลมเลย",img:`<svg viewBox="0 0 220 156" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="20" width="200" height="100" fill="#FFE1A8" stroke="#2B2350" stroke-width="2"/><path d="M10,20 A50,50 0 0 1 10,120" fill="#fff" stroke="#2B2350" stroke-width="2"/><path d="M210,20 A50,50 0 0 1 210,120" fill="#FFE1A8" stroke="#2B2350" stroke-width="2"/><text x="110" y="146" text-anchor="middle" font-size="11" fill="#2B2350">กว้าง 10 ซม. ยาว 20 ซม.</text></svg>`},
+  {q:"วงกลมใหญ่รัศมี 7 ซม. มีวงกลมเล็กเส้นผ่านศูนย์กลาง 7 ซม. บรรจุอยู่ภายใน โดยวงกลมเล็กสัมผัสขอบวงกลมใหญ่ที่จุดหนึ่งและผ่านจุดศูนย์กลางของวงกลมใหญ่พอดี พื้นที่ส่วนที่แรเงา (วงใหญ่ลบวงเล็ก) เท่ากับกี่ตารางเซนติเมตร? (กำหนด π = 22/7)",c:["115.5","154","38.5","77"],a:0,d:"h",topic:"พื้นที่แรเงา",s:"พื้นที่วงใหญ่ = 22/7×7×7 = 154, วงเล็กมีรัศมี 3.5 ซม. พื้นที่ = 22/7×3.5×3.5 = 38.5, พื้นที่แรเงา = 154−38.5 = 115.5 ตร.ซม.",t:"วงกลมสัมผัสภายใน: หารัศมีของวงเล็กจากเส้นผ่านศูนย์กลางที่ให้มาก่อน แล้วลบพื้นที่ตามปกติ",img:`<svg viewBox="0 0 200 216" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="80" fill="#FDECEF" stroke="#2B2350" stroke-width="2"/><circle cx="100" cy="60" r="40" fill="#fff" stroke="#2B2350" stroke-width="2"/><text x="100" y="206" text-anchor="middle" font-size="11" fill="#2B2350">วงใหญ่ r=7 ซม. วงเล็ก r=3.5 ซม.</text></svg>`},
+  {q:"เส้นตรงสองเส้นตัดกัน มุมหนึ่งมีขนาด 65° จงหาขนาดของมุม x ที่อยู่ติดกันบนเส้นตรงเดียวกัน",c:["115°","65°","25°","155°"],a:0,d:"h",topic:"การหามุม",s:"มุม x และมุม 65° อยู่บนเส้นตรงเดียวกัน (มุมประชิด) รวมกันได้ 180° ดังนั้น x = 180−65 = 115°",t:"มุมบนเส้นตรงเดียวกันรวมกันเป็น 180° เสมอ (ไม่ใช่มุมตรงข้ามที่เท่ากัน)",img:`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="140" x2="180" y2="30" stroke="#2B2350" stroke-width="2"/><line x1="30" y1="20" x2="170" y2="150" stroke="#2B2350" stroke-width="2"/><text x="95" y="60" text-anchor="middle" font-size="13" fill="#2c7fc0" font-weight="bold">65°</text><text x="140" y="100" text-anchor="middle" font-size="14" fill="#c9436b" font-weight="bold">x</text></svg>`},
+  {q:"เส้นตรง AB ขนานกับเส้นตรง CD มีเส้นตัด (transversal) ตัดผ่านทั้งสองเส้น มุมที่จุดตัดบน AB มีขนาด 70° จงหาขนาดของมุม x ที่จุดตัดบน CD ซึ่งอยู่ด้านเดียวกันของเส้นตัด (มุมภายในร่วมข้าง)",c:["110°","70°","90°","130°"],a:0,d:"h",topic:"การหามุม",s:"มุมภายในที่อยู่ด้านเดียวกันของเส้นตัด (Co-interior/Same-side interior angles) เมื่อเส้นขนานกัน จะรวมกันได้ 180° ดังนั้น x = 180−70 = 110°",t:"เส้นขนาน + เส้นตัด: มุมภายในร่วมข้างรวมกัน 180°, มุมแย้ง (alternate) มีขนาดเท่ากัน",img:`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg"><line x1="10" y1="40" x2="190" y2="40" stroke="#2B2350" stroke-width="2"/><line x1="10" y1="130" x2="190" y2="130" stroke="#2B2350" stroke-width="2"/><line x1="55" y1="10" x2="145" y2="160" stroke="#2B2350" stroke-width="2"/><text x="30" y="35" font-size="11" fill="#6B6490">A</text><text x="175" y="35" font-size="11" fill="#6B6490">B</text><text x="30" y="145" font-size="11" fill="#6B6490">C</text><text x="175" y="145" font-size="11" fill="#6B6490">D</text><text x="100" y="32" text-anchor="middle" font-size="13" fill="#2c7fc0" font-weight="bold">70°</text><text x="100" y="155" text-anchor="middle" font-size="14" fill="#c9436b" font-weight="bold">x</text></svg>`},
+  {q:"สามเหลี่ยมรูปหนึ่งมีมุมภายในสองมุมขนาด 50° และ 60° จงหาขนาดของมุมภายนอก x ที่จุดยอดมุมที่สาม (มุมภายนอกที่ต่อออกจากด้านของสามเหลี่ยม)",c:["110°","70°","120°","50°"],a:0,d:"h",topic:"การหามุม",s:"มุมภายนอกของสามเหลี่ยม = ผลบวกของมุมภายในที่ไม่ประชิดกับมันอีกสองมุม = 50+60 = 110°",t:"ทฤษฎีมุมภายนอกสามเหลี่ยม: มุมภายนอก = ผลบวกมุมภายในอีกสองมุมที่ไม่ติดกัน (เร็วกว่าการลบจาก 180° สองรอบ)",img:`<svg viewBox="0 0 220 170" xmlns="http://www.w3.org/2000/svg"><polygon points="30,140 190,140 110,20" fill="#E8F4FF" stroke="#2B2350" stroke-width="2"/><line x1="190" y1="140" x2="220" y2="140" stroke="#2B2350" stroke-width="2"/><text x="60" y="130" font-size="12" fill="#2c7fc0" font-weight="bold">50°</text><text x="150" y="130" font-size="12" fill="#2c7fc0" font-weight="bold">60°</text><text x="203" y="130" text-anchor="middle" font-size="13" fill="#c9436b" font-weight="bold">x</text></svg>`},
+  {q:"สามเหลี่ยมหน้าจั่วรูปหนึ่งมีมุมยอด (มุมระหว่างด้านที่เท่ากันสองด้าน) ขนาด 40° จงหาขนาดของมุมที่ฐาน x (มุมฐานทั้งสองมุมเท่ากัน)",c:["70°","80°","40°","65°"],a:0,d:"h",topic:"การหามุม",s:"มุมภายในสามเหลี่ยมรวมกัน 180° มุมฐานสองมุมเท่ากัน: 180−40 = 140 หารด้วย 2 = 70° ต่อมุม",t:"สามเหลี่ยมหน้าจั่ว: มุมฐานสองมุมเท่ากันเสมอ = (180° − มุมยอด) ÷ 2",img:`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg"><polygon points="100,20 30,140 170,140" fill="#E9FBF3" stroke="#2B2350" stroke-width="2"/><line x1="65" y1="82" x2="72" y2="88" stroke="#2B2350" stroke-width="2"/><line x1="135" y1="82" x2="128" y2="88" stroke="#2B2350" stroke-width="2"/><text x="100" y="48" text-anchor="middle" font-size="12" fill="#2c7fc0" font-weight="bold">40°</text><text x="55" y="132" text-anchor="middle" font-size="13" fill="#c9436b" font-weight="bold">x</text><text x="145" y="132" text-anchor="middle" font-size="13" fill="#c9436b" font-weight="bold">x</text></svg>`},
+  {q:"รอบจุดจุดหนึ่งมีมุมสี่มุมมาบรรจบกัน ขนาดสามมุมคือ 90°, 110°, และ 85° จงหาขนาดของมุมที่สี่ x",c:["75°","85°","65°","95°"],a:0,d:"h",topic:"การหามุม",s:"มุมรอบจุดรวมกันได้ 360° ดังนั้น x = 360−90−110−85 = 75°",t:"มุมรอบจุด (Angles at a point) รวมกันเสมอ = 360°",img:`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="3" fill="#2B2350"/><line x1="100" y1="100" x2="100" y2="20" stroke="#2B2350" stroke-width="2"/><line x1="100" y1="100" x2="175" y2="60" stroke="#2B2350" stroke-width="2"/><line x1="100" y1="100" x2="160" y2="165" stroke="#2B2350" stroke-width="2"/><line x1="100" y1="100" x2="25" y2="150" stroke="#2B2350" stroke-width="2"/><text x="132" y="55" font-size="11" fill="#2c7fc0" font-weight="bold">90°</text><text x="142" y="130" font-size="11" fill="#2c7fc0" font-weight="bold">110°</text><text x="75" y="150" font-size="11" fill="#2c7fc0" font-weight="bold">85°</text><text x="65" y="65" font-size="13" fill="#c9436b" font-weight="bold">x</text></svg>`},
+  {q:"รูปสี่เหลี่ยมรูปหนึ่งมีมุมภายในสามมุมขนาด 85°, 95°, และ 120° จงหาขนาดของมุมที่สี่ x",c:["60°","70°","50°","80°"],a:0,d:"h",topic:"การหามุม",s:"มุมภายในสี่เหลี่ยมรวมกันได้ 360° ดังนั้น x = 360−85−95−120 = 60°",t:"มุมภายในรูปสี่เหลี่ยมใด ๆ รวมกันเสมอ = 360° (แบ่งเป็นสามเหลี่ยม 2 รูป × 180°)",img:`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg"><polygon points="30,30 170,20 190,140 20,150" fill="#FFF3E6" stroke="#2B2350" stroke-width="2"/><text x="48" y="55" font-size="11" fill="#2c7fc0" font-weight="bold">85°</text><text x="148" y="45" font-size="11" fill="#2c7fc0" font-weight="bold">95°</text><text x="158" y="125" font-size="11" fill="#2c7fc0" font-weight="bold">120°</text><text x="45" y="140" text-anchor="middle" font-size="13" fill="#c9436b" font-weight="bold">x</text></svg>`},
+  {q:"รูปหกเหลี่ยมด้านเท่ามุมเท่า (Regular Hexagon) หนึ่งรูป จงหาขนาดของมุมภายใน x ที่จุดยอดแต่ละจุด",c:["120°","108°","135°","90°"],a:0,d:"h",topic:"การหามุม",s:"ผลรวมมุมภายในรูปหลายเหลี่ยม n เหลี่ยม = (n−2)×180° หกเหลี่ยม n=6: (6−2)×180 = 720° หารด้วย 6 มุม (มุมเท่ากันทุกมุม) = 120°",t:"สูตรผลรวมมุมภายในรูปหลายเหลี่ยม = (n−2)×180° แล้วหารด้วยจำนวนมุมถ้าเป็นรูปด้านเท่ามุมเท่า",img:`<svg viewBox="0 0 200 190" xmlns="http://www.w3.org/2000/svg"><polygon points="100,20 165,55 165,125 100,160 35,125 35,55" fill="#F3EFFD" stroke="#2B2350" stroke-width="2"/><text x="100" y="95" text-anchor="middle" font-size="14" fill="#c9436b" font-weight="bold">x</text></svg>`},
+  {q:"เส้นตรง AB ขนานกับเส้นตรง CD มีจุด P อยู่ระหว่างเส้นทั้งสอง ลากเส้นจากจุดบน AB มาที่ P ทำมุม 50° กับ AB และลากเส้นจาก P ไปยังจุดบน CD ทำมุม 45° กับ CD จงหาขนาดของมุม x ที่จุด P (มุมหักระหว่างเส้นขนาน)",c:["95°","85°","105°","90°"],a:0,d:"h",topic:"การหามุม",s:"ลากเส้นขนานเสริมผ่านจุด P จะได้มุมแย้งเท่ากับ 50° และ 45° ตามลำดับ มุม x ที่ P จึงเท่ากับผลรวมของทั้งสองมุม = 50+45 = 95°",t:"'มุมหักระหว่างเส้นขนาน' (Zigzag angle): ลากเส้นขนานเสริมผ่านจุดหักเสมอ แล้วมุมหัก = ผลรวมของมุมทั้งสองฝั่ง",img:`<svg viewBox="0 0 220 180" xmlns="http://www.w3.org/2000/svg"><line x1="10" y1="30" x2="210" y2="30" stroke="#2B2350" stroke-width="2"/><line x1="10" y1="150" x2="210" y2="150" stroke="#2B2350" stroke-width="2"/><polyline points="50,30 120,90 70,150" fill="none" stroke="#2B2350" stroke-width="2"/><text x="72" y="48" font-size="11" fill="#2c7fc0" font-weight="bold">50°</text><text x="88" y="140" font-size="11" fill="#2c7fc0" font-weight="bold">45°</text><text x="130" y="88" text-anchor="middle" font-size="13" fill="#c9436b" font-weight="bold">x</text></svg>`}
  ]},
 science:{ name:"วิทยาศาสตร์", emoji:"🔬", color:"#2BC4A8",
  lessons:[
@@ -1089,7 +1144,10 @@ english:{ name:"ภาษาอังกฤษ", emoji:"🔤", color:"#9B5DE5",
   {t:`🧩 เจาะลึก: Modal Verbs ความหมายและการใช้งาน`, svg:`<svg viewBox="0 0 340 130" width="100%" style="max-width:360px"><rect x="4" y="6" width="106" height="50" rx="8" fill="#E8F4FF" stroke="#4D9DE0"/><text x="57" y="26" text-anchor="middle" font-size="11" font-weight="bold" fill="#2c7fc0">can/could</text><text x="57" y="44" text-anchor="middle" font-size="9.5" fill="#2c7fc0">ความสามารถ</text><rect x="117" y="6" width="106" height="50" rx="8" fill="#FFF3E6" stroke="#FF9F40"/><text x="170" y="26" text-anchor="middle" font-size="11" font-weight="bold" fill="#E8702A">must/have to</text><text x="170" y="44" text-anchor="middle" font-size="9.5" fill="#E8702A">ความจำเป็น</text><rect x="230" y="6" width="106" height="50" rx="8" fill="#E9FBF3" stroke="#2BC4A8"/><text x="283" y="26" text-anchor="middle" font-size="11" font-weight="bold" fill="#1c9b85">should</text><text x="283" y="44" text-anchor="middle" font-size="9.5" fill="#1c9b85">คำแนะนำ</text><rect x="60" y="66" width="106" height="50" rx="8" fill="#F3EFFD" stroke="#9B5DE5"/><text x="113" y="86" text-anchor="middle" font-size="11" font-weight="bold" fill="#5B3FC0">may/might</text><text x="113" y="104" text-anchor="middle" font-size="9.5" fill="#5B3FC0">ความเป็นไปได้</text><rect x="174" y="66" width="106" height="50" rx="8" fill="#FDECEF" stroke="#FF6B6B"/><text x="227" y="86" text-anchor="middle" font-size="11" font-weight="bold" fill="#c9436b">will</text><text x="227" y="104" text-anchor="middle" font-size="9.5" fill="#c9436b">อนาคต/สัญญา</text></svg>`, b:`<b>Modal Verbs</b> คือกริยาช่วยที่แสดงทัศนคติ/ความรู้สึกต่อการกระทำ ตามหลังด้วย <b>V1 เสมอ</b> (ไม่เติม s ไม่ว่าประธานจะเป็นใคร)<br><br><b>can / could</b> — ความสามารถ, ขออนุญาต<br>– "I <b>can</b> swim." (ทำได้) / "<b>Could</b> you help me?" (ขอสุภาพกว่า can)<br><br><b>must / have to</b> — ความจำเป็น/ข้อบังคับ<br>– "You <b>must</b> wear a seatbelt." (กฎ/บังคับ) ปฏิเสธ "must not" = ห้าม แต่ "don't have to" = ไม่จำเป็น (ต่างความหมายกันมาก!)<br><br><b>should</b> — คำแนะนำ (ควรทำ ไม่ใช่บังคับ)<br>– "You <b>should</b> study harder." <br><br><b>may / might</b> — ความเป็นไปได้ / ขออนุญาตอย่างสุภาพ<br>– "It <b>may</b> rain today." (อาจจะ) / "<b>May</b> I come in?"<br><br><b>will</b> — อนาคต, การตัดสินใจ ณ ตอนพูด, คำสัญญา<br>– "I <b>will</b> call you later."<br><br><b>ข้อควรจำ:</b> Modal Verb ทุกตัวตามด้วย V1 เสมอ ห้ามเติม to (ผิด: "can to swim" ถูก: "can swim") ยกเว้น have to ที่มี to เป็นส่วนหนึ่งของวลี`},
   {t:`🧩 เจาะลึก: Passive Voice (ประโยคกรรม)`, svg:`<svg viewBox="0 0 340 130" width="100%" style="max-width:360px"><rect x="4" y="6" width="150" height="46" rx="8" fill="#E8F4FF" stroke="#4D9DE0"/><text x="79" y="24" text-anchor="middle" font-size="10" font-weight="bold" fill="#2c7fc0">Active: Mom makes</text><text x="79" y="42" text-anchor="middle" font-size="10" fill="#2c7fc0">the cake.</text><text x="170" y="34" text-anchor="middle" font-size="14" fill="#999">➜</text><rect x="186" y="6" width="150" height="46" rx="8" fill="#E9FBF3" stroke="#2BC4A8"/><text x="261" y="24" text-anchor="middle" font-size="10" font-weight="bold" fill="#1c9b85">Passive: The cake</text><text x="261" y="42" text-anchor="middle" font-size="10" fill="#1c9b85">is made by mom.</text><rect x="4" y="62" width="332" height="60" rx="8" fill="#FFF8E6" stroke="#FFC23C"/><text x="170" y="82" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#E8702A">is/am/are/was/were + V3 (+ by...)</text><text x="170" y="100" text-anchor="middle" font-size="10" fill="#E8702A">กรรม (ของ) กลายเป็นประธานของประโยค</text><text x="170" y="116" text-anchor="middle" font-size="9.5" fill="#E8702A">เน้นการกระทำ ไม่เน้นว่าใครทำ</text></svg>`, b:`<b>Passive Voice</b> (ประโยคกรรม) คือประโยคที่เอา <b>กรรม (ผู้ถูกกระทำ)</b> มาเป็นประธาน แทนที่จะเอาผู้กระทำมาเป็นประธานแบบปกติ (Active Voice)<br><br><b>โครงสร้าง:</b> is/am/are/was/were + <b>V3</b> (+ by + ผู้กระทำ ถ้าต้องการระบุ)<br><br><b>วิธีเปลี่ยน Active → Passive:</b><br>1. เอากรรมของประโยค Active มาเป็นประธาน<br>2. ใส่ is/am/are/was/were ให้ตรงกับประธานใหม่และ tense เดิม<br>3. เปลี่ยนกริยาเป็น V3<br>4. ผู้กระทำเดิมย้ายไปท้ายประโยคหลัง by (หรือตัดออกถ้าไม่สำคัญ)<br><br>– Active: "Mom <b>makes</b> the cake." → Passive: "The cake <b>is made</b> by mom."<br>– Active: "They <b>broke</b> the window." → Passive: "The window <b>was broken</b>."<br><br><b>Tense ต่าง ๆ ของ Passive:</b><br>• Present Simple: is/are + V3<br>• Past Simple: was/were + V3<br>• Present Perfect: has/have been + V3<br>• Future: will be + V3<br><br><b>ใช้เมื่อไร:</b> ไม่รู้/ไม่สำคัญว่าใครทำ หรือต้องการเน้นตัวกรรม/การกระทำมากกว่าผู้กระทำ เช่น "English is spoken in many countries." (ไม่ต้องระบุว่าใครพูด)`},
   {t:`🧩 เจาะลึก: Question Tags (คำถามท้ายประโยค)`, svg:`<svg viewBox="0 0 340 128" width="100%" style="max-width:360px"><rect x="4" y="6" width="332" height="44" rx="8" fill="#E9FBF3" stroke="#2BC4A8"/><text x="170" y="24" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1c9b85">บวก (Positive) + tag ลบ</text><text x="170" y="42" text-anchor="middle" font-size="10.5" fill="#1c9b85">"She is a teacher, isn't she?"</text><rect x="4" y="56" width="332" height="44" rx="8" fill="#FDECEF" stroke="#FF6B6B"/><text x="170" y="74" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#c9436b">ลบ (Negative) + tag บวก</text><text x="170" y="92" text-anchor="middle" font-size="10.5" fill="#c9436b">"You don't like it, do you?"</text><text x="170" y="116" text-anchor="middle" font-size="10" fill="#6B6490">ใช้กริยาช่วยตัวเดียวกับประโยคหลักเสมอ</text></svg>`, b:`<b>Question Tag</b> คือคำถามสั้น ๆ ต่อท้ายประโยคบอกเล่า เพื่อขอให้อีกฝ่ายยืนยัน/เห็นด้วย (แปลประมาณ "...ใช่ไหม")<br><br><b>กฎหลัก: สลับขั้ว บวก↔ลบ</b><br>• ประโยคหลัก <b>บวก</b> → tag เป็น <b>ลบ</b>: "She <b>is</b> a teacher, <b>isn't</b> she?"<br>• ประโยคหลัก <b>ลบ</b> → tag เป็น <b>บวก</b>: "You <b>don't</b> like it, <b>do</b> you?"<br><br><b>ใช้กริยาช่วยตัวเดียวกับประโยคหลัก:</b><br>• มี is/am/are/was/were → ใช้ตัวเดิมใน tag: "They <b>are</b> ready, <b>aren't</b> they?"<br>• มี can/will/should/must ฯลฯ → ใช้ตัวเดิม: "She <b>can</b> swim, <b>can't</b> she?"<br>• ไม่มีกริยาช่วย (Present/Past Simple ทั่วไป) → ใช้ do/does/did: "He <b>likes</b> tea, <b>doesn't</b> he?"<br><br><b>กรณีพิเศษที่ต้องจำ:</b><br>• I am... → tag เป็น <b>aren't I?</b> (ไม่ใช่ amn't): "I am late, <b>aren't I</b>?"<br>• ประโยคคำสั่ง (Imperative) → <b>will you?</b>: "Close the door, <b>will you</b>?"<br>• Let's... → <b>shall we?</b>: "Let's go, <b>shall we</b>?"<br><br><b>เทคนิคตอบ:</b> ตอบตามความจริง ไม่ใช่ตามรูปคำถาม เช่นถ้าเป็นครูจริง ตอบ "Yes, I am." แม้คำถามจะลงท้ายด้วย isn't she?`},
-  {t:`🧩 เจาะลึก: Adjective Order (ลำดับคำคุณศัพท์)`, svg:`<svg viewBox="0 0 340 130" width="100%" style="max-width:360px"><g font-size="9" font-weight="bold" text-anchor="middle"><rect x="2" y="6" width="62" height="30" rx="6" fill="#F3EFFD" stroke="#9B5DE5"/><text x="33" y="25" fill="#5B3FC0">Opinion</text><rect x="68" y="6" width="52" height="30" rx="6" fill="#E8F4FF" stroke="#4D9DE0"/><text x="94" y="25" fill="#2c7fc0">Size</text><rect x="124" y="6" width="52" height="30" rx="6" fill="#E9FBF3" stroke="#2BC4A8"/><text x="150" y="25" fill="#1c9b85">Age</text><rect x="180" y="6" width="60" height="30" rx="6" fill="#FFF3E6" stroke="#FF9F40"/><text x="210" y="25" fill="#E8702A">Shape</text><rect x="244" y="6" width="52" height="30" rx="6" fill="#FDECEF" stroke="#FF6B6B"/><text x="270" y="25" fill="#c9436b">Color</text><rect x="300" y="6" width="36" height="30" rx="6" fill="#FFF8E6" stroke="#FFC23C"/><text x="318" y="25" font-size="8" fill="#E8702A">Origin</text></g><text x="170" y="52" text-anchor="middle" font-size="14" fill="#999">↓</text><rect x="4" y="60" width="332" height="30" rx="8" fill="#FAF8FF" stroke="#C9BEF0"/><text x="170" y="80" text-anchor="middle" font-size="11" font-weight="bold" fill="#5B3FC0">Material → Purpose → Noun</text><rect x="4" y="98" width="332" height="28" rx="6" fill="#FFF8E6"/><text x="170" y="117" text-anchor="middle" font-size="9.5" fill="#E8702A">"a beautiful small old red wooden dining table"</text></svg>`, b:`เมื่อใช้คำคุณศัพท์หลายคำขยายคำนามเดียวกัน ต้องเรียงตามลำดับที่ถูกต้อง จำด้วยคำย่อ <b>OSASCOMP</b><br><br><b>ลำดับ (O-S-A-S-C-O-M-P):</b><br>1. <b>O</b>pinion (ความคิดเห็น): beautiful, nice, ugly<br>2. <b>S</b>ize (ขนาด): big, small, tall<br>3. <b>A</b>ge (อายุ): old, young, new<br>4. <b>S</b>hape (รูปทรง): round, square<br>5. <b>C</b>olor (สี): red, blue, green<br>6. <b>O</b>rigin (แหล่งกำเนิด): Thai, French, Chinese<br>7. <b>M</b>aterial (วัสดุ): wooden, plastic, cotton<br>8. <b>P</b>urpose (จุดประสงค์): dining (table), sleeping (bag)<br>แล้วตามด้วยคำนาม<br><br><b>ตัวอย่าง:</b> "a <b>beautiful</b>(O) <b>small</b>(S) <b>old</b>(A) <b>red</b>(C) <b>wooden</b>(M) dining table"<br>– "She has a <b>lovely</b>(O) <b>little</b>(S) <b>black</b>(C) cat."<br><br><b>เทคนิคจำ:</b> ไม่ต้องใส่ครบทุกหมวดเสมอไป ปกติประโยคจริงมักใช้แค่ 2-3 คำ แค่จำลำดับคร่าว ๆ ว่า "ความเห็น → ขนาด/อายุ/รูปทรง → สี → แหล่งกำเนิด/วัสดุ → คำนาม" ก็เพียงพอ`}
+  {t:`🧩 เจาะลึก: Adjective Order (ลำดับคำคุณศัพท์)`, svg:`<svg viewBox="0 0 340 130" width="100%" style="max-width:360px"><g font-size="9" font-weight="bold" text-anchor="middle"><rect x="2" y="6" width="62" height="30" rx="6" fill="#F3EFFD" stroke="#9B5DE5"/><text x="33" y="25" fill="#5B3FC0">Opinion</text><rect x="68" y="6" width="52" height="30" rx="6" fill="#E8F4FF" stroke="#4D9DE0"/><text x="94" y="25" fill="#2c7fc0">Size</text><rect x="124" y="6" width="52" height="30" rx="6" fill="#E9FBF3" stroke="#2BC4A8"/><text x="150" y="25" fill="#1c9b85">Age</text><rect x="180" y="6" width="60" height="30" rx="6" fill="#FFF3E6" stroke="#FF9F40"/><text x="210" y="25" fill="#E8702A">Shape</text><rect x="244" y="6" width="52" height="30" rx="6" fill="#FDECEF" stroke="#FF6B6B"/><text x="270" y="25" fill="#c9436b">Color</text><rect x="300" y="6" width="36" height="30" rx="6" fill="#FFF8E6" stroke="#FFC23C"/><text x="318" y="25" font-size="8" fill="#E8702A">Origin</text></g><text x="170" y="52" text-anchor="middle" font-size="14" fill="#999">↓</text><rect x="4" y="60" width="332" height="30" rx="8" fill="#FAF8FF" stroke="#C9BEF0"/><text x="170" y="80" text-anchor="middle" font-size="11" font-weight="bold" fill="#5B3FC0">Material → Purpose → Noun</text><rect x="4" y="98" width="332" height="28" rx="6" fill="#FFF8E6"/><text x="170" y="117" text-anchor="middle" font-size="9.5" fill="#E8702A">"a beautiful small old red wooden dining table"</text></svg>`, b:`เมื่อใช้คำคุณศัพท์หลายคำขยายคำนามเดียวกัน ต้องเรียงตามลำดับที่ถูกต้อง จำด้วยคำย่อ <b>OSASCOMP</b><br><br><b>ลำดับ (O-S-A-S-C-O-M-P):</b><br>1. <b>O</b>pinion (ความคิดเห็น): beautiful, nice, ugly<br>2. <b>S</b>ize (ขนาด): big, small, tall<br>3. <b>A</b>ge (อายุ): old, young, new<br>4. <b>S</b>hape (รูปทรง): round, square<br>5. <b>C</b>olor (สี): red, blue, green<br>6. <b>O</b>rigin (แหล่งกำเนิด): Thai, French, Chinese<br>7. <b>M</b>aterial (วัสดุ): wooden, plastic, cotton<br>8. <b>P</b>urpose (จุดประสงค์): dining (table), sleeping (bag)<br>แล้วตามด้วยคำนาม<br><br><b>ตัวอย่าง:</b> "a <b>beautiful</b>(O) <b>small</b>(S) <b>old</b>(A) <b>red</b>(C) <b>wooden</b>(M) dining table"<br>– "She has a <b>lovely</b>(O) <b>little</b>(S) <b>black</b>(C) cat."<br><br><b>เทคนิคจำ:</b> ไม่ต้องใส่ครบทุกหมวดเสมอไป ปกติประโยคจริงมักใช้แค่ 2-3 คำ แค่จำลำดับคร่าว ๆ ว่า "ความเห็น → ขนาด/อายุ/รูปทรง → สี → แหล่งกำเนิด/วัสดุ → คำนาม" ก็เพียงพอ`},
+  {t:`🧩 เจาะลึก: Article — a, an, the`, svg:`<svg viewBox="0 0 340 130" width="100%" style="max-width:360px"><rect x="4" y="6" width="106" height="50" rx="8" fill="#E8F4FF" stroke="#4D9DE0"/><text x="57" y="26" text-anchor="middle" font-size="12" font-weight="bold" fill="#2c7fc0">a</text><text x="57" y="44" text-anchor="middle" font-size="9.5" fill="#2c7fc0">a cat, a dog</text><rect x="117" y="6" width="106" height="50" rx="8" fill="#E9FBF3" stroke="#2BC4A8"/><text x="170" y="26" text-anchor="middle" font-size="12" font-weight="bold" fill="#1c9b85">an</text><text x="170" y="44" text-anchor="middle" font-size="9.5" fill="#1c9b85">an apple, an hour</text><rect x="230" y="6" width="106" height="50" rx="8" fill="#FFF3E6" stroke="#FF9F40"/><text x="283" y="26" text-anchor="middle" font-size="12" font-weight="bold" fill="#E8702A">the</text><text x="283" y="44" text-anchor="middle" font-size="9.5" fill="#E8702A">the sun (เจาะจง)</text><text x="170" y="76" text-anchor="middle" font-size="10.5" fill="#6B6490">a/an = ไม่เจาะจง (ตัวใดตัวหนึ่ง)</text><text x="170" y="94" text-anchor="middle" font-size="10.5" fill="#6B6490">the = เจาะจง (รู้กันแล้วว่าตัวไหน)</text><text x="170" y="114" text-anchor="middle" font-size="10" fill="#c9436b">ไม่ใช้เลย: คำนามนับไม่ได้/พหูพจน์ทั่วไป</text></svg>`, b:`<b>Article</b> คือคำนำหน้านาม มี 2 ชนิด: <b>Indefinite (a/an)</b> ไม่เจาะจง และ <b>Definite (the)</b> เจาะจง<br><br><b>a</b> — ใช้หน้าคำนามเอกพจน์นับได้ที่ขึ้นต้นด้วย <b>เสียงพยัญชนะ</b><br>– "a cat", "a university" (ออกเสียง yu— เป็นเสียงพยัญชนะ แม้ตัวอักษรเป็นสระ)<br><br><b>an</b> — ใช้หน้าคำนามที่ขึ้นต้นด้วย <b>เสียงสระ</b> (a, e, i, o, u)<br>– "an apple", "an hour" (h ไม่ออกเสียง จึงฟังเป็นเสียงสระ)<br><br><b>the</b> — ใช้เมื่อพูดถึงสิ่งที่ <b>เจาะจง</b> ทั้งฝ่ายพูดและฝ่ายฟังรู้ว่าคืออันไหน (เอกพจน์หรือพหูพจน์ก็ได้)<br>– "The sun rises in the east." (มีดวงเดียวในโลก)<br>– "I bought a book. <b>The book</b> is interesting." (พูดถึงเล่มเดิมที่เพิ่งพูดถึง)<br><br><b>ไม่ใช้ Article เลย:</b><br>• คำนามนับไม่ได้ทั่วไป: "I like <b>music</b>."<br>• คำนามพหูพจน์แบบทั่วไป (ไม่เจาะจง): "<b>Cats</b> are cute."<br>• ชื่อเฉพาะส่วนใหญ่: "<b>Thailand</b> is beautiful."<br><br><b>เทคนิคจำ:</b> ฟังเสียงแรกของคำถัดไป ไม่ใช่ตัวอักษรแรก — "an hour" (h เงียบ) แต่ "a university" (u ออกเสียง yu)`},
+  {t:`🧩 เจาะลึก: Countable & Uncountable Nouns`, svg:`<svg viewBox="0 0 340 128" width="100%" style="max-width:360px"><rect x="4" y="6" width="164" height="54" rx="8" fill="#E8F4FF" stroke="#4D9DE0"/><text x="86" y="26" text-anchor="middle" font-size="11" font-weight="bold" fill="#2c7fc0">Countable (นับได้)</text><text x="86" y="44" text-anchor="middle" font-size="9.5" fill="#2c7fc0">a book, two books</text><text x="86" y="58" text-anchor="middle" font-size="9" fill="#2c7fc0">ถาม: How many?</text><rect x="176" y="6" width="160" height="54" rx="8" fill="#FFF3E6" stroke="#FF9F40"/><text x="256" y="26" text-anchor="middle" font-size="11" font-weight="bold" fill="#E8702A">Uncountable (นับไม่ได้)</text><text x="256" y="44" text-anchor="middle" font-size="9.5" fill="#E8702A">water, rice, money</text><text x="256" y="58" text-anchor="middle" font-size="9" fill="#E8702A">ถาม: How much?</text><text x="170" y="82" text-anchor="middle" font-size="10.5" fill="#6B6490">many/few → นับได้ • much/little → นับไม่ได้</text><text x="170" y="100" text-anchor="middle" font-size="10.5" fill="#6B6490">some/any/a lot of → ใช้ได้ทั้งสองแบบ</text><text x="170" y="118" text-anchor="middle" font-size="10" fill="#1c9b85">หน่วยนับพิเศษ: a glass of water, a piece of paper</text></svg>`, b:`คำนามภาษาอังกฤษแบ่งเป็น 2 กลุ่มใหญ่ ซึ่งมีผลต่อการใช้ a/an, จำนวน และคำถาม<br><br><b>Countable Nouns (นับได้):</b> มีรูปเอกพจน์และพหูพจน์ ใช้ a/an ได้ เติม s/es ได้<br>– "a book" → "two book<b>s</b>" — ถามด้วย <b>How many</b> books do you have?<br><br><b>Uncountable Nouns (นับไม่ได้):</b> ไม่มีพหูพจน์ ห้ามใช้ a/an นำหน้าโดยตรง<br>– water, rice, money, information, advice, furniture — ถามด้วย <b>How much</b> water do you need?<br><br><b>Quantifiers (คำบอกปริมาณ) ที่ใช้ต่างกัน:</b><br>• <b>many / few</b> — ใช้กับนามนับได้: "I have <b>many</b> friends."<br>• <b>much / little</b> — ใช้กับนามนับไม่ได้: "I have <b>little</b> time."<br>• <b>some / any / a lot of / lots of</b> — ใช้ได้กับทั้งสองแบบ: "I have <b>some</b> apples/water."<br><br><b>หน่วยนับพิเศษสำหรับนามนับไม่ได้:</b> ใช้วลีเป็นหน่วยนับแทน<br>– "a <b>glass of</b> water", "a <b>piece of</b> paper", "a <b>bowl of</b> rice", "a <b>cup of</b> coffee"<br><br><b>เทคนิคจำ:</b> ถ้าจับต้อง/แยกเป็นชิ้น ๆ ได้ชัดเจน มักนับได้ ถ้าเป็นของเหลว/ก้อนรวม/นามธรรม มักนับไม่ได้`},
+  {t:`🧩 เจาะลึก: Relative Clause (who, which, that, whose)`, svg:`<svg viewBox="0 0 340 130" width="100%" style="max-width:360px"><rect x="4" y="6" width="106" height="50" rx="8" fill="#F3EFFD" stroke="#9B5DE5"/><text x="57" y="26" text-anchor="middle" font-size="12" font-weight="bold" fill="#5B3FC0">who</text><text x="57" y="44" text-anchor="middle" font-size="9" fill="#5B3FC0">แทนคน</text><rect x="117" y="6" width="106" height="50" rx="8" fill="#E8F4FF" stroke="#4D9DE0"/><text x="170" y="26" text-anchor="middle" font-size="12" font-weight="bold" fill="#2c7fc0">which</text><text x="170" y="44" text-anchor="middle" font-size="9" fill="#2c7fc0">แทนสิ่งของ/สัตว์</text><rect x="230" y="6" width="106" height="50" rx="8" fill="#E9FBF3" stroke="#2BC4A8"/><text x="283" y="26" text-anchor="middle" font-size="12" font-weight="bold" fill="#1c9b85">that</text><text x="283" y="44" text-anchor="middle" font-size="9" fill="#1c9b85">แทนได้ทั้งคู่</text><text x="170" y="76" text-anchor="middle" font-size="10.5" fill="#6B6490">whose = ของใคร (แสดงความเป็นเจ้าของ)</text><text x="170" y="96" text-anchor="middle" font-size="10" fill="#6B6490">"The man who/that lives next door is kind."</text><text x="170" y="116" text-anchor="middle" font-size="10" fill="#6B6490">"The girl whose bag is red is my friend."</text></svg>`, b:`<b>Relative Clause</b> (อนุประโยคขยายความ) ใช้เชื่อมประโยคเพื่อขยายคำนามข้างหน้า โดยไม่ต้องพูดซ้ำ<br><br><b>who</b> — แทน <b>คน</b> (ทำหน้าที่ประธานหรือกรรมของอนุประโยค)<br>– "The man <b>who</b> lives next door is a doctor."<br><br><b>which</b> — แทน <b>สิ่งของหรือสัตว์</b> (ไม่ใช่คน)<br>– "The book <b>which</b> is on the table is mine."<br><br><b>that</b> — ใช้แทนได้ <b>ทั้งคนและสิ่งของ</b> โดยเฉพาะใน Defining Relative Clause (อนุประโยคที่จำเป็นต่อความหมาย) มักใช้แทน who/which ได้บ่อย ๆ ในภาษาพูด<br>– "The car <b>that</b> I bought is red." (แทนสิ่งของ) / "The man <b>that</b> called you is my uncle." (แทนคน)<br><br><b>whose</b> — แสดง <b>ความเป็นเจ้าของ</b> (ของใคร)<br>– "The girl <b>whose</b> bag is red is my friend."<br><br><b>เทคนิคจำ:</b> คน→who, ของ→which, ของใคร→whose, ส่วน that ใช้แทนได้ทั้งคู่แต่ <b>ห้ามใช้ that หลังเครื่องหมายจุลภาค (,)</b> ในอนุประโยคแบบไม่จำเป็น (Non-defining)`}
  ],
  tips:[
   "Present Simple: ประธานเอกพจน์ (he/she/it) กริยาเติม s/es (She goes / He plays)",
@@ -4309,6 +4367,578 @@ function finishVocabCat(){ try{ bigConfetti(); }catch(e){} beep(true); addHistor
   document.getElementById('vocabPractice').style.display='none'; document.getElementById('vocabHome').style.display='block'; renderVocabCats(); }
 function exitVocabCat(){ document.getElementById('vocabPractice').style.display='none'; document.getElementById('vocabHome').style.display='block'; renderVocabCats(); }
 
+const GRAMMAR_MAPS=[
+ {flag:`🚩`,title:`ด่านที่ 1 — กริยา 3 ช่อง (V1 · V2 · V3)`,sub:`5 เส้นทาง`,svg:`<svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+      <!-- trails -->
+      <g stroke="#C99A3E" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" fill="none" opacity=".7">
+        <path d="M500,300 L500,180"/>
+        <path d="M560,330 L790,255"/>
+        <path d="M560,390 L730,530"/>
+        <path d="M440,390 L300,530"/>
+        <path d="M440,330 L230,255"/>
+      </g>
+      <g fill="#C99A3E">
+        <circle cx="500" cy="240" r="5"/><circle cx="660" cy="290" r="5"/>
+        <circle cx="650" cy="460" r="5"/><circle cx="360" cy="460" r="5"/><circle cx="350" cy="290" r="5"/>
+      </g>
+      <!-- branch boxes -->
+      <rect x="360" y="20" width="280" height="160" rx="20" fill="var(--purple-bg,#F3EFFD)" stroke="#9B5DE5" stroke-width="2"/>
+      <foreignObject x="360" y="20" width="280" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-purple">
+        <div class="gm-node-title">ช่อง 1 (V1)</div><div class="gm-node-sub">รูปพื้นฐาน Base Form</div>
+        <ul class="gm-node-rules"><li>Present Simple: I/You/We/They + V1</li><li>He/She/It + V1-s</li><li>หลัง do/does/will/can + V1</li></ul>
+        <span class="gm-node-example">play, go, eat, study</span>
+      </div></foreignObject>
+
+      <rect x="730" y="170" width="260" height="170" rx="20" fill="#E8F4FF" stroke="#4D9DE0" stroke-width="2"/>
+      <foreignObject x="730" y="170" width="260" height="170"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-blue">
+        <div class="gm-node-title">ช่อง 2 (V2)</div><div class="gm-node-sub">อดีต Past Simple</div>
+        <ul class="gm-node-rules"><li>เหตุการณ์ที่จบไปแล้วในอดีต</li><li>ใช้กับทุกประธาน (ไม่เติม s)</li></ul>
+        <span class="gm-node-example">played, went, ate</span>
+      </div></foreignObject>
+
+      <rect x="610" y="490" width="260" height="170" rx="20" fill="#E9FBF3" stroke="#2BC4A8" stroke-width="2"/>
+      <foreignObject x="610" y="490" width="260" height="170"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-teal">
+        <div class="gm-node-title">ช่อง 3 (V3)</div><div class="gm-node-sub">Past Participle</div>
+        <ul class="gm-node-rules"><li>have/has/had + V3 (Perfect)</li><li>is/are/was/were + V3 (Passive)</li></ul>
+        <span class="gm-node-example">played, gone, eaten, written</span>
+      </div></foreignObject>
+
+      <rect x="130" y="490" width="260" height="170" rx="20" fill="#FFF3E6" stroke="#FF9F40" stroke-width="2"/>
+      <foreignObject x="130" y="490" width="260" height="170"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-orange">
+        <div class="gm-node-title">กริยาปกติ (Regular)</div><div class="gm-node-sub">Regular Verbs</div>
+        <ul class="gm-node-rules"><li>เติม -ed ท้ายคำ</li><li>V2 และ V3 เหมือนกัน</li></ul>
+        <span class="gm-node-example">work → worked → worked</span>
+      </div></foreignObject>
+
+      <rect x="10" y="170" width="260" height="170" rx="20" fill="#FDECEF" stroke="#FF6B6B" stroke-width="2"/>
+      <foreignObject x="10" y="170" width="260" height="170"><div xmlns="http://www.w3.org/1999/xhtml" class="gm-node-content" style="color:#c9436b"><div class="gm-node-title" style="color:#c9436b">กริยาไม่ปกติ (Irregular)</div><div class="gm-node-sub" style="color:#c9436b">Irregular Verbs</div>
+        <ul class="gm-node-rules"><li>เปลี่ยนรูปคำ ไม่มีกฎตายตัว</li><li>ต้องท่องจำเป็นคำ ๆ ไป</li></ul>
+        <span class="gm-node-example" style="color:#c9436b">go→went→gone, see→saw→seen</span>
+      </div></foreignObject>
+
+      <!-- center -->
+      <circle cx="500" cy="350" r="95" fill="#5B3FC0"/>
+      <circle cx="500" cy="350" r="95" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 6" opacity=".6"/>
+      <foreignObject x="410" y="305" width="180" height="90"><div xmlns="http://www.w3.org/1999/xhtml" class="gm-center-content">
+        <div class="ct1">กริยา 3 ช่อง</div><div class="ct2">V1 · V2 · V3</div>
+      </div></foreignObject>
+    </svg>`,note:`💡 <b>จำง่าย ๆ</b>: V1 = ทำอยู่ปัจจุบัน, V2 = ทำไปแล้วในอดีต, V3 = ใช้คู่กับ have/has/had หรือ is/are/was/were เท่านั้น (ไม่ใช้เดี่ยว ๆ)`},
+ {flag:`🚩`,title:`ด่านที่ 2 — is, am, are (Verb to Be)`,sub:`4 เส้นทาง`,svg:`<svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#C99A3E" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" fill="none" opacity=".7">
+        <path d="M500,270 L500,180"/>
+        <path d="M580,350 L780,350"/>
+        <path d="M500,430 L500,540"/>
+        <path d="M420,350 L220,350"/>
+      </g>
+      <g fill="#C99A3E"><circle cx="500" cy="225" r="5"/><circle cx="680" cy="350" r="5"/><circle cx="500" cy="485" r="5"/><circle cx="320" cy="350" r="5"/></g>
+
+      <rect x="360" y="20" width="280" height="160" rx="20" fill="#FFF3E6" stroke="#FF9F40" stroke-width="2"/>
+      <foreignObject x="360" y="20" width="280" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-orange">
+        <div class="gm-node-title">am</div><div class="gm-node-sub">ใช้กับ I เท่านั้น</div>
+        <span class="gm-node-example">"I am happy."</span>
+      </div></foreignObject>
+
+      <rect x="780" y="270" width="200" height="160" rx="20" fill="#E9FBF3" stroke="#2BC4A8" stroke-width="2"/>
+      <foreignObject x="780" y="270" width="200" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-teal">
+        <div class="gm-node-title">is</div><div class="gm-node-sub">He / She / It / ชื่อเดี่ยว</div>
+        <span class="gm-node-example">"She is a teacher."</span>
+      </div></foreignObject>
+
+      <rect x="360" y="540" width="280" height="150" rx="20" fill="#E8F4FF" stroke="#4D9DE0" stroke-width="2"/>
+      <foreignObject x="360" y="540" width="280" height="150"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-blue">
+        <div class="gm-node-title">are</div><div class="gm-node-sub">You / We / They / พหูพจน์</div>
+        <span class="gm-node-example">"They are students."</span>
+      </div></foreignObject>
+
+      <rect x="20" y="230" width="260" height="230" rx="20" fill="#F3EFFD" stroke="#9B5DE5" stroke-width="2"/>
+      <foreignObject x="20" y="230" width="260" height="230"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-purple">
+        <div class="gm-node-title">ใช้ทำอะไรได้บ้าง</div>
+        <ul class="gm-node-rules">
+          <li>บอกลักษณะ/ความรู้สึก: I am tired.</li>
+          <li>บอกตำแหน่ง: She is at home.</li>
+          <li>Continuous: is/are + V-ing</li>
+          <li>Passive: is/are + V3</li>
+        </ul>
+      </div></foreignObject>
+
+      <circle cx="500" cy="350" r="90" fill="#2c7fc0"/>
+      <circle cx="500" cy="350" r="90" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 6" opacity=".6"/>
+      <foreignObject x="415" y="308" width="170" height="84"><div xmlns="http://www.w3.org/1999/xhtml" class="gm-center-content">
+        <div class="ct1">is · am · are</div><div class="ct2">Verb to Be (ปัจจุบัน)</div>
+      </div></foreignObject>
+    </svg>`,note:`💡 <b>จำง่าย ๆ</b>: I → am, He/She/It → is, You/We/They → are — ใช้แทน "เป็น/อยู่/คือ" และเป็นตัวช่วยสร้าง Continuous กับ Passive`},
+ {flag:`🚩`,title:`ด่านที่ 3 — has, have`,sub:`4 เส้นทาง`,svg:`<svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#C99A3E" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" fill="none" opacity=".7">
+        <path d="M500,270 L500,180"/>
+        <path d="M580,350 L780,350"/>
+        <path d="M500,430 L500,540"/>
+        <path d="M420,350 L220,350"/>
+      </g>
+      <g fill="#C99A3E"><circle cx="500" cy="225" r="5"/><circle cx="680" cy="350" r="5"/><circle cx="500" cy="485" r="5"/><circle cx="320" cy="350" r="5"/></g>
+
+      <rect x="360" y="20" width="280" height="160" rx="20" fill="#E9FBF3" stroke="#2BC4A8" stroke-width="2"/>
+      <foreignObject x="360" y="20" width="280" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-teal">
+        <div class="gm-node-title">have</div><div class="gm-node-sub">I / You / We / They</div>
+        <span class="gm-node-example">"I have a pen."</span>
+      </div></foreignObject>
+
+      <rect x="780" y="270" width="200" height="160" rx="20" fill="#FFF3E6" stroke="#FF9F40" stroke-width="2"/>
+      <foreignObject x="780" y="270" width="200" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-orange">
+        <div class="gm-node-title">has</div><div class="gm-node-sub">He / She / It</div>
+        <span class="gm-node-example">"She has a car."</span>
+      </div></foreignObject>
+
+      <rect x="330" y="540" width="340" height="150" rx="20" fill="#E8F4FF" stroke="#4D9DE0" stroke-width="2"/>
+      <foreignObject x="330" y="540" width="340" height="150"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-blue">
+        <div class="gm-node-title">Present Perfect</div><div class="gm-node-sub">have/has + V3</div>
+        <span class="gm-node-example">"She has finished her homework."</span>
+      </div></foreignObject>
+
+      <rect x="10" y="250" width="270" height="200" rx="20" fill="#F3EFFD" stroke="#9B5DE5" stroke-width="2"/>
+      <foreignObject x="10" y="250" width="270" height="200"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-purple">
+        <div class="gm-node-title">have to / has to</div><div class="gm-node-sub">แปลว่า "ต้อง"</div>
+        <span class="gm-node-example">"I have to study."<br>"He has to go."</span>
+      </div></foreignObject>
+
+      <circle cx="500" cy="350" r="90" fill="#1c9b85"/>
+      <circle cx="500" cy="350" r="90" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 6" opacity=".6"/>
+      <foreignObject x="425" y="320" width="150" height="60"><div xmlns="http://www.w3.org/1999/xhtml" class="gm-center-content">
+        <div class="ct1">has · have</div>
+      </div></foreignObject>
+    </svg>`,note:`💡 <b>จำง่าย ๆ</b>: He/She/It → has, ที่เหลือ → have — แปลว่า "มี" หรือใช้คู่กับ V3 (Perfect) และ to (ต้อง)`},
+ {flag:`🚩`,title:`ด่านที่ 4 — Verb to Do (do, does)`,sub:`4 เส้นทาง`,svg:`<svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#C99A3E" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" fill="none" opacity=".7">
+        <path d="M500,270 L500,180"/>
+        <path d="M580,350 L780,350"/>
+        <path d="M500,430 L500,540"/>
+        <path d="M420,350 L220,350"/>
+      </g>
+      <g fill="#C99A3E"><circle cx="500" cy="225" r="5"/><circle cx="680" cy="350" r="5"/><circle cx="500" cy="485" r="5"/><circle cx="320" cy="350" r="5"/></g>
+
+      <rect x="360" y="20" width="280" height="160" rx="20" fill="#FDECEF" stroke="#FF6B6B" stroke-width="2"/>
+      <foreignObject x="360" y="20" width="280" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="gm-node-content" style="color:#c9436b"><div class="gm-node-title" style="color:#c9436b">do</div><div class="gm-node-sub" style="color:#c9436b">I / You / We / They</div>
+        <span class="gm-node-example" style="color:#c9436b">"Do you like tea?"</span>
+      </div></foreignObject>
+
+      <rect x="780" y="270" width="200" height="160" rx="20" fill="#E8F4FF" stroke="#4D9DE0" stroke-width="2"/>
+      <foreignObject x="780" y="270" width="200" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-blue">
+        <div class="gm-node-title">does</div><div class="gm-node-sub">He / She / It</div>
+        <span class="gm-node-example">"Does she like tea?"</span>
+      </div></foreignObject>
+
+      <rect x="330" y="540" width="340" height="150" rx="20" fill="#E9FBF3" stroke="#2BC4A8" stroke-width="2"/>
+      <foreignObject x="330" y="540" width="340" height="150"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-teal">
+        <div class="gm-node-title">ประโยคคำถาม</div><div class="gm-node-sub">Do/Does + ประธาน + V1 ...?</div>
+        <span class="gm-node-example">"Do you play football?"</span>
+      </div></foreignObject>
+
+      <rect x="10" y="250" width="270" height="200" rx="20" fill="#FFF3E6" stroke="#FF9F40" stroke-width="2"/>
+      <foreignObject x="10" y="250" width="270" height="200"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-orange">
+        <div class="gm-node-title">ปฏิเสธ / เน้นย้ำ</div><div class="gm-node-sub">don't/doesn't + V1</div>
+        <span class="gm-node-example">"I don't like it."<br>"She does understand!"</span>
+      </div></foreignObject>
+
+      <circle cx="500" cy="350" r="90" fill="#c9436b"/>
+      <circle cx="500" cy="350" r="90" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 6" opacity=".6"/>
+      <foreignObject x="425" y="320" width="150" height="60"><div xmlns="http://www.w3.org/1999/xhtml" class="gm-center-content">
+        <div class="ct1">do · does</div>
+      </div></foreignObject>
+    </svg>`,note:`💡 <b>จำง่าย ๆ</b>: He/She/It → does, ที่เหลือ → do — ใช้สร้างประโยคคำถามและปฏิเสธของ Present Simple เท่านั้น (ห้ามใช้ซ้ำกับ is/am/are)`},
+ {flag:`🚩`,title:`ด่านที่ 5 — Wh-Question`,sub:`5 เส้นทาง`,svg:`<svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#C99A3E" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" fill="none" opacity=".7">
+        <path d="M500,300 L500,180"/>
+        <path d="M560,330 L790,255"/>
+        <path d="M560,390 L730,530"/>
+        <path d="M440,390 L300,530"/>
+        <path d="M440,330 L230,255"/>
+      </g>
+      <g fill="#C99A3E">
+        <circle cx="500" cy="240" r="5"/><circle cx="660" cy="290" r="5"/>
+        <circle cx="650" cy="460" r="5"/><circle cx="360" cy="460" r="5"/><circle cx="350" cy="290" r="5"/>
+      </g>
+
+      <rect x="360" y="20" width="280" height="160" rx="20" fill="#F3EFFD" stroke="#9B5DE5" stroke-width="2"/>
+      <foreignObject x="360" y="20" width="280" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-purple">
+        <div class="gm-node-title">What · Who</div><div class="gm-node-sub">อะไร · ใคร</div>
+        <ul class="gm-node-rules"><li>What = ถามสิ่งของ/เรื่องราว</li><li>Who = ถามหาบุคคล (เป็นประธานได้เลย)</li></ul>
+        <span class="gm-node-example">"What is this?" "Who is she?"</span>
+      </div></foreignObject>
+
+      <rect x="730" y="170" width="260" height="170" rx="20" fill="#E8F4FF" stroke="#4D9DE0" stroke-width="2"/>
+      <foreignObject x="730" y="170" width="260" height="170"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-blue">
+        <div class="gm-node-title">Where · When</div><div class="gm-node-sub">ที่ไหน · เมื่อไร</div>
+        <ul class="gm-node-rules"><li>Where = ถามสถานที่</li><li>When = ถามเวลา/วันที่</li></ul>
+        <span class="gm-node-example">"Where do you live?"</span>
+      </div></foreignObject>
+
+      <rect x="610" y="490" width="260" height="170" rx="20" fill="#E9FBF3" stroke="#2BC4A8" stroke-width="2"/>
+      <foreignObject x="610" y="490" width="260" height="170"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-teal">
+        <div class="gm-node-title">Why · How</div><div class="gm-node-sub">ทำไม · อย่างไร</div>
+        <ul class="gm-node-rules"><li>Why = ถามเหตุผล</li><li>How = ถามวิธีการ/ความรู้สึก</li></ul>
+        <span class="gm-node-example">"Why are you late?"</span>
+      </div></foreignObject>
+
+      <rect x="130" y="490" width="260" height="170" rx="20" fill="#FFF3E6" stroke="#FF9F40" stroke-width="2"/>
+      <foreignObject x="130" y="490" width="260" height="170"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-orange">
+        <div class="gm-node-title">โครงสร้างกับ Be</div><div class="gm-node-sub">Wh + is/am/are + ประธาน...?</div>
+        <span class="gm-node-example">"Where is the toilet?"</span>
+      </div></foreignObject>
+
+      <rect x="10" y="170" width="260" height="170" rx="20" fill="#FDECEF" stroke="#FF6B6B" stroke-width="2"/>
+      <foreignObject x="10" y="170" width="260" height="170"><div xmlns="http://www.w3.org/1999/xhtml" class="gm-node-content" style="color:#c9436b"><div class="gm-node-title" style="color:#c9436b">โครงสร้างกับ Do</div><div class="gm-node-sub" style="color:#c9436b">Wh + do/does + ประธาน + V1...?</div>
+        <span class="gm-node-example" style="color:#c9436b">"Where do you live?"</span>
+      </div></foreignObject>
+
+      <circle cx="500" cy="350" r="95" fill="#5B3FC0"/>
+      <circle cx="500" cy="350" r="95" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 6" opacity=".6"/>
+      <foreignObject x="410" y="315" width="180" height="70"><div xmlns="http://www.w3.org/1999/xhtml" class="gm-center-content">
+        <div class="ct1">Wh-Question</div>
+      </div></foreignObject>
+    </svg>`,note:`💡 <b>จำง่าย ๆ</b>: ดูคำตอบที่ต้องการก่อน ถ้าตอบสถานที่→Where, เวลา→When, เหตุผล→Why, วิธีการ→How, Who เป็นประธานเองไม่ต้องมี do/does`},
+ {flag:`🚩`,title:`ด่านที่ 6 — Conditional Sentences (ประโยคเงื่อนไข)`,sub:`4 เส้นทาง`,svg:`<svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#C99A3E" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" fill="none" opacity=".7">
+        <path d="M500,270 L500,180"/>
+        <path d="M580,350 L780,350"/>
+        <path d="M500,430 L500,540"/>
+        <path d="M420,350 L220,350"/>
+      </g>
+      <g fill="#C99A3E"><circle cx="500" cy="225" r="5"/><circle cx="680" cy="350" r="5"/><circle cx="500" cy="485" r="5"/><circle cx="320" cy="350" r="5"/></g>
+
+      <rect x="360" y="20" width="280" height="160" rx="20" fill="#E9FBF3" stroke="#2BC4A8" stroke-width="2"/>
+      <foreignObject x="360" y="20" width="280" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-teal">
+        <div class="gm-node-title">Type 0 — ความจริงทั่วไป</div><div class="gm-node-sub">If + V1, V1</div>
+        <span class="gm-node-example">"If you heat ice, it melts."</span>
+      </div></foreignObject>
+
+      <rect x="780" y="270" width="210" height="160" rx="20" fill="#E8F4FF" stroke="#4D9DE0" stroke-width="2"/>
+      <foreignObject x="780" y="270" width="210" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-blue">
+        <div class="gm-node-title">Type 1 — เป็นไปได้จริง</div><div class="gm-node-sub">If + V1, will + V1</div>
+        <span class="gm-node-example">"If it rains, I will stay home."</span>
+      </div></foreignObject>
+
+      <rect x="330" y="540" width="340" height="150" rx="20" fill="#F3EFFD" stroke="#9B5DE5" stroke-width="2"/>
+      <foreignObject x="330" y="540" width="340" height="150"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-purple">
+        <div class="gm-node-title">Type 2 — สมมติปัจจุบัน</div><div class="gm-node-sub">If + V2, would + V1 (ไม่จริงตอนนี้)</div>
+        <span class="gm-node-example">"If I had money, I would travel."</span>
+      </div></foreignObject>
+
+      <rect x="10" y="250" width="270" height="200" rx="20" fill="#FDECEF" stroke="#FF6B6B" stroke-width="2"/>
+      <foreignObject x="10" y="250" width="270" height="200"><div xmlns="http://www.w3.org/1999/xhtml" class="gm-node-content" style="color:#c9436b">
+        <div class="gm-node-title" style="color:#c9436b">Type 3 — อดีตที่ผ่านไป</div><div class="gm-node-sub" style="color:#c9436b">If + had+V3, would have+V3</div>
+        <span class="gm-node-example" style="color:#c9436b">"If I had studied, I would have passed."</span>
+      </div></foreignObject>
+
+      <circle cx="500" cy="350" r="90" fill="#2c7fc0"/>
+      <circle cx="500" cy="350" r="90" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 6" opacity=".6"/>
+      <foreignObject x="415" y="315" width="170" height="70"><div xmlns="http://www.w3.org/1999/xhtml" class="gm-center-content">
+        <div class="ct1">If-Clause</div><div class="ct2">Conditional</div>
+      </div></foreignObject>
+    </svg>`,note:`💡 <b>จำง่าย ๆ</b>: ยิ่ง Tense ในประโยค If ถอยไปไกล (V1→V2→had+V3) ยิ่งเป็นเรื่องที่ไม่จริง/ไม่แน่นอนมากขึ้น`},
+ {flag:`🚩`,title:`ด่านที่ 7 — Modal Verbs`,sub:`5 เส้นทาง`,svg:`<svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#C99A3E" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" fill="none" opacity=".7">
+        <path d="M500,300 L500,180"/>
+        <path d="M560,330 L790,255"/>
+        <path d="M560,390 L730,530"/>
+        <path d="M440,390 L300,530"/>
+        <path d="M440,330 L230,255"/>
+      </g>
+      <g fill="#C99A3E">
+        <circle cx="500" cy="240" r="5"/><circle cx="660" cy="290" r="5"/>
+        <circle cx="650" cy="460" r="5"/><circle cx="360" cy="460" r="5"/><circle cx="350" cy="290" r="5"/>
+      </g>
+
+      <rect x="360" y="20" width="280" height="160" rx="20" fill="#E8F4FF" stroke="#4D9DE0" stroke-width="2"/>
+      <foreignObject x="360" y="20" width="280" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-blue">
+        <div class="gm-node-title">can / could</div><div class="gm-node-sub">ความสามารถ · ขออนุญาต</div>
+        <span class="gm-node-example">"I can swim." "Could you help me?"</span>
+      </div></foreignObject>
+
+      <rect x="730" y="170" width="260" height="170" rx="20" fill="#FFF3E6" stroke="#FF9F40" stroke-width="2"/>
+      <foreignObject x="730" y="170" width="260" height="170"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-orange">
+        <div class="gm-node-title">must / have to</div><div class="gm-node-sub">ความจำเป็น/บังคับ</div>
+        <span class="gm-node-example">"You must wear a seatbelt."</span>
+      </div></foreignObject>
+
+      <rect x="610" y="490" width="260" height="170" rx="20" fill="#E9FBF3" stroke="#2BC4A8" stroke-width="2"/>
+      <foreignObject x="610" y="490" width="260" height="170"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-teal">
+        <div class="gm-node-title">should</div><div class="gm-node-sub">คำแนะนำ (ควรทำ)</div>
+        <span class="gm-node-example">"You should study harder."</span>
+      </div></foreignObject>
+
+      <rect x="130" y="490" width="260" height="170" rx="20" fill="#F3EFFD" stroke="#9B5DE5" stroke-width="2"/>
+      <foreignObject x="130" y="490" width="260" height="170"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-purple">
+        <div class="gm-node-title">may / might</div><div class="gm-node-sub">ความเป็นไปได้ · ขออนุญาตสุภาพ</div>
+        <span class="gm-node-example">"It may rain today."</span>
+      </div></foreignObject>
+
+      <rect x="10" y="170" width="260" height="170" rx="20" fill="#FDECEF" stroke="#FF6B6B" stroke-width="2"/>
+      <foreignObject x="10" y="170" width="260" height="170"><div xmlns="http://www.w3.org/1999/xhtml" class="gm-node-content" style="color:#c9436b"><div class="gm-node-title" style="color:#c9436b">will</div><div class="gm-node-sub" style="color:#c9436b">อนาคต · คำสัญญา</div>
+        <span class="gm-node-example" style="color:#c9436b">"I will call you later."</span>
+      </div></foreignObject>
+
+      <circle cx="500" cy="350" r="95" fill="#c9436b"/>
+      <circle cx="500" cy="350" r="95" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 6" opacity=".6"/>
+      <foreignObject x="410" y="315" width="180" height="70"><div xmlns="http://www.w3.org/1999/xhtml" class="gm-center-content">
+        <div class="ct1">Modal Verbs</div>
+      </div></foreignObject>
+    </svg>`,note:`💡 <b>จำง่าย ๆ</b>: Modal Verb ทุกตัวตามด้วย V1 เสมอ ห้ามเติม s หรือ to (ยกเว้น have to)`},
+ {flag:`🚩`,title:`ด่านที่ 8 — Passive Voice (ประโยคกรรม)`,sub:`4 เส้นทาง`,svg:`<svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#C99A3E" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" fill="none" opacity=".7">
+        <path d="M500,270 L500,180"/>
+        <path d="M580,350 L780,350"/>
+        <path d="M500,430 L500,540"/>
+        <path d="M420,350 L220,350"/>
+      </g>
+      <g fill="#C99A3E"><circle cx="500" cy="225" r="5"/><circle cx="680" cy="350" r="5"/><circle cx="500" cy="485" r="5"/><circle cx="320" cy="350" r="5"/></g>
+
+      <rect x="360" y="20" width="280" height="160" rx="20" fill="#FFF3E6" stroke="#FF9F40" stroke-width="2"/>
+      <foreignObject x="360" y="20" width="280" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-orange">
+        <div class="gm-node-title">โครงสร้าง</div><div class="gm-node-sub">is/am/are/was/were + V3 (+ by...)</div>
+        <span class="gm-node-example">"The cake is made by mom."</span>
+      </div></foreignObject>
+
+      <rect x="780" y="270" width="210" height="160" rx="20" fill="#E8F4FF" stroke="#4D9DE0" stroke-width="2"/>
+      <foreignObject x="780" y="270" width="210" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-blue">
+        <div class="gm-node-title">วิธีเปลี่ยน</div><div class="gm-node-sub">กรรม→ประธาน + V3</div>
+        <span class="gm-node-example">Mom makes cake → Cake is made</span>
+      </div></foreignObject>
+
+      <rect x="330" y="540" width="340" height="150" rx="20" fill="#E9FBF3" stroke="#2BC4A8" stroke-width="2"/>
+      <foreignObject x="330" y="540" width="340" height="150"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-teal">
+        <div class="gm-node-title">Tense ต่าง ๆ</div><div class="gm-node-sub">Present: is/are+V3 · Past: was/were+V3</div>
+        <span class="gm-node-example">Perfect: has/have been+V3 · Future: will be+V3</span>
+      </div></foreignObject>
+
+      <rect x="10" y="250" width="270" height="200" rx="20" fill="#F3EFFD" stroke="#9B5DE5" stroke-width="2"/>
+      <foreignObject x="10" y="250" width="270" height="200"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-purple">
+        <div class="gm-node-title">ใช้เมื่อไร</div>
+        <span class="gm-node-example">ไม่รู้/ไม่สำคัญว่าใครทำ หรือเน้นตัวกรรม<br>"English is spoken here."</span>
+      </div></foreignObject>
+
+      <circle cx="500" cy="350" r="90" fill="#E8702A"/>
+      <circle cx="500" cy="350" r="90" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 6" opacity=".6"/>
+      <foreignObject x="415" y="315" width="170" height="70"><div xmlns="http://www.w3.org/1999/xhtml" class="gm-center-content">
+        <div class="ct1">Passive Voice</div>
+      </div></foreignObject>
+    </svg>`,note:`💡 <b>จำง่าย ๆ</b>: กรรมของประโยค Active ย้ายมาเป็นประธาน ตามด้วย be + V3 เสมอ (be ต้องผันตามประธานใหม่และ tense เดิม)`},
+ {flag:`🚩`,title:`ด่านที่ 9 — Question Tags (คำถามท้ายประโยค)`,sub:`4 เส้นทาง`,svg:`<svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#C99A3E" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" fill="none" opacity=".7">
+        <path d="M500,270 L500,180"/>
+        <path d="M580,350 L780,350"/>
+        <path d="M500,430 L500,540"/>
+        <path d="M420,350 L220,350"/>
+      </g>
+      <g fill="#C99A3E"><circle cx="500" cy="225" r="5"/><circle cx="680" cy="350" r="5"/><circle cx="500" cy="485" r="5"/><circle cx="320" cy="350" r="5"/></g>
+
+      <rect x="360" y="20" width="280" height="160" rx="20" fill="#E9FBF3" stroke="#2BC4A8" stroke-width="2"/>
+      <foreignObject x="360" y="20" width="280" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-teal">
+        <div class="gm-node-title">บวก → tag ลบ</div>
+        <span class="gm-node-example">"She is a teacher, isn't she?"</span>
+      </div></foreignObject>
+
+      <rect x="780" y="270" width="210" height="160" rx="20" fill="#FDECEF" stroke="#FF6B6B" stroke-width="2"/>
+      <foreignObject x="780" y="270" width="210" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="gm-node-content" style="color:#c9436b">
+        <div class="gm-node-title" style="color:#c9436b">ลบ → tag บวก</div>
+        <span class="gm-node-example" style="color:#c9436b">"You don't like it, do you?"</span>
+      </div></foreignObject>
+
+      <rect x="330" y="540" width="340" height="150" rx="20" fill="#E8F4FF" stroke="#4D9DE0" stroke-width="2"/>
+      <foreignObject x="330" y="540" width="340" height="150"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-blue">
+        <div class="gm-node-title">ใช้กริยาช่วยตัวเดิม</div>
+        <span class="gm-node-example">is/are/can/will/should → tag ตัวเดียวกัน<br>ไม่มีกริยาช่วย → ใช้ do/does/did</span>
+      </div></foreignObject>
+
+      <rect x="10" y="250" width="270" height="200" rx="20" fill="#F3EFFD" stroke="#9B5DE5" stroke-width="2"/>
+      <foreignObject x="10" y="250" width="270" height="200"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-purple">
+        <div class="gm-node-title">กรณีพิเศษ</div>
+        <span class="gm-node-example">I am → aren't I?<br>คำสั่ง → will you?<br>Let's → shall we?</span>
+      </div></foreignObject>
+
+      <circle cx="500" cy="350" r="90" fill="#1c9b85"/>
+      <circle cx="500" cy="350" r="90" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 6" opacity=".6"/>
+      <foreignObject x="410" y="308" width="180" height="84"><div xmlns="http://www.w3.org/1999/xhtml" class="gm-center-content">
+        <div class="ct1">Question Tags</div><div class="ct2">"...ใช่ไหม"</div>
+      </div></foreignObject>
+    </svg>`,note:`💡 <b>จำง่าย ๆ</b>: สลับขั้วเสมอ (บวก↔ลบ) และใช้กริยาช่วยตัวเดียวกับประโยคหลัก — ตอบตามความจริง ไม่ใช่ตามรูปคำถาม`},
+ {flag:`🚩`,title:`ด่านที่ 10 — Adjective Order (ลำดับคำคุณศัพท์)`,sub:`เส้นทางเรียงลำดับ 8 ป้าย`,svg:`<svg viewBox="0 0 1000 480" xmlns="http://www.w3.org/2000/svg">
+      <path d="M70,90 C 250,20 350,160 500,90 S 750,20 930,90" stroke="#C99A3E" stroke-width="3" stroke-dasharray="2 10" fill="none" opacity=".7"/>
+      <!-- row 1: 4 stops along the winding trail -->
+      <g font-family="Baloo Thai 2">
+        <rect x="10" y="110" width="150" height="80" rx="14" fill="#F3EFFD" stroke="#9B5DE5" stroke-width="2"/>
+        <text x="85" y="140" text-anchor="middle" font-size="13" font-weight="bold" fill="#5B3FC0">1. Opinion</text>
+        <text x="85" y="160" text-anchor="middle" font-size="10" fill="#5B3FC0" font-family="Sarabun">ความคิดเห็น</text>
+        <text x="85" y="178" text-anchor="middle" font-size="9.5" fill="#5B3FC0" font-family="Sarabun">beautiful, nice</text>
+
+        <rect x="220" y="10" width="150" height="80" rx="14" fill="#E8F4FF" stroke="#4D9DE0" stroke-width="2"/>
+        <text x="295" y="40" text-anchor="middle" font-size="13" font-weight="bold" fill="#2c7fc0">2. Size</text>
+        <text x="295" y="60" text-anchor="middle" font-size="10" fill="#2c7fc0" font-family="Sarabun">ขนาด</text>
+        <text x="295" y="78" text-anchor="middle" font-size="9.5" fill="#2c7fc0" font-family="Sarabun">big, small, tall</text>
+
+        <rect x="430" y="110" width="150" height="80" rx="14" fill="#E9FBF3" stroke="#2BC4A8" stroke-width="2"/>
+        <text x="505" y="140" text-anchor="middle" font-size="13" font-weight="bold" fill="#1c9b85">3. Age</text>
+        <text x="505" y="160" text-anchor="middle" font-size="10" fill="#1c9b85" font-family="Sarabun">อายุ</text>
+        <text x="505" y="178" text-anchor="middle" font-size="9.5" fill="#1c9b85" font-family="Sarabun">old, young, new</text>
+
+        <rect x="640" y="10" width="150" height="80" rx="14" fill="#FFF3E6" stroke="#FF9F40" stroke-width="2"/>
+        <text x="715" y="40" text-anchor="middle" font-size="13" font-weight="bold" fill="#E8702A">4. Shape</text>
+        <text x="715" y="60" text-anchor="middle" font-size="10" fill="#E8702A" font-family="Sarabun">รูปทรง</text>
+        <text x="715" y="78" text-anchor="middle" font-size="9.5" fill="#E8702A" font-family="Sarabun">round, square</text>
+
+        <rect x="850" y="110" width="140" height="80" rx="14" fill="#FDECEF" stroke="#FF6B6B" stroke-width="2"/>
+        <text x="920" y="140" text-anchor="middle" font-size="13" font-weight="bold" fill="#c9436b">5. Color</text>
+        <text x="920" y="160" text-anchor="middle" font-size="10" fill="#c9436b" font-family="Sarabun">สี</text>
+        <text x="920" y="178" text-anchor="middle" font-size="9.5" fill="#c9436b" font-family="Sarabun">red, blue, green</text>
+      </g>
+      <!-- row 2: remaining 3 stops + noun -->
+      <path d="M70,300 L930,300" stroke="#C99A3E" stroke-width="3" stroke-dasharray="2 10"/>
+      <g font-family="Baloo Thai 2">
+        <rect x="10" y="230" width="220" height="80" rx="14" fill="#FFF8E6" stroke="#FFC23C" stroke-width="2"/>
+        <text x="120" y="260" text-anchor="middle" font-size="13" font-weight="bold" fill="#E8702A">6. Origin</text>
+        <text x="120" y="280" text-anchor="middle" font-size="10" fill="#E8702A" font-family="Sarabun">แหล่งกำเนิด</text>
+        <text x="120" y="298" text-anchor="middle" font-size="9.5" fill="#E8702A" font-family="Sarabun">Thai, French, Chinese</text>
+
+        <rect x="260" y="230" width="220" height="80" rx="14" fill="#F3EFFD" stroke="#9B5DE5" stroke-width="2"/>
+        <text x="370" y="260" text-anchor="middle" font-size="13" font-weight="bold" fill="#5B3FC0">7. Material</text>
+        <text x="370" y="280" text-anchor="middle" font-size="10" fill="#5B3FC0" font-family="Sarabun">วัสดุ</text>
+        <text x="370" y="298" text-anchor="middle" font-size="9.5" fill="#5B3FC0" font-family="Sarabun">wooden, plastic, cotton</text>
+
+        <rect x="510" y="230" width="220" height="80" rx="14" fill="#E8F4FF" stroke="#4D9DE0" stroke-width="2"/>
+        <text x="620" y="260" text-anchor="middle" font-size="13" font-weight="bold" fill="#2c7fc0">8. Purpose</text>
+        <text x="620" y="280" text-anchor="middle" font-size="10" fill="#2c7fc0" font-family="Sarabun">จุดประสงค์</text>
+        <text x="620" y="298" text-anchor="middle" font-size="9.5" fill="#2c7fc0" font-family="Sarabun">dining (table), sleeping (bag)</text>
+
+        <rect x="760" y="230" width="230" height="80" rx="14" fill="#1c9b85"/>
+        <text x="875" y="270" text-anchor="middle" font-size="15" font-weight="bold" fill="#fff">🏁 Noun</text>
+        <text x="875" y="290" text-anchor="middle" font-size="10" fill="#fff" font-family="Sarabun">คำนามที่ถูกขยาย</text>
+      </g>
+      <rect x="20" y="340" width="960" height="120" rx="16" fill="#FAF8FF" stroke="#C9BEF0" stroke-width="2"/>
+      <foreignObject x="20" y="340" width="960" height="120"><div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Sarabun';text-align:center">
+        <div style="font-family:'Baloo Thai 2';font-weight:800;font-size:16px;color:#5B3FC0">ตัวอย่างประโยคจริง</div>
+        <div style="font-size:14px;font-weight:700;color:#2B2350;margin-top:6px">"a <b style="color:#5B3FC0">beautiful</b> <b style="color:#2c7fc0">small</b> <b style="color:#1c9b85">old</b> <b style="color:#c9436b">red</b> <b style="color:#5B3FC0">wooden</b> dining table"</div>
+        <div style="font-size:12px;color:#6B6490;margin-top:4px">ไม่ต้องใส่ครบทุกหมวด ปกติใช้แค่ 2-3 คำก็พอ แค่จำ "ลำดับคร่าว ๆ" ให้ได้</div>
+      </div></foreignObject>
+    </svg>`,note:`💡 <b>จำง่าย ๆ</b> ด้วยคำย่อ <b>OSASCOMP</b>: Opinion → Size → Age → Shape → Color → Origin → Material → Purpose แล้วตามด้วยคำนาม`},
+ {flag:`🚩`,title:`ด่านที่ 11 — Article (a, an, the)`,sub:`4 เส้นทาง`,svg:`<svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#C99A3E" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" fill="none" opacity=".7">
+        <path d="M500,270 L500,180"/><path d="M580,350 L780,350"/>
+        <path d="M500,430 L500,540"/><path d="M420,350 L220,350"/>
+      </g>
+      <g fill="#C99A3E"><circle cx="500" cy="225" r="5"/><circle cx="680" cy="350" r="5"/><circle cx="500" cy="485" r="5"/><circle cx="320" cy="350" r="5"/></g>
+
+      <rect x="360" y="20" width="280" height="160" rx="20" fill="#E8F4FF" stroke="#4D9DE0" stroke-width="2"/>
+      <foreignObject x="360" y="20" width="280" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-blue">
+        <div class="gm-node-title">a</div><div class="gm-node-sub">หน้าเสียงพยัญชนะ</div>
+        <span class="gm-node-example">"a cat" "a university"</span>
+      </div></foreignObject>
+
+      <rect x="780" y="270" width="210" height="160" rx="20" fill="#E9FBF3" stroke="#2BC4A8" stroke-width="2"/>
+      <foreignObject x="780" y="270" width="210" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-teal">
+        <div class="gm-node-title">an</div><div class="gm-node-sub">หน้าเสียงสระ</div>
+        <span class="gm-node-example">"an apple" "an hour"</span>
+      </div></foreignObject>
+
+      <rect x="330" y="540" width="340" height="150" rx="20" fill="#FFF3E6" stroke="#FF9F40" stroke-width="2"/>
+      <foreignObject x="330" y="540" width="340" height="150"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-orange">
+        <div class="gm-node-title">the</div><div class="gm-node-sub">เจาะจง (รู้กันแล้วว่าตัวไหน)</div>
+        <span class="gm-node-example">"The sun rises in the east."</span>
+      </div></foreignObject>
+
+      <rect x="10" y="250" width="270" height="200" rx="20" fill="#F3EFFD" stroke="#9B5DE5" stroke-width="2"/>
+      <foreignObject x="10" y="250" width="270" height="200"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-purple">
+        <div class="gm-node-title">ไม่ใช้เลย</div>
+        <span class="gm-node-example">นามนับไม่ได้/พหูพจน์ทั่วไป<br>"I like music." "Cats are cute."</span>
+      </div></foreignObject>
+
+      <circle cx="500" cy="350" r="90" fill="#2c7fc0"/>
+      <circle cx="500" cy="350" r="90" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 6" opacity=".6"/>
+      <foreignObject x="415" y="320" width="170" height="60"><div xmlns="http://www.w3.org/1999/xhtml" class="gm-center-content">
+        <div class="ct1">a · an · the</div>
+      </div></foreignObject>
+    </svg>`,note:`💡 <b>จำง่าย ๆ</b>: ฟัง "เสียง" ของคำถัดไป ไม่ใช่ตัวอักษร — an hour (h เงียบ=เสียงสระ) แต่ a university (ออกเสียง yu=เสียงพยัญชนะ)`},
+ {flag:`🚩`,title:`ด่านที่ 12 — Countable & Uncountable Nouns`,sub:`4 เส้นทาง`,svg:`<svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#C99A3E" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" fill="none" opacity=".7">
+        <path d="M500,270 L500,180"/><path d="M580,350 L780,350"/>
+        <path d="M500,430 L500,540"/><path d="M420,350 L220,350"/>
+      </g>
+      <g fill="#C99A3E"><circle cx="500" cy="225" r="5"/><circle cx="680" cy="350" r="5"/><circle cx="500" cy="485" r="5"/><circle cx="320" cy="350" r="5"/></g>
+
+      <rect x="360" y="20" width="280" height="160" rx="20" fill="#E8F4FF" stroke="#4D9DE0" stroke-width="2"/>
+      <foreignObject x="360" y="20" width="280" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-blue">
+        <div class="gm-node-title">Countable (นับได้)</div><div class="gm-node-sub">ถาม: How many?</div>
+        <span class="gm-node-example">"a book" → "two books"</span>
+      </div></foreignObject>
+
+      <rect x="780" y="270" width="210" height="160" rx="20" fill="#FFF3E6" stroke="#FF9F40" stroke-width="2"/>
+      <foreignObject x="780" y="270" width="210" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-orange">
+        <div class="gm-node-title">Uncountable (นับไม่ได้)</div><div class="gm-node-sub">ถาม: How much?</div>
+        <span class="gm-node-example">water, rice, money</span>
+      </div></foreignObject>
+
+      <rect x="330" y="540" width="340" height="150" rx="20" fill="#E9FBF3" stroke="#2BC4A8" stroke-width="2"/>
+      <foreignObject x="330" y="540" width="340" height="150"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-teal">
+        <div class="gm-node-title">Quantifiers</div>
+        <span class="gm-node-example">many/few → นับได้ · much/little → นับไม่ได้<br>some/any/a lot of → ใช้ได้ทั้งคู่</span>
+      </div></foreignObject>
+
+      <rect x="10" y="250" width="270" height="200" rx="20" fill="#F3EFFD" stroke="#9B5DE5" stroke-width="2"/>
+      <foreignObject x="10" y="250" width="270" height="200"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-purple">
+        <div class="gm-node-title">หน่วยนับพิเศษ</div>
+        <span class="gm-node-example">a glass of water<br>a piece of paper<br>a bowl of rice</span>
+      </div></foreignObject>
+
+      <circle cx="500" cy="350" r="95" fill="#1c9b85"/>
+      <circle cx="500" cy="350" r="95" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 6" opacity=".6"/>
+      <foreignObject x="405" y="308" width="190" height="84"><div xmlns="http://www.w3.org/1999/xhtml" class="gm-center-content">
+        <div class="ct1">Countable vs</div><div class="ct2">Uncountable Nouns</div>
+      </div></foreignObject>
+    </svg>`,note:`💡 <b>จำง่าย ๆ</b>: จับต้อง/แยกเป็นชิ้น ๆ ได้ชัดเจน มักนับได้ ถ้าเป็นของเหลว/ก้อนรวม/นามธรรม มักนับไม่ได้`},
+ {flag:`🚩`,title:`ด่านที่ 13 — Relative Clause (who, which, that, whose)`,sub:`4 เส้นทาง`,svg:`<svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#C99A3E" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" fill="none" opacity=".7">
+        <path d="M500,270 L500,180"/><path d="M580,350 L780,350"/>
+        <path d="M500,430 L500,540"/><path d="M420,350 L220,350"/>
+      </g>
+      <g fill="#C99A3E"><circle cx="500" cy="225" r="5"/><circle cx="680" cy="350" r="5"/><circle cx="500" cy="485" r="5"/><circle cx="320" cy="350" r="5"/></g>
+
+      <rect x="360" y="20" width="280" height="160" rx="20" fill="#F3EFFD" stroke="#9B5DE5" stroke-width="2"/>
+      <foreignObject x="360" y="20" width="280" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-purple">
+        <div class="gm-node-title">who</div><div class="gm-node-sub">แทนคน</div>
+        <span class="gm-node-example">"The man who lives next door..."</span>
+      </div></foreignObject>
+
+      <rect x="780" y="270" width="210" height="160" rx="20" fill="#E8F4FF" stroke="#4D9DE0" stroke-width="2"/>
+      <foreignObject x="780" y="270" width="210" height="160"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-blue">
+        <div class="gm-node-title">which</div><div class="gm-node-sub">แทนสิ่งของ/สัตว์</div>
+        <span class="gm-node-example">"The book which is..."</span>
+      </div></foreignObject>
+
+      <rect x="330" y="540" width="340" height="150" rx="20" fill="#E9FBF3" stroke="#2BC4A8" stroke-width="2"/>
+      <foreignObject x="330" y="540" width="340" height="150"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-teal">
+        <div class="gm-node-title">that</div><div class="gm-node-sub">แทนได้ทั้งคน+สิ่งของ</div>
+        <span class="gm-node-example">"The car that I bought is red."</span>
+      </div></foreignObject>
+
+      <rect x="10" y="250" width="270" height="200" rx="20" fill="#FFF3E6" stroke="#FF9F40" stroke-width="2"/>
+      <foreignObject x="10" y="250" width="270" height="200"><div xmlns="http://www.w3.org/1999/xhtml" class="node-content c-orange">
+        <div class="gm-node-title">whose</div><div class="gm-node-sub">ของใคร (เจ้าของ)</div>
+        <span class="gm-node-example">"The girl whose bag is red..."</span>
+      </div></foreignObject>
+
+      <circle cx="500" cy="350" r="90" fill="#5B3FC0"/>
+      <circle cx="500" cy="350" r="90" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 6" opacity=".6"/>
+      <foreignObject x="415" y="315" width="170" height="70"><div xmlns="http://www.w3.org/1999/xhtml" class="gm-center-content">
+        <div class="ct1">Relative Clause</div>
+      </div></foreignObject>
+    </svg>`,note:`💡 <b>จำง่าย ๆ</b>: คน→who, ของ→which, ของใคร→whose, that แทนได้ทั้งคู่แต่ห้ามใช้หลังเครื่องหมายจุลภาค (,)`}
+];
+
+function openGrammarMap(){ go('grammarmap'); renderGrammarMaps(); }
+function renderGrammarMaps(){
+  document.getElementById('gmWrap').innerHTML = GRAMMAR_MAPS.map(m=>
+    '<div class="gm-stage"><span class="gm-flag">'+m.flag+'</span><h2>'+m.title+'</h2><span class="gm-stage-sub">'+m.sub+'</span></div>'+
+    '<div class="gm-map-card">'+m.svg+'<div class="gm-footnote">'+m.note+'</div></div>'
+  ).join('');
+}
+
 function openSubject(id){
   currentSubjectId=id; selectedDiff="all";
   const s=SUBJECTS[id];
@@ -4343,7 +4973,7 @@ function shade(hex){ const n=parseInt(hex.slice(1),16); let r=(n>>16)&255,g=(n>>
 let quiz=null, timerId=null;
 function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
 function buildQ(raw, subjId){ const correctText=raw.c[raw.a]; const choices=shuffle(raw.c);
-  return {subj:subjId, id:raw.id, q:raw.q, choices, ans:choices.indexOf(correctText), s:raw.s, t:raw.t, d:raw.d, topic:raw.topic}; }
+  return {subj:subjId, id:raw.id, q:raw.q, choices, ans:choices.indexOf(correctText), s:raw.s, t:raw.t, d:raw.d, topic:raw.topic, img:raw.img}; }
 function seenSet(subjId){ return new Set(state.seen[subjId]||[]); }
 function markSeen(q){ if(!q||q.id==null) return; const sid=q.subj; if(!state.seen[sid]) state.seen[sid]=[];
   if(!state.seen[sid].includes(q.id)) state.seen[sid].push(q.id); }
@@ -4393,6 +5023,8 @@ function renderQ(){
   const tag=document.getElementById('qtag'); tag.textContent=s.emoji+" "+s.name; tag.style.background=s.color;
   document.getElementById('qdiff').textContent="ระดับ"+DIFF_LABEL[q.d];
   document.getElementById('qtext').textContent=q.q;
+  const qimgEl=document.getElementById('qimg');
+  if(q.img){ qimgEl.innerHTML=q.img; qimgEl.style.display='flex'; } else { qimgEl.innerHTML=''; qimgEl.style.display='none'; }
   const flame=document.getElementById('qflame'); flame.classList.toggle('show', quiz.streak>=2);
   document.getElementById('qflameN').textContent=quiz.streak;
   const ow=document.getElementById('opts'); ow.innerHTML="";
