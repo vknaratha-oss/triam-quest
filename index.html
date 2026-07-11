@@ -319,6 +319,13 @@
   .gp-answer{margin-top:10px; display:inline-flex; align-items:center; gap:8px; background:#E8702A; color:#fff; font-family:'Baloo Thai 2'; font-weight:700; font-size:15.5px; padding:7px 15px; border-radius:10px}
   .gp-tip{background:#F3EFFD; border-radius:10px; padding:9px 13px; font-size:14px; color:#5B3FC0; margin-top:9px; line-height:1.6}
   .gp-tip b{color:#3d2a8a}
+  .vc-card{position:relative}
+  .vc-speak-btn{
+    position:absolute; top:14px; right:14px; width:44px; height:44px; border-radius:50%;
+    background:var(--brand); color:#fff; border:none; font-size:19px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; box-shadow:0 4px 0 rgba(0,0,0,.15);
+  }
+  .vc-speak-btn:active{transform:translateY(2px); box-shadow:0 2px 0 rgba(0,0,0,.15)}
 </style>
 </head>
 <body>
@@ -377,6 +384,7 @@
     <div id="vocabPractice" style="display:none">
       <div class="spk-top"><button class="skiplink" onclick="exitVocabCat()">← เลือกหมวดอื่น</button><span id="vcProg"></span></div>
       <div class="vc-card">
+        <button class="vc-speak-btn" id="vcSpeakBtn" onclick="speakVocabWord()" title="ฟังเสียงอ่าน">🔊</button>
         <div class="vc-emoji" id="vcEmoji"></div>
         <div class="vc-word" id="vcWord"></div>
         <div class="vc-fb" id="vcFb"></div>
@@ -2637,7 +2645,7 @@ function speakSupported(){ return !!(window.SpeechRecognition||window.webkitSpee
 function stopSpeech(){ try{ if(recog) recog.abort(); }catch(e){} recognizing=false; try{ speechSynthesis.cancel(); }catch(e){} }
 function openSpeak(){ go('speak'); document.getElementById('speakHome').style.display='block'; document.getElementById('speakPractice').style.display='none';
   document.getElementById('speakSupport').innerHTML = speakSupported()
-    ? '🎤 แตะปุ่ม “พูดตาม” แล้วออกเสียงให้ชัด ระบบจะฟังและไฮไลต์คำที่พูดถูก (ต้องอนุญาตให้ใช้ไมโครโฟน)'
+    ? '🎤 แตะปุ่ม “พูดตาม” แล้วออกเสียงให้ชัด ระบบจะฟังและไฮไลต์คำที่พูดถูก (ต้องอนุญาตให้ใช้ไมโครโฟน) — ไม่ต้องออกเสียงเป๊ะแบบเจ้าของภาษา แค่พูดคำสำคัญให้ชัดพอก็ผ่านได้แล้ว 😊'
     : '🔊 อุปกรณ์/เบราว์เซอร์นี้อาจไม่รองรับการฟังเสียงพูด (แนะนำ Chrome บนคอมพิวเตอร์หรือแอนดรอยด์) — ยังฝึกฟังและกด “ผ่าน” ได้ตามปกติ';
   renderSpeakUnits(); }
 function speakDone(uid){ return (state.speak&&state.speak[uid]||[]).length; }
@@ -2679,15 +2687,28 @@ function toggleRecog(){ if(recognizing){ try{ recog&&recog.stop(); }catch(e){} r
   recog.onend=()=>{ recognizing=false; mic.classList.remove('rec'); if(mic.textContent.indexOf('กำลังฟัง')>=0) mic.textContent='🎤 พูดอีกครั้ง'; };
   recognizing=true; mic.textContent='🔴 กำลังฟัง...'; mic.classList.add('rec');
   try{ recog.start(); }catch(e){ recognizing=false; } }
-function gradeSpeech(said){ const p=curPhrase(); const saidSet=new Set(normW(said));
+function levenshtein(a,b){ const m=a.length,n=b.length; if(!m) return n; if(!n) return m;
+  let prev=Array.from({length:n+1},(_,j)=>j);
+  for(let i=1;i<=m;i++){ const cur=[i]; for(let j=1;j<=n;j++){
+      cur[j] = a[i-1]===b[j-1] ? prev[j-1] : 1+Math.min(prev[j-1],prev[j],cur[j-1]); }
+    prev=cur; }
+  return prev[n]; }
+function wordClose(a,b){ if(!a||!b) return false; if(a===b) return true;
+  const d=levenshtein(a,b); const maxLen=Math.max(a.length,b.length);
+  if(maxLen<=2) return false;
+  if(maxLen<=4) return d<=1;
+  if(maxLen<=7) return d<=2;
+  return d<=3; }
+function gradeSpeech(said){ const p=curPhrase(); const saidArr=normW(said);
   const disp=p.en.split(/\s+/); let matched=0,total=0;
-  const html=disp.map(w=>{ const n=normW(w).join(''); if(!n) return w; total++; const ok=saidSet.has(n); if(ok)matched++;
+  const html=disp.map(w=>{ const n=normW(w).join(''); if(!n) return w; total++;
+    const ok=saidArr.some(sw=>wordClose(sw,n)); if(ok)matched++;
     return '<span style="color:'+(ok?'#1c9b85':'#c9436b')+';font-weight:800">'+w+'</span>'; }).join(' ');
   document.getElementById('spkEn').innerHTML=html;
   document.getElementById('spkHeard').textContent='เราได้ยินว่า: '+said;
   const ratio=total?matched/total:0; const fb=document.getElementById('spkFb');
-  if(ratio>=0.6){ markSpeakPassed(); beep(true); miniConfetti(); fb.textContent='เยี่ยมมาก! 🎉 พูดถูก '+matched+'/'+total+' คำ'; fb.className='spk-fb good'; }
-  else { beep(false); fb.textContent='เกือบแล้ว! พูดถูก '+matched+'/'+total+' คำ ลองอีกครั้งนะ'; fb.className='spk-fb bad'; }
+  if(ratio>=0.4){ markSpeakPassed(); beep(true); miniConfetti(); fb.textContent='เยี่ยมมาก! 🎉 พูดถูก '+matched+'/'+total+' คำ'; fb.className='spk-fb good'; }
+  else { beep(false); fb.textContent='เกือบแล้ว! พูดถูก '+matched+'/'+total+' คำ ลองอีกครั้งนะ (สำเนียงไม่ต้องเป๊ะ แค่ออกเสียงคำสำคัญให้ชัดพอ)'; fb.className='spk-fb bad'; }
   document.getElementById('spkNextBtn').style.display='inline-block'; }
 function passManually(){ markSpeakPassed(); beep(true); miniConfetti();
   const fb=document.getElementById('spkFb'); fb.textContent='ผ่านแล้ว 🎉 อย่าลืมออกเสียงตามให้ชัด ๆ นะ'; fb.className='spk-fb good';
@@ -4365,6 +4386,10 @@ function buildVocabChoices(){ const correct=curVocabItem().th;
   if(distract.length<3){ let g=[...new Set(VOCAB.flatMap(c=>c.items.map(x=>x.th)))].filter(x=>x!==correct && !distract.includes(x));
     shuffleArr(g); while(distract.length<3 && g.length) distract.push(g.pop()); }
   return shuffleArr([correct,...distract]); }
+function speakVocabWord(){ try{ const it=curVocabItem(); if(!it) return;
+  const u=new SpeechSynthesisUtterance(it.en); u.lang='en-US'; u.rate=0.85;
+  const vs=speechSynthesis.getVoices(); const v=vs.find(x=>/^en/i.test(x.lang)); if(v) u.voice=v;
+  speechSynthesis.cancel(); speechSynthesis.speak(u); }catch(e){} }
 function renderVocabCard(){ const it=curVocabItem(); vcAnswered=false;
   document.getElementById('vcEmoji').textContent=it.img||'❓';
   document.getElementById('vcWord').textContent=it.en;
@@ -4372,7 +4397,8 @@ function renderVocabCard(){ const it=curVocabItem(); vcAnswered=false;
   document.getElementById('vcNextBtn').style.display='none';
   document.getElementById('vcProg').textContent='คำที่ '+(vcIdx+1)+'/'+vcCat.items.length;
   vcChoices=buildVocabChoices();
-  document.getElementById('vcChoices').innerHTML=vcChoices.map((c,i)=>'<button class="vc-choice" onclick="pickVocab('+i+')">'+c+'</button>').join(''); }
+  document.getElementById('vcChoices').innerHTML=vcChoices.map((c,i)=>'<button class="vc-choice" onclick="pickVocab('+i+')">'+c+'</button>').join('');
+  setTimeout(speakVocabWord,300); }
 function pickVocab(i){ if(vcAnswered) return; vcAnswered=true;
   const it=curVocabItem(); const correct=it.th; const chosen=vcChoices[i];
   document.getElementById('vcChoices').innerHTML = vcChoices.map((c,idx)=>{
