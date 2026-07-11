@@ -1558,7 +1558,7 @@ async function storageSet(key,val){
 /* ============================================================ STATE ============================================================ */
 let state = freshState();
 function freshState(){
-  return { name:"", xp:0, stars:0, badges:[], streak:1, totalCorrect:0, totalQuizzes:0, attempted:[], subj:{}, topicStats:{}, seen:{}, speak:{}, vocab:{}, history:[] };
+  return { name:"", xp:0, stars:0, badges:[], streak:1, lastActiveDate:null, totalCorrect:0, totalQuizzes:0, attempted:[], subj:{}, topicStats:{}, seen:{}, speak:{}, vocab:{}, history:[] };
 }
 function levelOf(xp){ return Math.floor(xp/100)+1; }
 /* ===== CLOUD SYNC (Supabase) — ใส่คีย์ 2 ค่านี้เพื่อเปิด "บัญชีจริงข้ามอุปกรณ์" ===== */
@@ -1642,7 +1642,20 @@ async function saveState(){ if(!currentUser) return;
 function addHistory(k, extra){ if(!state.history) state.history=[]; state.history.unshift(Object.assign({t:Date.now(), k}, extra||{})); if(state.history.length>60) state.history.length=60; }
 
 function showAuth(){ authMode=cloudMode()?'login':(Object.keys(accounts).length?'login':'register'); authRender(); document.getElementById('authGate').classList.add('show'); }
-function enterApp(){ document.getElementById('authGate').classList.remove('show'); const gr=document.getElementById('globalReset'); if(gr) gr.style.display='block'; renderTop(); renderHome(); go('home'); }
+function todayStr(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function updateStreak(){
+  const today=todayStr();
+  if(state.lastActiveDate===today) return; // already counted today
+  if(state.lastActiveDate){
+    const prev=new Date(state.lastActiveDate+'T00:00:00');
+    const cur=new Date(today+'T00:00:00');
+    const diffDays=Math.round((cur-prev)/86400000);
+    if(diffDays===1) state.streak=(state.streak||0)+1;
+    else if(diffDays>1) state.streak=1;
+  } else { state.streak=state.streak||1; }
+  state.lastActiveDate=today;
+}
+function enterApp(){ updateStreak(); saveState(); document.getElementById('authGate').classList.remove('show'); const gr=document.getElementById('globalReset'); if(gr) gr.style.display='block'; renderTop(); renderHome(); go('home'); }
 function authToggleMode(){ authMode=authMode==='login'?'register':'login'; authRender(); }
 function authMsg(m,ok){ const el=document.getElementById('authMsg'); if(el){ el.textContent=m||''; el.style.color=ok?'#1c9b85':'#c9436b'; } }
 function authRender(){
