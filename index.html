@@ -326,12 +326,21 @@
     display:flex; align-items:center; justify-content:center; box-shadow:0 4px 0 rgba(0,0,0,.15);
   }
   .vc-speak-btn:active{transform:translateY(2px); box-shadow:0 2px 0 rgba(0,0,0,.15)}
+  .avatar-grid{display:grid; grid-template-columns:repeat(6,1fr); gap:8px; max-height:340px; overflow-y:auto; padding:2px}
+  .avatar-opt{
+    aspect-ratio:1; display:flex; align-items:center; justify-content:center; font-size:26px;
+    background:var(--card); border:2px solid var(--line); border-radius:12px; cursor:pointer;
+    transition:transform .08s, border-color .08s;
+  }
+  .avatar-opt:hover{border-color:var(--brand); transform:scale(1.08)}
+  .avatar-opt.selected{border-color:var(--brand); background:#F3EFFD; box-shadow:0 0 0 2px var(--brand)}
+  @media (max-width:420px){ .avatar-grid{grid-template-columns:repeat(5,1fr)} }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="topbar">
-    <div class="mascot" id="mascot">🦉</div>
+    <div class="mascot" id="mascot" onclick="openAvatarPicker()" title="แตะเพื่อเปลี่ยนอวาตาร์">🦉</div>
     <div class="who">
       <div class="hi">สวัสดี ยินดีต้อนรับสู่</div>
       <div class="nm"><span id="uname">นักเรียน</span> <span class="lvpill" id="lvpill">Lv.1</span></div>
@@ -523,6 +532,18 @@
     <button class="btn lg" id="authSubmit" style="width:100%; justify-content:center; margin-top:4px" onclick="authDoSubmit()">เข้าสู่ระบบ</button>
     <div style="text-align:center; margin-top:10px"><span id="authSwitch" onclick="authToggleMode()" style="color:var(--brand); cursor:pointer; text-decoration:underline; font-size:15.5px"></span></div>
     <div class="auth-note" id="authNote">🔒 โปรไฟล์และรหัสผ่านเก็บเฉพาะในเบราว์เซอร์เครื่องนี้ (เข้ารหัสแบบ SHA-256) ใช้แยกความก้าวหน้าของแต่ละคน — ไม่ใช่ระบบบัญชีปลอดภัยระดับสูง และหากลืมรหัสผ่านจะกู้คืนไม่ได้</div>
+  </div>
+</div>
+
+<div class="modal" id="avatarModal">
+  <div class="mbox" style="max-width:420px">
+    <div style="text-align:center; margin-bottom:6px">
+      <div style="font-size:15px; color:var(--ink-soft)">อวาตาร์ของคุณตอนนี้</div>
+      <div id="avatarPreview" style="font-size:56px; margin:6px 0">🦉</div>
+    </div>
+    <h2 style="text-align:center; margin:4px 0 12px">🎨 เลือกอวาตาร์ของคุณ</h2>
+    <div class="avatar-grid" id="avatarGrid"></div>
+    <button class="skiplink" style="display:block; margin:14px auto 0" onclick="closeAvatarPicker()">ปิด</button>
   </div>
 </div>
 
@@ -1558,7 +1579,7 @@ async function storageSet(key,val){
 /* ============================================================ STATE ============================================================ */
 let state = freshState();
 function freshState(){
-  return { name:"", xp:0, stars:0, badges:[], streak:1, lastActiveDate:null, totalCorrect:0, totalQuizzes:0, attempted:[], subj:{}, topicStats:{}, seen:{}, speak:{}, vocab:{}, history:[] };
+  return { name:"", xp:0, stars:0, badges:[], streak:1, lastActiveDate:null, avatar:'🦉', totalCorrect:0, totalQuizzes:0, attempted:[], subj:{}, topicStats:{}, seen:{}, speak:{}, vocab:{}, history:[] };
 }
 function levelOf(xp){ return Math.floor(xp/100)+1; }
 /* ===== CLOUD SYNC (Supabase) — ใส่คีย์ 2 ค่านี้เพื่อเปิด "บัญชีจริงข้ามอุปกรณ์" ===== */
@@ -1732,7 +1753,7 @@ function renderProfile(){
     return '<div class="pf-hist"><span class="pf-time">'+dt+'</span> '+txt+'</div>';
   }).join('') || '<div class="pf-hist" style="color:var(--ink-soft)">ยังไม่มีประวัติ เริ่มทำแบบฝึกหัดกันเลย!</div>';
   el.innerHTML=
-    '<div class="pf-card"><div class="pf-head"><div class="pf-ava">🦉</div><div><div class="pf-name">'+(state.name||'นักเรียน')+'</div><div class="pf-sub">Lv.'+lv+' • '+state.xp+' XP • 🔥 '+(state.streak||1)+' วัน • ⭐ '+(state.stars||0)+'</div></div></div>'+
+    '<div class="pf-card"><div class="pf-head"><div class="pf-ava" onclick="openAvatarPicker()" title="แตะเพื่อเปลี่ยนอวาตาร์" style="cursor:pointer">'+(state.avatar||'🦉')+'</div><div><div class="pf-name">'+(state.name||'นักเรียน')+'</div><div class="pf-sub">Lv.'+lv+' • '+state.xp+' XP • 🔥 '+(state.streak||1)+' วัน • ⭐ '+(state.stars||0)+'</div><button class="skiplink" style="margin-top:4px" onclick="openAvatarPicker()">🎨 เปลี่ยนอวาตาร์</button></div></div>'+
     '<div class="pf-xpbar"><i style="width:'+into+'%"></i></div><div class="pf-xptext">'+into+'/100 XP ไปเลเวลถัดไป</div></div>'+
     '<div class="sectitle">ความก้าวหน้าข้อสอบ</div><div class="pf-card">'+subjRows+'</div>'+
     '<div class="sectitle">ความก้าวหน้าฝึกพูด</div><div class="pf-card"><div class="pf-row"><span>🎤 ฝึกพูดอังกฤษ</span><div class="pf-bar"><i style="width:'+spkPct+'%;background:#4D9DE0"></i></div><b>'+spkDone+'/'+spkTotal+'</b></div></div>'+
@@ -1747,6 +1768,7 @@ function renderProfile(){
 function totalQuestions(){ return Object.values(SUBJECTS).reduce((s,x)=>s+x.qs.length,0); }
 function renderTop(){
   document.getElementById('uname').textContent = state.name || "นักเรียน";
+  const mEl=document.getElementById('mascot'); if(mEl && (!window.__mascotBusy)) mEl.textContent=state.avatar||'🦉';
   const lv=levelOf(state.xp);
   document.getElementById('lvpill').textContent="Lv."+lv;
   const into=state.xp%100;
@@ -5913,8 +5935,22 @@ function go(id){ const leavingQuiz=document.getElementById('quiz').classList.con
   if(id!=='quiz'){ scratchOpen=false; const sp=document.getElementById('scratchPanel'); if(sp) sp.classList.remove('open'); }
   if(id==='home') renderHome(); if(id==='weak') renderWeak();
   window.scrollTo({top:0,behavior:'smooth'}); }
-const MASCOTS={idle:"🦉",happy:"🥳",think:"🤔"};
-function setMascot(m){ const el=document.getElementById('mascot'); el.textContent=MASCOTS[m]||"🦉"; if(m!=='idle') setTimeout(()=>el.textContent="🦉",2200); }
+const MASCOTS={happy:"🥳",think:"🤔"};
+function setMascot(m){ const el=document.getElementById('mascot'); el.textContent=MASCOTS[m]||(state.avatar||"🦉");
+  if(m!=='idle'){ window.__mascotBusy=true; setTimeout(()=>{ el.textContent=state.avatar||"🦉"; window.__mascotBusy=false; },2200); } }
+const AVATAR_OPTIONS=["🦉","🐶","🐱","🐰","🦊","🐻","🐼","🐨","🦁","🐯","🐵","🐸","🐷","🐮","🐔","🐧","🦄","🐲","🦕","🐢",
+  "🦋","🐝","🐬","🦈","🐙","🧑","👧","👦","🧑‍🎓","🧑‍🚀","🦸","🧚","🤖","👽","🧙","🥷","🎃","👑","😎","🥳"];
+function openAvatarPicker(){
+  const grid=document.getElementById('avatarGrid');
+  grid.innerHTML=AVATAR_OPTIONS.map(a=>'<div class="avatar-opt'+(a===(state.avatar||'🦉')?' selected':'')+'" onclick="pickAvatar(\''+a+'\')">'+a+'</div>').join('');
+  document.getElementById('avatarPreview').textContent=state.avatar||'🦉';
+  document.getElementById('avatarModal').classList.add('show');
+}
+function closeAvatarPicker(){ document.getElementById('avatarModal').classList.remove('show'); }
+function pickAvatar(a){ state.avatar=a; saveState(); document.getElementById('avatarPreview').textContent=a;
+  openAvatarPicker(); renderTop();
+  if(document.getElementById('profile').classList.contains('active')) renderProfile();
+  beep(true); try{ miniConfetti(); }catch(e){} }
 function showToast(t){ const el=document.getElementById('toast'); el.innerHTML=t; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2600); }
 const COLORS=["#FFC23C","#FF6B6B","#2BC4A8","#4D9DE0","#9B5DE5","#FF9F40"];
 function makeConfetti(n){ const box=document.getElementById('confettiBox');
