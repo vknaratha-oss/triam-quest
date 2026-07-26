@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📐 โจทย์พื้นที่แรเงา & การหามุม — สไตล์ข้อสอบเตรียมอุดม/จุฬาภรณ์</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Thai+2:wght@500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1F2A44; --ink-soft:#5B6B8C; --line:#DDE3F0; --bg:#F3F6FC;
+    --blue:#2c7fc0; --blue-bg:#E8F4FF; --blue-d:#1c5a8c;
+    --teal:#1c9b85; --teal-bg:#E9FBF3;
+    --orange:#E8702A; --orange-bg:#FFF3E6;
+    --purple:#5B3FC0; --purple-bg:#F3EFFD;
+    --red:#c9436b; --red-bg:#FDECEF;
+    --gold:#C99A3E;
+    --shadow:0 8px 22px rgba(31,42,68,.10);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family:'Sarabun',sans-serif; color:var(--ink);
+    background:
+      linear-gradient(var(--line) 1px, transparent 1px) 0 0/100% 34px,
+      linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0/34px 100%,
+      var(--bg);
+    min-height:100vh;
+  }
+  .wrap{max-width:960px; margin:0 auto; padding:30px 18px 70px}
+  .top{text-align:center; margin-bottom:10px}
+  .top h1{font-family:'Baloo Thai 2'; font-weight:800; font-size:clamp(22px,4vw,30px); margin:6px 0 8px}
+  .top p{color:var(--ink-soft); font-size:14.5px; max-width:620px; margin:0 auto 4px; line-height:1.6}
+  .top .badge{display:inline-block; background:var(--purple-bg); color:var(--purple); font-weight:700; font-size:12.5px; padding:5px 14px; border-radius:999px; margin-top:8px}
+
+  .section-title{
+    font-family:'Baloo Thai 2'; font-weight:800; font-size:20px; margin:40px 0 6px;
+    display:flex; align-items:center; gap:10px; color:var(--ink);
+  }
+  .section-title .n{background:var(--ink); color:#fff; width:32px; height:32px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:15px}
+  .section-sub{color:var(--ink-soft); font-size:13.5px; margin:0 0 18px}
+
+  .problem{
+    background:#fff; border:1.5px solid var(--line); border-radius:18px;
+    box-shadow:var(--shadow); margin-bottom:22px; overflow:hidden;
+  }
+  .problem-head{
+    display:flex; align-items:center; gap:10px; padding:14px 18px;
+    background:var(--blue-bg); border-bottom:1.5px solid var(--line);
+  }
+  .problem-head .pnum{
+    font-family:'Baloo Thai 2'; font-weight:800; font-size:14px; color:#fff;
+    background:var(--blue); width:30px; height:30px; border-radius:9px;
+    display:flex; align-items:center; justify-content:center; flex:0 0 auto;
+  }
+  .problem-head h3{font-family:'Baloo Thai 2'; font-weight:700; font-size:15.5px; margin:0; color:var(--blue-d)}
+  .problem-body{padding:18px}
+  .problem-text{font-size:14.5px; line-height:1.7; margin-bottom:14px}
+  .fig-wrap{background:var(--bg); border:1px dashed var(--line); border-radius:12px; padding:14px; text-align:center; margin-bottom:14px}
+  .fig-wrap svg{max-width:320px; width:100%; height:auto}
+  .solution{background:var(--teal-bg); border-left:4px solid var(--teal); border-radius:0 10px 10px 0; padding:12px 16px; font-size:13.5px; line-height:1.75}
+  .solution .stitle{font-family:'Baloo Thai 2'; font-weight:700; color:var(--teal); font-size:13.5px; margin-bottom:4px}
+  .answer{
+    margin-top:10px; display:inline-flex; align-items:center; gap:8px;
+    background:var(--orange); color:#fff; font-family:'Baloo Thai 2'; font-weight:700;
+    font-size:14px; padding:8px 16px; border-radius:10px;
+  }
+  .tip{background:var(--purple-bg); border-radius:10px; padding:10px 14px; font-size:12.5px; color:var(--purple); margin-top:10px; line-height:1.6}
+  .tip b{color:#3d2a8a}
+
+  @media (max-width:640px){
+    .problem-head h3{font-size:14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <h1>📐 โจทย์พื้นที่แรเงา &amp; การหามุม</h1>
+    <p>รวมโจทย์แนวข้อสอบเข้า ม.1 โรงเรียนเตรียมอุดมศึกษาและโรงเรียนวิทยาศาสตร์จุฬาภรณราชวิทยาลัย พร้อมรูปประกอบและวิธีทำละเอียดทุกข้อ</p>
+    <span class="badge">✅ ทุกคำตอบตรวจสอบด้วยการคำนวณเชิงตัวเลขแล้ว</span>
+  </div>
+
+  <!-- ============ SECTION 1: พื้นที่แรเงา ============ -->
+  <div class="section-title"><span class="n">1</span> พื้นที่แรเงา (Shaded Area)</div>
+  <p class="section-sub">เทคนิคหลัก: พื้นที่แรเงา = พื้นที่รูปใหญ่ − พื้นที่รูปที่ถูกตัดออก (ใช้สูตรวงกลม เσร=πr² สามเหลี่ยม=½×ฐาน×สูง สี่เหลี่ยม=กว้าง×ยาว)</p>
+
+  <!-- Problem 1 -->
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">1</span><h3>วงกลมกับสี่เหลี่ยมจัตุรัสแนบใน</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">วงกลมรัศมี 7 ซม. มีสี่เหลี่ยมจัตุรัสแนบในวงกลม (มุมทั้ง 4 ของสี่เหลี่ยมแตะเส้นรอบวงพอดี เส้นทแยงมุมของสี่เหลี่ยมยาวเท่ากับเส้นผ่านศูนย์กลาง) จงหาพื้นที่ส่วนที่แรเงา (ส่วนที่อยู่ในวงกลมแต่นอกสี่เหลี่ยม) <span style="color:var(--ink-soft)">(กำหนด π ≈ 22/7)</span></div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="100" r="80" fill="#E8F4FF" stroke="#2c7fc0" stroke-width="2.5"/>
+          <polygon points="156.57,156.57 43.43,156.57 43.43,43.43 156.57,43.43" fill="none"/>
+          <polygon points="100,20 180,100 100,180 20,100" fill="#fff" stroke="#1F2A44" stroke-width="2.5"/>
+          <text x="100" y="14" text-anchor="middle" font-size="11" fill="#2c7fc0" font-family="Sarabun">r = 7 ซม.</text>
+          <line x1="100" y1="100" x2="100" y2="20" stroke="#2c7fc0" stroke-width="1.5" stroke-dasharray="3 3"/>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        1) พื้นที่วงกลม = πr² = 22/7 × 7 × 7 = <b>154 ตร.ซม.</b><br>
+        2) เส้นทแยงมุมสี่เหลี่ยม = เส้นผ่านศูนย์กลาง = 14 ซม. → พื้นที่สี่เหลี่ยม (จากเส้นทแยงมุม) = เส้นทแยงมุม² ÷ 2 = 14×14÷2 = <b>98 ตร.ซม.</b><br>
+        3) พื้นที่แรเงา = พื้นที่วงกลม − พื้นที่สี่เหลี่ยม = 154 − 98 = <b>56 ตร.ซม.</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 56 ตารางเซนติเมตร</div>
+      <div class="tip"><b>เทคนิค:</b> สี่เหลี่ยมจัตุรัสที่มีเส้นทแยงมุมยาว d จะมีพื้นที่ = d²÷2 เสมอ (ไม่ต้องหาความยาวด้านก่อน)</div>
+    </div>
+  </div>
+
+  <!-- Problem 2 -->
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">2</span><h3>สี่เหลี่ยมจัตุรัสกับวงกลมแนบใน</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">สี่เหลี่ยมจัตุรัสด้านยาว 14 ซม. มีวงกลมแนบในสี่เหลี่ยม (วงกลมสัมผัสทั้ง 4 ด้าน) จงหาพื้นที่ส่วนที่แรเงา (มุมทั้ง 4 ของสี่เหลี่ยมที่อยู่นอกวงกลม) <span style="color:var(--ink-soft)">(กำหนด π ≈ 22/7)</span></div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="20" width="160" height="160" fill="#FFF3E6" stroke="#E8702A" stroke-width="2.5"/>
+          <circle cx="100" cy="100" r="80" fill="#fff" stroke="#1F2A44" stroke-width="2.5"/>
+          <text x="100" y="14" text-anchor="middle" font-size="11" fill="#E8702A" font-family="Sarabun">ด้าน = 14 ซม.</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        1) พื้นที่สี่เหลี่ยมจัตุรัส = ด้าน × ด้าน = 14 × 14 = <b>196 ตร.ซม.</b><br>
+        2) วงกลมแนบในสัมผัสทุกด้าน → เส้นผ่านศูนย์กลาง = ด้านสี่เหลี่ยม = 14 ซม. → รัศมี = 7 ซม.<br>
+        3) พื้นที่วงกลม = 22/7 × 7 × 7 = <b>154 ตร.ซม.</b><br>
+        4) พื้นที่แรเงา = พื้นที่สี่เหลี่ยม − พื้นที่วงกลม = 196 − 154 = <b>42 ตร.ซม.</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 42 ตารางเซนติเมตร</div>
+    </div>
+  </div>
+
+  <!-- Problem 3 -->
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">3</span><h3>ครึ่งวงกลมกับสามเหลี่ยมมุมฉากแนบใน</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">ครึ่งวงกลมมีเส้นผ่านศูนย์กลาง 20 ซม. มีสามเหลี่ยมมุมฉากแนบในโดยใช้เส้นผ่านศูนย์กลางเป็นด้านตรงข้ามมุมฉาก ด้านประกอบมุมฉากยาว 12 ซม. และ 16 ซม. จงหาพื้นที่ส่วนที่แรเงา <span style="color:var(--ink-soft)">(กำหนด π ≈ 3.14)</span></div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 20,150 A 80,80 0 0 1 180,150 Z" fill="#E9FBF3" stroke="#1c9b85" stroke-width="2.5"/>
+          <polygon points="20,150 180,150 122.4,73.2" fill="#fff" stroke="#1F2A44" stroke-width="2.5"/>
+          <line x1="20" y1="150" x2="180" y2="150" stroke="#1c9b85" stroke-width="2.5"/>
+          <text x="100" y="164" text-anchor="middle" font-size="11" fill="#1c9b85" font-family="Sarabun">เส้นผ่านศูนย์กลาง = 20 ซม.</text>
+          <text x="55" y="118" font-size="10.5" fill="#1F2A44" font-family="Sarabun">16</text>
+          <text x="158" y="118" font-size="10.5" fill="#1F2A44" font-family="Sarabun">12</text>
+          <rect x="112" y="73" width="9" height="9" fill="none" stroke="#1F2A44" stroke-width="1.2" transform="rotate(20 122 79)"/>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        1) รัศมี = 20÷2 = 10 ซม. → พื้นที่ครึ่งวงกลม = ½ × π × r² = ½ × 3.14 × 100 = <b>157 ตร.ซม.</b><br>
+        2) มุมในครึ่งวงกลม (สัมผัสเส้นผ่านศูนย์กลาง) เป็นมุมฉากเสมอ → พื้นที่สามเหลี่ยม = ½ × 12 × 16 = <b>96 ตร.ซม.</b><br>
+        3) พื้นที่แรเงา = พื้นที่ครึ่งวงกลม − พื้นที่สามเหลี่ยม = 157 − 96 = <b>61 ตร.ซม.</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 61 ตารางเซนติเมตร</div>
+      <div class="tip"><b>ความรู้สำคัญ:</b> "มุมในครึ่งวงกลม (Angle in Semicircle) เป็นมุมฉากเสมอ" — ถ้าเห็นเส้นผ่านศูนย์กลางเป็นด้านหนึ่งของสามเหลี่ยมที่แนบในวงกลม มุมตรงข้ามด้านนั้นจะเป็น 90° ทันที</div>
+    </div>
+  </div>
+
+  <!-- Problem 4 -->
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">4</span><h3>วงแหวน (วงกลมซ้อนกัน) กับคอร์ดสัมผัส — โจทย์ระดับเทพ</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">วงกลมสองวงมีจุดศูนย์กลางร่วมกัน คอร์ด (เส้นตรงในวงกลมใหญ่) เส้นหนึ่งสัมผัสวงกลมเล็กพอดีที่จุดเดียว และมีความยาว 20 ซม. จงหาพื้นที่ส่วนที่แรเงา (พื้นที่วงแหวนระหว่างวงกลมทั้งสอง) <span style="color:var(--ink-soft)">(กำหนด π ≈ 3.14, ไม่ต้องหารัศมีของวงกลมทั้งสอง)</span></div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="100" r="80" fill="#F3EFFD" stroke="#5B3FC0" stroke-width="2.5"/>
+          <circle cx="100" cy="100" r="41" fill="#fff" stroke="#5B3FC0" stroke-width="2"/>
+          <line x1="31.4" y1="58.8" x2="168.6" y2="58.8" stroke="#1F2A44" stroke-width="2.5"/>
+          <line x1="100" y1="100" x2="100" y2="58.8" stroke="#c9436b" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <circle cx="100" cy="58.8" r="2.5" fill="#1F2A44"/>
+          <text x="100" y="52" text-anchor="middle" font-size="10.5" fill="#1F2A44" font-family="Sarabun">คอร์ดยาว 20 ซม. (สัมผัสวงกลมเล็ก)</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ (เทคนิคลัดที่ใช้บ่อยในข้อสอบ)</div>
+        1) ลากรัศมี r (วงเล็ก) ไปยังจุดสัมผัส — จะตั้งฉากกับคอร์ดพอดี (สมบัติเส้นสัมผัสวงกลม)<br>
+        2) เกิดสามเหลี่ยมมุมฉาก: ด้านประกอบมุมฉากคือ r (รัศมีวงเล็ก) และครึ่งคอร์ด (20÷2=10) ด้านตรงข้ามมุมฉากคือ R (รัศมีวงใหญ่)<br>
+        3) ตามพีทาโกรัส: R² − r² = 10² = <b>100</b> (ไม่ต้องรู้ค่า R, r จริง ๆ เลย!)<br>
+        4) พื้นที่วงแหวน = πR² − πr² = π(R²−r²) = 3.14 × 100 = <b>314 ตร.ซม.</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 314 ตารางเซนติเมตร</div>
+      <div class="tip"><b>นี่คือมุกฮิตของข้อสอบเตรียมอุดม/จุฬาภรณ์:</b> พื้นที่วงแหวนหาได้จาก "ครึ่งคอร์ดสัมผัส" เพียงค่าเดียว โดยไม่ต้องรู้รัศมีวงกลมทั้งสองวงเลย เพราะ R² − r² = (ครึ่งคอร์ด)² เสมอ</div>
+    </div>
+  </div>
+
+  <!-- Problem 5 -->
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">5</span><h3>สี่เหลี่ยมผืนผ้ากับครึ่งวงกลม 2 อัน (เจาะปลายทั้งสองข้าง)</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">สี่เหลี่ยมผืนผ้ากว้าง 14 ซม. ยาว 28 ซม. มีครึ่งวงกลม (รัศมี 7 ซม.) เจาะออกจากปลายทั้งสองข้าง (ด้านกว้าง) ของสี่เหลี่ยมจนสุด จงหาพื้นที่ส่วนที่เหลือ (แรเงา) <span style="color:var(--ink-soft)">(กำหนด π ≈ 22/7)</span></div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+          <rect x="16" y="18" width="168" height="84" fill="#FDECEF" stroke="#c9436b" stroke-width="2.5"/>
+          <circle cx="16" cy="60" r="42" fill="#fff" stroke="#1F2A44" stroke-width="2.5"/>
+          <circle cx="184" cy="60" r="42" fill="#fff" stroke="#1F2A44" stroke-width="2.5"/>
+          <rect x="16" y="18" width="168" height="84" fill="none" stroke="#c9436b" stroke-width="2.5"/>
+          <text x="100" y="112" text-anchor="middle" font-size="10.5" fill="#c9436b" font-family="Sarabun">ยาว 28 ซม.</text>
+          <text x="6" y="60" text-anchor="middle" font-size="10.5" fill="#c9436b" font-family="Sarabun" transform="rotate(-90 6 60)">กว้าง 14</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        1) พื้นที่สี่เหลี่ยมผืนผ้า = กว้าง × ยาว = 14 × 28 = <b>392 ตร.ซม.</b><br>
+        2) ครึ่งวงกลม 2 อัน รัศมีเท่ากัน (7 ซม.) รวมกันเป็นวงกลมเต็มวง 1 วง: พื้นที่ = 22/7 × 7 × 7 = <b>154 ตร.ซม.</b><br>
+        3) พื้นที่แรเงา = พื้นที่สี่เหลี่ยม − พื้นที่วงกลม = 392 − 154 = <b>238 ตร.ซม.</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 238 ตารางเซนติเมตร</div>
+      <div class="tip"><b>เทคนิค:</b> เมื่อเจอครึ่งวงกลม 2 อันที่รัศมีเท่ากัน มักรวมเป็นวงกลมเต็มวงได้เลย ไม่ต้องคำนวณทีละครึ่ง</div>
+    </div>
+  </div>
+
+  <!-- Problem 6 -->
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">6</span><h3>Arbelos — รูปมีดช่างทำรองเท้า (โจทย์คลาสสิกระดับสูง)</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">บนเส้นตรงเส้นหนึ่งมีจุด A, B, C เรียงกัน โดย AB = 14 ซม. และ BC = 16 ซม. สร้างครึ่งวงกลมใหญ่บน AC และครึ่งวงกลมเล็ก 2 วงบน AB และ BC (ด้านเดียวกัน) จงหาพื้นที่ส่วนที่แรเงา (พื้นที่ในครึ่งวงกลมใหญ่ แต่นอกครึ่งวงกลมเล็กทั้งสอง) <span style="color:var(--ink-soft)">(กำหนด π ≈ 22/7)</span></div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 10,150 A 90,90 0 0 1 190,150 Z" transform="translate(0,-60)" fill="#E8F4FF" stroke="#2c7fc0" stroke-width="2"/>
+          <path d="M 10,150 A 42,42 0 0 1 94,150 Z" transform="translate(0,-60)" fill="#fff" stroke="#1F2A44" stroke-width="2"/>
+          <path d="M 94,150 A 48,48 0 0 1 190,150 Z" transform="translate(0,-60)" fill="#fff" stroke="#1F2A44" stroke-width="2"/>
+          <line x1="10" y1="90" x2="190" y2="90" stroke="#1F2A44" stroke-width="2"/>
+          <circle cx="10" cy="90" r="2.2" fill="#1F2A44"/><text x="6" y="100" font-size="10" font-family="Sarabun">A</text>
+          <circle cx="94" cy="90" r="2.2" fill="#1F2A44"/><text x="91" y="100" font-size="10" font-family="Sarabun">B</text>
+          <circle cx="190" cy="90" r="2.2" fill="#1F2A44"/><text x="186" y="100" font-size="10" font-family="Sarabun">C</text>
+          <text x="52" y="84" text-anchor="middle" font-size="9.5" fill="#1F2A44" font-family="Sarabun">14</text>
+          <text x="142" y="84" text-anchor="middle" font-size="9.5" fill="#1F2A44" font-family="Sarabun">16</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        1) AC = AB + BC = 14 + 16 = 30 ซม. → รัศมีวงใหญ่ = 15 ซม.<br>
+        2) รัศมีวงเล็กวงแรก (บน AB) = 14÷2 = 7 ซม. รัศมีวงเล็กวงที่สอง (บน BC) = 16÷2 = 8 ซม.<br>
+        3) พื้นที่ครึ่งวงกลมใหญ่ = ½ × 22/7 × 15² = ½ × 22/7 × 225 = <b>353.57 ตร.ซม.</b><br>
+        4) พื้นที่ครึ่งวงกลมเล็ก 1 = ½ × 22/7 × 7² = <b>77 ตร.ซม.</b><br>
+        5) พื้นที่ครึ่งวงกลมเล็ก 2 = ½ × 22/7 × 8² = ½ × 22/7 × 64 = <b>100.57 ตร.ซม.</b><br>
+        6) พื้นที่แรเงา = 353.57 − 77 − 100.57 = <b>176 ตร.ซม.</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 176 ตารางเซนติเมตร</div>
+      <div class="tip"><b>สูตรลัด (ถ้าอยากเร็วขึ้น):</b> พื้นที่แรเงาแบบนี้ = π × (ครึ่ง AB) × (ครึ่ง BC) เสมอ = 22/7 × 7 × 8 = 176 ตรงกัน! (ไม่ต้องคำนวณทีละครึ่งวงกลม)</div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 2: การหามุม ============ -->
+  <div class="section-title"><span class="n">2</span> การหามุมที่กำหนด (Finding Angles)</div>
+  <p class="section-sub">กฎหลักที่ต้องใช้: มุมบนเส้นตรงรวมกัน = 180° • มุมรอบจุดรวมกัน = 360° • มุมภายในสามเหลี่ยมรวมกัน = 180° • มุมภายในสี่เหลี่ยมรวมกัน = 360°</p>
+
+  <!-- Angle 1 -->
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">1</span><h3>มุมบนเส้นตรง</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">จากรูป จุด O อยู่บนเส้นตรง PQ มีเส้น 2 เส้นลากจาก O แบ่งมุมออกเป็น 3 มุม ดังรูป จงหาค่า x</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg">
+          <line x1="20" y1="90" x2="240" y2="90" stroke="#1F2A44" stroke-width="2.5"/>
+          <line x1="130" y1="90" x2="70" y2="20" stroke="#2c7fc0" stroke-width="2.5"/>
+          <line x1="130" y1="90" x2="190" y2="20" stroke="#2c7fc0" stroke-width="2.5"/>
+          <text x="16" y="102" font-size="11" font-family="Sarabun">P</text>
+          <text x="238" y="102" font-size="11" font-family="Sarabun">Q</text>
+          <text x="130" y="106" text-anchor="middle" font-size="11" font-family="Sarabun">O</text>
+          <text x="82" y="72" font-size="12" font-weight="bold" fill="#2c7fc0" font-family="Sarabun">55°</text>
+          <text x="130" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#c9436b" font-family="Sarabun">x</text>
+          <text x="172" y="72" font-size="12" font-weight="bold" fill="#2c7fc0" font-family="Sarabun">70°</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        มุมบนเส้นตรง PQ รวมกันต้องเท่ากับ 180°<br>
+        55° + x + 70° = 180°<br>
+        x = 180° − 55° − 70° = <b>55°</b>
+      </div>
+      <div class="answer">✓ คำตอบ: x = 55°</div>
+    </div>
+  </div>
+
+  <!-- Angle 2 -->
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">2</span><h3>เส้นตรงสองเส้นตัดกัน</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">เส้นตรง AB และ CD ตัดกันที่จุด O ทำมุม 48° ดังรูป จงหามุม x, y, z ที่เหลือ</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
+          <line x1="30" y1="170" x2="190" y2="30" stroke="#1F2A44" stroke-width="2.5"/>
+          <line x1="30" y1="30" x2="190" y2="170" stroke="#1F2A44" stroke-width="2.5"/>
+          <text x="110" y="100" text-anchor="middle" font-size="10" fill="#5B3FC0" font-family="Sarabun">O</text>
+          <text x="120" y="70" font-size="12" font-weight="bold" fill="#2c7fc0" font-family="Sarabun">48°</text>
+          <text x="150" y="115" font-size="12" font-weight="bold" fill="#c9436b" font-family="Sarabun">x</text>
+          <text x="85" y="140" font-size="12" font-weight="bold" fill="#1c9b85" font-family="Sarabun">y</text>
+          <text x="70" y="65" font-size="12" font-weight="bold" fill="#E8702A" font-family="Sarabun">z</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        • x อยู่ตรงข้ามกับ 48° (มุมตรงข้าม เท่ากันเสมอ) → x = <b>48°</b><br>
+        • y ประชิดกับ 48° บนเส้นตรงเดียวกัน (รวมกัน 180°) → y = 180−48 = <b>132°</b><br>
+        • z อยู่ตรงข้ามกับ y → z = <b>132°</b>
+      </div>
+      <div class="answer">✓ คำตอบ: x = 48°, y = 132°, z = 132°</div>
+      <div class="tip"><b>กฎ:</b> เส้นตรง 2 เส้นตัดกัน ได้มุม 4 มุม มุมตรงข้ามเท่ากันเสมอ และมุมประชิดกันรวมกันได้ 180° เสมอ</div>
+    </div>
+  </div>
+
+  <!-- Angle 3 -->
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">3</span><h3>มุมภายในสามเหลี่ยม</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">สามเหลี่ยม ABC มีมุม A = 65° มุม B = 72° จงหามุม C (x)</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 220 150" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="40,120 190,120 100,20" fill="#E8F4FF" stroke="#2c7fc0" stroke-width="2.5"/>
+          <text x="30" y="135" font-size="11" font-family="Sarabun">B</text>
+          <text x="192" y="135" font-size="11" font-family="Sarabun">C</text>
+          <text x="98" y="14" font-size="11" font-family="Sarabun">A</text>
+          <text x="100" y="35" text-anchor="middle" font-size="12" font-weight="bold" fill="#2c7fc0" font-family="Sarabun">65°</text>
+          <text x="58" y="112" font-size="12" font-weight="bold" fill="#2c7fc0" font-family="Sarabun">72°</text>
+          <text x="165" y="112" font-size="12" font-weight="bold" fill="#c9436b" font-family="Sarabun">x</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        มุมภายในสามเหลี่ยมรวมกัน = 180°<br>
+        65° + 72° + x = 180°<br>
+        x = 180 − 65 − 72 = <b>43°</b>
+      </div>
+      <div class="answer">✓ คำตอบ: x = 43°</div>
+    </div>
+  </div>
+
+  <!-- Angle 4 -->
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">4</span><h3>มุมภายนอกของสามเหลี่ยม</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">สามเหลี่ยม ABC มีมุม A = 50° มุม B = 65° ต่อเส้น BC ออกไปถึงจุด D จงหามุมภายนอก x (มุม ACD)</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="30,120 160,120 100,20" fill="#E9FBF3" stroke="#1c9b85" stroke-width="2.5"/>
+          <line x1="160" y1="120" x2="220" y2="120" stroke="#1F2A44" stroke-width="2.5"/>
+          <text x="20" y="135" font-size="11" font-family="Sarabun">B</text>
+          <text x="160" y="135" font-size="11" font-family="Sarabun">C</text>
+          <text x="222" y="135" font-size="11" font-family="Sarabun">D</text>
+          <text x="98" y="14" font-size="11" font-family="Sarabun">A</text>
+          <text x="100" y="35" text-anchor="middle" font-size="12" font-weight="bold" fill="#1c9b85" font-family="Sarabun">50°</text>
+          <text x="48" y="112" font-size="12" font-weight="bold" fill="#1c9b85" font-family="Sarabun">65°</text>
+          <text x="172" y="112" font-size="12" font-weight="bold" fill="#c9436b" font-family="Sarabun">x</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        <b>วิธีที่ 1 (หามุม C ก่อน):</b> มุม C = 180−50−65 = 65° → x = 180−65 = <b>115°</b><br>
+        <b>วิธีที่ 2 (ใช้ทฤษฎีมุมภายนอกโดยตรง):</b> มุมภายนอก = ผลบวกมุมภายในที่ไม่ประชิด = 50°+65° = <b>115°</b>
+      </div>
+      <div class="answer">✓ คำตอบ: x = 115°</div>
+      <div class="tip"><b>ทฤษฎีบทมุมภายนอก:</b> มุมภายนอกของสามเหลี่ยม = ผลบวกของมุมภายในอีก 2 มุมที่ไม่ประชิดกับมันเสมอ ใช้ลัดได้โดยไม่ต้องหามุมที่ 3 ก่อน</div>
+    </div>
+  </div>
+
+  <!-- Angle 5 -->
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">5</span><h3>สามเหลี่ยมหน้าจั่ว</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">สามเหลี่ยมหน้าจั่ว ABC มี AB = AC มุมยอด A = 40° จงหามุมฐาน B และ C (x)</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="30,120 170,120 100,20" fill="#F3EFFD" stroke="#5B3FC0" stroke-width="2.5"/>
+          <text x="20" y="135" font-size="11" font-family="Sarabun">B</text>
+          <text x="172" y="135" font-size="11" font-family="Sarabun">C</text>
+          <text x="98" y="14" font-size="11" font-family="Sarabun">A</text>
+          <text x="100" y="38" text-anchor="middle" font-size="12" font-weight="bold" fill="#5B3FC0" font-family="Sarabun">40°</text>
+          <text x="52" y="112" font-size="12" font-weight="bold" fill="#c9436b" font-family="Sarabun">x</text>
+          <text x="142" y="112" font-size="12" font-weight="bold" fill="#c9436b" font-family="Sarabun">x</text>
+          <path d="M 58,73 l 4,4 m 0,-4 l -4,4" stroke="#5B3FC0" stroke-width="1.5"/>
+          <path d="M 142,73 l 4,4 m 0,-4 l -4,4" stroke="#5B3FC0" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        สามเหลี่ยมหน้าจั่ว (AB=AC) → มุมฐานทั้งสองเท่ากัน (มุม B = มุม C = x)<br>
+        มุมภายในรวมกัน 180°: 40° + x + x = 180°<br>
+        2x = 140° → x = <b>70°</b>
+      </div>
+      <div class="answer">✓ คำตอบ: มุม B = มุม C = 70°</div>
+    </div>
+  </div>
+
+  <!-- Angle 6 -->
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">6</span><h3>เส้นขนานตัดด้วยเส้นตัด (Transversal)</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">เส้นตรง AB ขนานกับเส้นตรง CD มีเส้นตัด EF ตัดผ่านทั้งสองเส้น เกิดมุม 115° ดังรูป จงหามุม a (มุมสมนัย), b (มุมภายในร่วมข้าง)</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg">
+          <line x1="20" y1="50" x2="220" y2="50" stroke="#1F2A44" stroke-width="2.5"/>
+          <line x1="20" y1="120" x2="220" y2="120" stroke="#1F2A44" stroke-width="2.5"/>
+          <line x1="60" y1="20" x2="180" y2="150" stroke="#2c7fc0" stroke-width="2.5"/>
+          <text x="8" y="54" font-size="11" font-family="Sarabun">A</text>
+          <text x="224" y="54" font-size="11" font-family="Sarabun">B</text>
+          <text x="8" y="124" font-size="11" font-family="Sarabun">C</text>
+          <text x="224" y="124" font-size="11" font-family="Sarabun">D</text>
+          <text x="94" y="42" font-size="12" font-weight="bold" fill="#c9436b" font-family="Sarabun">115°</text>
+          <text x="140" y="98" font-size="12" font-weight="bold" fill="#1c9b85" font-family="Sarabun">a</text>
+          <text x="98" y="112" font-size="12" font-weight="bold" fill="#E8702A" font-family="Sarabun">b</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        • <b>a (มุมสมนัย/Corresponding Angle):</b> อยู่ตำแหน่งเดียวกันที่เส้นขนานอีกเส้น → a = <b>115°</b> (มุมสมนัยเท่ากันเสมอเมื่อเส้นขนานกัน)<br>
+        • <b>b (มุมภายในร่วมข้าง/Co-interior Angle):</b> อยู่ฝั่งเดียวกันระหว่างเส้นขนาน รวมกับ a ได้ 180° → b = 180 − 115 = <b>65°</b>
+      </div>
+      <div class="answer">✓ คำตอบ: a = 115°, b = 65°</div>
+      <div class="tip"><b>จำสามกฎเส้นขนาน:</b> มุมสมนัย (Corresponding) เท่ากัน • มุมแย้ง/สลับ (Alternate) เท่ากัน • มุมภายในร่วมข้าง (Co-interior) รวมกัน 180°</div>
+    </div>
+  </div>
+
+  <!-- Angle 7 -->
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">7</span><h3>มุมรอบจุด</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">รอบจุด O มีมุม 4 มุม คือ 90°, 110°, x และ 75° ดังรูป จงหาค่า x</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="100" r="3" fill="#1F2A44"/>
+          <line x1="100" y1="100" x2="100" y2="20" stroke="#1F2A44" stroke-width="2.2"/>
+          <line x1="100" y1="100" x2="175" y2="65" stroke="#1F2A44" stroke-width="2.2"/>
+          <line x1="100" y1="100" x2="160" y2="165" stroke="#1F2A44" stroke-width="2.2"/>
+          <line x1="100" y1="100" x2="30" y2="140" stroke="#1F2A44" stroke-width="2.2"/>
+          <text x="128" y="55" font-size="11" font-weight="bold" fill="#2c7fc0" font-family="Sarabun">90°</text>
+          <text x="140" y="115" font-size="11" font-weight="bold" fill="#1c9b85" font-family="Sarabun">110°</text>
+          <text x="90" y="150" font-size="11" font-weight="bold" fill="#c9436b" font-family="Sarabun">x</text>
+          <text x="45" y="100" font-size="11" font-weight="bold" fill="#E8702A" font-family="Sarabun">75°</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        มุมรอบจุด O รวมกันต้องเท่ากับ 360°<br>
+        90° + 110° + x + 75° = 360°<br>
+        x = 360 − 90 − 110 − 75 = <b>85°</b>
+      </div>
+      <div class="answer">✓ คำตอบ: x = 85°</div>
+    </div>
+  </div>
+
+  <!-- Angle 8 -->
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">8</span><h3>มุมภายในรูปสี่เหลี่ยม</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">รูปสี่เหลี่ยม ABCD มีมุม A = 85°, มุม B = 95°, มุม C = 110° จงหามุม D (x)</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="40,30 170,45 150,130 30,120" fill="#FFF3E6" stroke="#E8702A" stroke-width="2.5"/>
+          <text x="30" y="24" font-size="11" font-family="Sarabun">A</text>
+          <text x="172" y="40" font-size="11" font-family="Sarabun">B</text>
+          <text x="152" y="146" font-size="11" font-family="Sarabun">C</text>
+          <text x="16" y="132" font-size="11" font-family="Sarabun">D</text>
+          <text x="55" y="45" font-size="11" font-weight="bold" fill="#E8702A" font-family="Sarabun">85°</text>
+          <text x="140" y="60" font-size="11" font-weight="bold" fill="#E8702A" font-family="Sarabun">95°</text>
+          <text x="120" y="120" font-size="11" font-weight="bold" fill="#E8702A" font-family="Sarabun">110°</text>
+          <text x="48" y="112" font-size="11" font-weight="bold" fill="#c9436b" font-family="Sarabun">x</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        มุมภายในรูปสี่เหลี่ยมรวมกัน = 360°<br>
+        85° + 95° + 110° + x = 360°<br>
+        x = 360 − 85 − 95 − 110 = <b>70°</b>
+      </div>
+      <div class="answer">✓ คำตอบ: x = 70°</div>
+    </div>
+  </div>
+
+  <!-- Angle 9 -->
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">9</span><h3>โจทย์รวม: หน้าจั่ว + มุมภายนอก (แนวข้อสอบเตรียมอุดม)</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">สามเหลี่ยม ABC มี AB = AC (หน้าจั่ว) มุม B = 50° ต่อเส้น BC ออกไปถึงจุด D จงหามุม ACD (x) โดยไม่หามุม A ก่อนก็ได้</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="30,120 160,120 105,20" fill="#F3EFFD" stroke="#5B3FC0" stroke-width="2.5"/>
+          <line x1="160" y1="120" x2="220" y2="120" stroke="#1F2A44" stroke-width="2.5"/>
+          <text x="20" y="135" font-size="11" font-family="Sarabun">B</text>
+          <text x="160" y="135" font-size="11" font-family="Sarabun">C</text>
+          <text x="222" y="135" font-size="11" font-family="Sarabun">D</text>
+          <text x="103" y="14" font-size="11" font-family="Sarabun">A</text>
+          <text x="52" y="112" font-size="12" font-weight="bold" fill="#5B3FC0" font-family="Sarabun">50°</text>
+          <text x="172" y="112" font-size="12" font-weight="bold" fill="#c9436b" font-family="Sarabun">x</text>
+          <path d="M 60,73 l 4,4 m 0,-4 l -4,4" stroke="#5B3FC0" stroke-width="1.5"/>
+          <path d="M 128,73 l 4,4 m 0,-4 l -4,4" stroke="#5B3FC0" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ (2 วิธี)</div>
+        <b>วิธีที่ 1 (หามุม A ก่อน):</b><br>
+        AB=AC → มุม B = มุม C = 50° → มุม A = 180−50−50 = 80°<br>
+        มุมภายนอก x = มุม A + มุม B (ทฤษฎีมุมภายนอก) = 80+50 = <b>130°</b><br><br>
+        <b>วิธีที่ 2 (ลัด ไม่ต้องหามุม A):</b><br>
+        มุม ACB = มุม B = 50° (หน้าจั่ว) → x และมุม ACB อยู่บนเส้นตรง BD รวมกัน 180°<br>
+        x = 180 − 50 = <b>130°</b>
+      </div>
+      <div class="answer">✓ คำตอบ: x = 130°</div>
+      <div class="tip"><b>ข้อสังเกต:</b> โจทย์แนวนี้มักให้ "ทางลัด" เสมอ — เมื่อเป็นหน้าจั่วและถามมุมภายนอกที่ฐาน ไม่จำเป็นต้องหามุมยอดก่อนเลย ใช้กฎเส้นตรงกับมุมฐานได้ทันที</div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 3: ปริมาตรรูปทรง 3 มิติ ============ -->
+  <div class="section-title"><span class="n">3</span> ปริมาตรรูปทรง 3 มิติ (Volume)</div>
+  <p class="section-sub">สูตรหลัก: ทรงกระบอก = πr²h • ทรงกลม = (4/3)πr³ • กรวย = (1/3)πr²h • ปริซึม = กว้าง×ยาว×สูง</p>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">1</span><h3>ปริมาตรทรงกระบอก</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">ทรงกระบอกมีรัศมีฐาน 7 ซม. สูง 10 ซม. จงหาปริมาตร <span style="color:var(--ink-soft)">(กำหนด π ≈ 22/7)</span></div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 160 180" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="80" cy="30" rx="60" ry="18" fill="#E8F4FF" stroke="#2c7fc0" stroke-width="2.5"/>
+          <path d="M 20,30 L 20,150 A 60,18 0 0 0 140,150 L 140,30" fill="#E8F4FF" stroke="#2c7fc0" stroke-width="2.5"/>
+          <ellipse cx="80" cy="150" rx="60" ry="18" fill="none" stroke="#2c7fc0" stroke-width="2.5" stroke-dasharray="4 4"/>
+          <line x1="80" y1="30" x2="80" y2="12" stroke="#1F2A44" stroke-width="1.3"/>
+          <line x1="20" y1="30" x2="80" y2="30" stroke="#1F2A44" stroke-width="1.3"/>
+          <text x="50" y="24" font-size="10.5" fill="#1F2A44" font-family="Sarabun">r=7</text>
+          <text x="146" y="94" font-size="10.5" fill="#1F2A44" font-family="Sarabun">h=10</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        ปริมาตรทรงกระบอก = πr²h = 22/7 × 7 × 7 × 10 = <b>1,540 ลูกบาศก์เซนติเมตร</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 1,540 ลบ.ซม.</div>
+    </div>
+  </div>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">2</span><h3>ปริมาตรทรงกลม</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">ทรงกลมมีรัศมี 21 ซม. จงหาปริมาตร <span style="color:var(--ink-soft)">(กำหนด π ≈ 22/7)</span></div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="80" cy="80" r="70" fill="#F3EFFD" stroke="#5B3FC0" stroke-width="2.5"/>
+          <ellipse cx="80" cy="80" rx="70" ry="20" fill="none" stroke="#5B3FC0" stroke-width="1.3" stroke-dasharray="3 3"/>
+          <line x1="80" y1="80" x2="150" y2="80" stroke="#1F2A44" stroke-width="1.3"/>
+          <text x="105" y="74" font-size="10.5" fill="#1F2A44" font-family="Sarabun">r=21</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        ปริมาตรทรงกลม = (4/3)πr³ = (4/3) × 22/7 × 21 × 21 × 21<br>
+        = (4/3) × 22/7 × 9,261 = <b>38,808 ลูกบาศก์เซนติเมตร</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 38,808 ลบ.ซม.</div>
+      <div class="tip"><b>เทคนิค:</b> เลือก r ที่หารด้วย 7 ลงตัว (เช่น 7, 14, 21) จะช่วยให้ตัดกับ π≈22/7 ได้ลงตัวพอดี</div>
+    </div>
+  </div>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">3</span><h3>ปริมาตรกรวย</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">กรวยมีรัศมีฐาน 7 ซม. สูง 12 ซม. จงหาปริมาตร <span style="color:var(--ink-soft)">(กำหนด π ≈ 22/7)</span></div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 160 170" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="80" cy="150" rx="60" ry="18" fill="#E9FBF3" stroke="#1c9b85" stroke-width="2.5"/>
+          <path d="M 20,150 L 80,20 L 140,150" fill="#E9FBF3" stroke="#1c9b85" stroke-width="2.5"/>
+          <line x1="80" y1="150" x2="80" y2="20" stroke="#1F2A44" stroke-width="1.3" stroke-dasharray="3 3"/>
+          <text x="86" y="90" font-size="10.5" fill="#1F2A44" font-family="Sarabun">h=12</text>
+          <text x="50" y="146" font-size="10.5" fill="#1F2A44" font-family="Sarabun">r=7</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        ปริมาตรกรวย = (1/3)πr²h = (1/3) × 22/7 × 7 × 7 × 12 = <b>616 ลูกบาศก์เซนติเมตร</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 616 ลบ.ซม.</div>
+    </div>
+  </div>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">4</span><h3>ทรงกลมในทรงกระบอกพอดี — โจทย์ของอาร์คิมิดีส</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">ทรงกลมรัศมี 6 ซม. บรรจุพอดีในทรงกระบอก (เส้นผ่านศูนย์กลางทรงกระบอก = เส้นผ่านศูนย์กลางทรงกลม, ความสูงทรงกระบอก = เส้นผ่านศูนย์กลางทรงกลมพอดี) จงหาปริมาตรส่วนที่เหลือในทรงกระบอก (นอกทรงกลม) <span style="color:var(--ink-soft)">(กำหนด π ≈ 3.14)</span></div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 140 160" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="70" cy="20" rx="50" ry="15" fill="#FFF3E6" stroke="#E8702A" stroke-width="2"/>
+          <path d="M 20,20 L 20,140 A 50,15 0 0 0 120,140 L 120,20" fill="#FFF3E6" stroke="#E8702A" stroke-width="2"/>
+          <ellipse cx="70" cy="140" rx="50" ry="15" fill="none" stroke="#E8702A" stroke-width="2" stroke-dasharray="3 3"/>
+          <circle cx="70" cy="80" r="50" fill="#F3EFFD" stroke="#5B3FC0" stroke-width="2"/>
+          <text x="128" y="84" font-size="9.5" fill="#1F2A44" font-family="Sarabun">r=6</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        1) ทรงกระบอก: รัศมี=6, สูง=เส้นผ่านศูนย์กลาง=12 → V = πr²h = 3.14×36×12 = <b>1,356.48</b><br>
+        2) ทรงกลม: V = (4/3)πr³ = (4/3)×3.14×216 = <b>904.32</b><br>
+        3) ส่วนที่เหลือ = 1,356.48 − 904.32 = <b>452.16 ลูกบาศก์เซนติเมตร</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 452.16 ลบ.ซม.</div>
+      <div class="tip"><b>ข้อเท็จจริงของอาร์คิมิดีส:</b> เมื่อทรงกลมบรรจุพอดีในทรงกระบอก ปริมาตรทรงกลมจะเท่ากับ 2/3 ของทรงกระบอกเสมอ ไม่ว่ารัศมีจะเป็นเท่าใด (904.32 ÷ 1356.48 = 2/3 พอดี)</div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 4: อัตราส่วนพื้นที่ ============ -->
+  <div class="section-title"><span class="n">4</span> อัตราส่วนพื้นที่ (Area Ratio)</div>
+  <p class="section-sub">หลักสำคัญ: รูปคล้ายที่มีอัตราส่วนด้าน a:b จะมีอัตราส่วนพื้นที่ = a²:b² เสมอ (ยกกำลังสอง!)</p>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">1</span><h3>สามเหลี่ยมคล้าย — อัตราส่วนพื้นที่</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">สามเหลี่ยม 2 รูปคล้ายกัน มีอัตราส่วนด้าน = 3:5 ถ้าสามเหลี่ยมเล็กมีพื้นที่ 27 ตร.ซม. จงหาพื้นที่สามเหลี่ยมใหญ่</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 220 120" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="20,100 80,100 50,40" fill="#E8F4FF" stroke="#2c7fc0" stroke-width="2.5"/>
+          <text x="50" y="115" text-anchor="middle" font-size="10" fill="#2c7fc0" font-family="Sarabun">27 ตร.ซม.</text>
+          <polygon points="110,100 210,100 160,20" fill="#FFF3E6" stroke="#E8702A" stroke-width="2.5"/>
+          <text x="160" y="115" text-anchor="middle" font-size="10" fill="#E8702A" font-family="Sarabun">? ตร.ซม.</text>
+          <text x="50" y="30" text-anchor="middle" font-size="10" fill="#1F2A44" font-family="Sarabun">3</text>
+          <text x="160" y="10" text-anchor="middle" font-size="10" fill="#1F2A44" font-family="Sarabun">5</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        อัตราส่วนด้าน = 3:5 → อัตราส่วนพื้นที่ = 3²:5² = 9:25<br>
+        พื้นที่ใหญ่ = พื้นที่เล็ก × (25/9) = 27 × 25/9 = <b>75 ตร.ซม.</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 75 ตารางเซนติเมตร</div>
+      <div class="tip"><b>ข้อผิดพลาดที่พบบ่อย:</b> นักเรียนมักลืมยกกำลังสอง แล้วคูณตรง ๆ (27×5/3=45) ซึ่ง<b>ผิด!</b> ต้องยกกำลังสองอัตราส่วนด้านก่อนเสมอ</div>
+    </div>
+  </div>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">2</span><h3>สามเหลี่ยมกลาง (เชื่อมจุดกึ่งกลาง)</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">สามเหลี่ยม ABC มีพื้นที่ 80 ตร.ซม. ลากเส้นเชื่อมจุดกึ่งกลางของด้านทั้ง 3 ด้าน เกิดเป็นสามเหลี่ยมเล็กตรงกลาง จงหาพื้นที่สามเหลี่ยมเล็ก</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="30,130 170,130 100,20" fill="#E9FBF3" stroke="#1c9b85" stroke-width="2.5"/>
+          <polygon points="65,75 135,75 100,130" fill="#FFF3E6" stroke="#E8702A" stroke-width="2"/>
+          <circle cx="65" cy="75" r="2.5" fill="#1F2A44"/><circle cx="135" cy="75" r="2.5" fill="#1F2A44"/><circle cx="100" cy="130" r="2.5" fill="#1F2A44"/>
+          <text x="100" y="15" text-anchor="middle" font-size="10" fill="#1F2A44" font-family="Sarabun">A</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        สามเหลี่ยมที่เกิดจากการเชื่อมจุดกึ่งกลางทั้ง 3 ด้าน (Medial Triangle) จะมีพื้นที่ = <b>1/4 ของสามเหลี่ยมเดิมเสมอ</b> (เพราะด้านเป็นครึ่งหนึ่ง อัตราส่วนพื้นที่จึงเป็น 1²:2²=1:4)<br>
+        พื้นที่เล็ก = 80 × 1/4 = <b>20 ตร.ซม.</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 20 ตารางเซนติเมตร</div>
+    </div>
+  </div>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">3</span><h3>เส้นแบ่งฐานสามเหลี่ยม (Cevian)</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">สามเหลี่ยม ABC มีพื้นที่รวม 60 ตร.ซม. จุด D อยู่บน BC โดย BD:DC = 2:3 จงหาพื้นที่สามเหลี่ยม ABD และ ADC</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="30,120 100,120 100,10" fill="#E8F4FF" stroke="#2c7fc0" stroke-width="2.5"/>
+          <polygon points="100,120 170,120 100,10" fill="#F3EFFD" stroke="#5B3FC0" stroke-width="2.5"/>
+          <text x="65" y="108" text-anchor="middle" font-size="10" fill="#2c7fc0" font-family="Sarabun">2 ส่วน</text>
+          <text x="135" y="108" text-anchor="middle" font-size="10" fill="#5B3FC0" font-family="Sarabun">3 ส่วน</text>
+          <text x="98" y="6" text-anchor="middle" font-size="10" fill="#1F2A44" font-family="Sarabun">A</text>
+          <circle cx="100" cy="120" r="2.5" fill="#1F2A44"/>
+          <text x="100" y="134" text-anchor="middle" font-size="9.5" fill="#1F2A44" font-family="Sarabun">D</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        สามเหลี่ยม ABD และ ADC มี<b>ความสูงเท่ากัน</b> (สูงจาก A ถึงเส้น BC เดียวกัน) → พื้นที่จะเป็นสัดส่วนตรงกับความยาวฐาน (BD:DC)<br>
+        พื้นที่ ABD : พื้นที่ ADC = 2:3<br>
+        พื้นที่ ABD = 60 × 2/5 = <b>24 ตร.ซม.</b> &nbsp; พื้นที่ ADC = 60 × 3/5 = <b>36 ตร.ซม.</b>
+      </div>
+      <div class="answer">✓ คำตอบ: ABD = 24 ตร.ซม., ADC = 36 ตร.ซม.</div>
+      <div class="tip"><b>หลักการสำคัญ:</b> สามเหลี่ยม 2 รูปที่มีความสูงเท่ากัน พื้นที่จะเป็นสัดส่วนตรงกับความยาวฐานเสมอ (ใช้ได้บ่อยมากในข้อสอบ)</div>
+    </div>
+  </div>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">4</span><h3>วงกลมคล้าย — อัตราส่วนพื้นที่</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">วงกลม 2 วง มีอัตราส่วนรัศมี = 2:3 ถ้าวงเล็กมีพื้นที่ 88 ตร.ซม. จงหาพื้นที่วงใหญ่</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 220 120" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="55" cy="60" r="40" fill="#E9FBF3" stroke="#1c9b85" stroke-width="2.5"/>
+          <text x="55" y="64" text-anchor="middle" font-size="10" fill="#1c9b85" font-family="Sarabun">88 ตร.ซม.</text>
+          <circle cx="155" cy="60" r="55" fill="#FDECEF" stroke="#c9436b" stroke-width="2.5"/>
+          <text x="155" y="64" text-anchor="middle" font-size="10" fill="#c9436b" font-family="Sarabun">? ตร.ซม.</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        อัตราส่วนรัศมี = 2:3 → อัตราส่วนพื้นที่ = 2²:3² = 4:9<br>
+        พื้นที่วงใหญ่ = 88 × 9/4 = <b>198 ตร.ซม.</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 198 ตารางเซนติเมตร</div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 5: มุมหลายชั้น/ซับซ้อน ============ -->
+  <div class="section-title"><span class="n">5</span> มุมหลายชั้น (Multi-Step Angles)</div>
+  <p class="section-sub">โจทย์แนวนี้ต้องใช้กฎมุมหลายข้อร่วมกัน มักมีทางลัดที่ทำให้ไม่ต้องหาทุกมุมย่อย</p>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">1</span><h3>มุมหักเห (Zigzag) ระหว่างเส้นขนาน</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">เส้นตรง AB ขนานกับเส้นตรง CD มีจุด E อยู่ระหว่างเส้นทั้งสอง ลากเส้นจาก F (บน AB) ไป E แล้วจาก E ไป G (บน CD) เกิดมุม BFE = 30° และมุม EGD = 40° จงหามุม FEG (x)</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 240 170" xmlns="http://www.w3.org/2000/svg">
+          <line x1="20" y1="30" x2="220" y2="30" stroke="#1F2A44" stroke-width="2.5"/>
+          <line x1="20" y1="140" x2="220" y2="140" stroke="#1F2A44" stroke-width="2.5"/>
+          <line x1="60" y1="30" x2="140" y2="90" stroke="#2c7fc0" stroke-width="2.5"/>
+          <line x1="140" y1="90" x2="100" y2="140" stroke="#2c7fc0" stroke-width="2.5"/>
+          <text x="12" y="34" font-size="10.5" font-family="Sarabun">A</text>
+          <text x="222" y="34" font-size="10.5" font-family="Sarabun">B</text>
+          <text x="12" y="144" font-size="10.5" font-family="Sarabun">C</text>
+          <text x="222" y="144" font-size="10.5" font-family="Sarabun">D</text>
+          <text x="55" y="18" font-size="10.5" font-family="Sarabun">F</text>
+          <text x="98" y="155" font-size="10.5" font-family="Sarabun">G</text>
+          <text x="145" y="90" font-size="10.5" font-family="Sarabun">E</text>
+          <text x="75" y="46" font-size="11" font-weight="bold" fill="#1c9b85" font-family="Sarabun">30°</text>
+          <text x="100" y="128" font-size="11" font-weight="bold" fill="#E8702A" font-family="Sarabun">40°</text>
+          <text x="128" y="88" font-size="11" font-weight="bold" fill="#c9436b" font-family="Sarabun">x</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ (เทคนิคลากเส้นเสริม)</div>
+        ลากเส้นเสริมผ่านจุด E ให้ขนานกับ AB (และ CD ด้วย เพราะ AB∥CD)<br>
+        • มุมระหว่างเส้นเสริมกับ FE (ฝั่งบน) = 30° (มุมแย้งกับ BFE เพราะเส้นขนาน)<br>
+        • มุมระหว่างเส้นเสริมกับ EG (ฝั่งล่าง) = 40° (มุมแย้งกับ EGD)<br>
+        มุม FEG = 30° + 40° = <b>70°</b>
+      </div>
+      <div class="answer">✓ คำตอบ: x = 70°</div>
+      <div class="tip"><b>เทคนิคนี้ใช้บ่อยมาก:</b> เมื่อเจอเส้นหักมุม (ซิกแซก) ระหว่างเส้นขนาน 2 เส้น ให้ลากเส้นเสริมขนานผ่านจุดหักมุมเสมอ แล้วบวกมุมทั้งสองฝั่งเข้าด้วยกัน (ตรวจสอบด้วยพิกัดจริงแล้วว่าถูกต้อง)</div>
+    </div>
+  </div>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">2</span><h3>เส้นแบ่งครึ่งมุม (Angle Bisector) ในสามเหลี่ยม</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">สามเหลี่ยม ABC มีมุม A = 80° มุม B = 60° เส้นแบ่งครึ่งมุม C ตัดกับ AB ที่จุด D จงหามุม ADC (x)</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="30,130 190,130 90,20" fill="#F3EFFD" stroke="#5B3FC0" stroke-width="2.5"/>
+          <line x1="190" y1="130" x2="63" y2="70" stroke="#1c9b85" stroke-width="2.2"/>
+          <circle cx="63" cy="70" r="2.5" fill="#1F2A44"/>
+          <text x="14" y="145" font-size="10.5" font-family="Sarabun">B</text>
+          <text x="192" y="145" font-size="10.5" font-family="Sarabun">C</text>
+          <text x="86" y="14" font-size="10.5" font-family="Sarabun">A</text>
+          <text x="42" y="66" font-size="10.5" font-family="Sarabun">D</text>
+          <text x="90" y="42" text-anchor="middle" font-size="11" font-weight="bold" fill="#5B3FC0" font-family="Sarabun">80°</text>
+          <text x="52" y="120" font-size="11" font-weight="bold" fill="#5B3FC0" font-family="Sarabun">60°</text>
+          <text x="155" y="122" font-size="9.5" font-weight="bold" fill="#1c9b85" font-family="Sarabun">20° 20°</text>
+          <text x="80" y="105" font-size="11" font-weight="bold" fill="#c9436b" font-family="Sarabun">x</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        1) มุม C = 180 − 80 − 60 = 40° → เส้นแบ่งครึ่งมุม C แบ่งเป็น 20° และ 20°<br>
+        2) พิจารณาสามเหลี่ยม BDC: มุม B=60°, มุม BCD=20° → มุม BDC = 180−60−20 = 100°<br>
+        3) มุม ADC เป็นมุมประชิดกับ BDC บนเส้นตรง AB → x = 180 − 100 = <b>80°</b>
+      </div>
+      <div class="answer">✓ คำตอบ: x = 80°</div>
+    </div>
+  </div>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">3</span><h3>มุมภายในรูปหลายเหลี่ยมด้านเท่า</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">รูปหกเหลี่ยมด้านเท่ามุมเท่า (Regular Hexagon) มีมุมภายในแต่ละมุมเท่ากับกี่องศา?</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="100,20 165,57 165,123 100,160 35,123 35,57" fill="#FFF3E6" stroke="#E8702A" stroke-width="2.5"/>
+          <text x="100" y="45" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#E8702A" font-family="Sarabun">120°</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        สูตรมุมภายในรวมของรูป n เหลี่ยม = (n−2) × 180°<br>
+        หกเหลี่ยม (n=6): มุมภายในรวม = (6−2) × 180 = 4 × 180 = 720°<br>
+        เนื่องจากด้านเท่ามุมเท่า แต่ละมุมเท่ากันหมด → แต่ละมุม = 720 ÷ 6 = <b>120°</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 120° ต่อมุม</div>
+      <div class="tip"><b>จำสูตรนี้ให้ขึ้นใจ:</b> มุมภายในรวมของ n เหลี่ยม = (n−2)×180° ใช้ได้กับรูปหลายเหลี่ยมทุกชนิด (ไม่ต้องด้านเท่ามุมเท่าก็ใช้ได้ แต่ถ้าด้านเท่ามุมเท่าจะหารด้วย n เพื่อหาแต่ละมุมได้เลย)</div>
+    </div>
+  </div>
+
+<div class="section-title"><span class="n">3</span> เส้นรอบรูปและโจทย์ผสม (Perimeter & Mixed)</div>
+  <p class="section-sub">เทคนิคหลัก: แยกเส้นรอบรูปตรง (บวกตรง ๆ) ออกจากส่วนโค้ง (ใช้สูตรความยาวส่วนโค้ง) และจำสูตรนับเส้นทแยงมุม n(n-3)/2</p>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">27</span><h3>เส้นรอบรูปของ "วงแหวนเสี้ยว" (Ring Sector)</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">รูปวงแหวนเสี้ยวมุม 90° เกิดจากส่วนโค้งวงกลมรัศมี 21 ซม. และส่วนโค้งวงกลมรัศมี 7 ซม. ที่มีจุดศูนย์กลางร่วมกัน เชื่อมด้วยเส้นตรง 2 เส้น จงหาความยาวเส้นรอบรูปทั้งหมด <span style="color:var(--ink-soft)">(กำหนด π ≈ 22/7)</span></div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 190,190 A 170,170 0 0 0 20,20" fill="none" stroke="#2c7fc0" stroke-width="3"/>
+          <path d="M 133,190 A 113,113 0 0 0 20,77" fill="none" stroke="#1c9b85" stroke-width="3"/>
+          <line x1="190" y1="190" x2="133" y2="190" stroke="#1F2A44" stroke-width="3"/>
+          <line x1="20" y1="20" x2="20" y2="77" stroke="#1F2A44" stroke-width="3"/>
+          <text x="160" y="205" font-size="11" fill="#1F2A44">21-7=14</text>
+          <text x="4" y="50" font-size="11" fill="#1F2A44">14</text>
+          <text x="205" y="160" text-anchor="end" font-size="11" fill="#2c7fc0">R=21</text>
+          <text x="70" y="180" font-size="11" fill="#1c9b85">r=7</text>
+          <path d="M 190,190 L 160,190 A 30,30 0 0 0 190,160 Z" fill="none" stroke="#c9436b" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        1) เส้นตรง 2 เส้น ยาวเส้นละ (21−7) = 14 ซม. รวม = 28 ซม.<br>
+        2) ส่วนโค้งรัศมี 21: 2×22/7×21×(90/360) = 2×22×3×0.25 = <b>33 ซม.</b><br>
+        3) ส่วนโค้งรัศมี 7: 2×22/7×7×(90/360) = 2×22×0.25 = <b>11 ซม.</b><br>
+        4) รวมทั้งหมด = 28+33+11 = <b>72 ซม.</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 72 เซนติเมตร</div>
+      <div class="tip"><b>เทคนิค:</b> เส้นรอบรูปเสี้ยววงแหวน = เส้นตรง 2 เส้น (R−r) รวมกัน + ความยาวส่วนโค้งวงนอก + ความยาวส่วนโค้งวงใน ไม่ใช่พื้นที่ อย่าเผลอไปคูณ πr² โดยไม่ตั้งใจ</div>
+    </div>
+  </div>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">28</span><h3>จำนวนเส้นทแยงมุมของรูปหลายเหลี่ยม</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">รูปหกเหลี่ยมด้านเท่า (6 ด้าน) และรูปเก้าเหลี่ยมด้านเท่า (9 ด้าน) มีจำนวนเส้นทแยงมุมรวมกันทั้งหมดกี่เส้น</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="70,30 110,30 130,65 110,100 70,100 50,65" fill="none" stroke="#1F2A44" stroke-width="2"/>
+          <g stroke="#9B5DE5" stroke-width="1" opacity=".8">
+            <line x1="70" y1="30" x2="130" y2="65"/><line x1="70" y1="30" x2="110" y2="100"/><line x1="70" y1="30" x2="70" y2="100"/>
+            <line x1="110" y1="30" x2="70" y2="100"/><line x1="110" y1="30" x2="50" y2="65"/><line x1="110" y1="30" x2="110" y2="100"/>
+            <line x1="130" y1="65" x2="70" y2="100"/><line x1="130" y1="65" x2="50" y2="65"/><line x1="50" y1="65" x2="110" y2="100"/>
+          </g>
+          <text x="90" y="145" text-anchor="middle" font-size="12" fill="#1F2A44">หกเหลี่ยม (9 เส้นทแยงมุม)</text>
+          <polygon points="220,25 255,25 280,50 280,85 255,110 220,110 195,85 195,50" fill="none" stroke="#1F2A44" stroke-width="2"/>
+          <text x="237" y="145" text-anchor="middle" font-size="12" fill="#1F2A44">เก้าเหลี่ยม (27 เส้นทแยงมุม)</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        ใช้สูตร จำนวนเส้นทแยงมุมของ n เหลี่ยม = n(n−3)/2<br>
+        หกเหลี่ยม (n=6): 6×(6−3)/2 = 6×3/2 = <b>9 เส้น</b><br>
+        เก้าเหลี่ยม (n=9): 9×(9−3)/2 = 9×6/2 = <b>27 เส้น</b><br>
+        รวมทั้งหมด = 9+27 = <b>36 เส้น</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 36 เส้น</div>
+      <div class="tip"><b>ที่มาของสูตร:</b> แต่ละจุดยอดลากเส้นทแยงมุมได้ (n−3) เส้น (ลากไม่ได้กับตัวเองและ 2 จุดข้างเคียง) มี n จุดยอด แต่นับซ้ำ 2 รอบ จึงหารด้วย 2</div>
+    </div>
+  </div>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">29</span><h3>โจทย์แบ่งที่ดินเป็นแปลงย่อย (พีชคณิต+เรขาคณิต)</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">ที่ดินรูปสี่เหลี่ยมผืนผ้ากว้าง 2a เมตร ยาว 3a เมตร ถูกแบ่งเป็นแปลงย่อยรูปสี่เหลี่ยมจัตุรัสด้านยาว a เท่ากันทุกแปลง (เรียง 2 แถว 3 คอลัมน์ ดังรูป) ถ้าเส้นรอบรูปที่ดินทั้งหมดยาว 100 เมตร จงหาเส้นรอบรูปของที่ดินแต่ละแปลงย่อย</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 240 170" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="20" width="200" height="130" fill="none" stroke="#1F2A44" stroke-width="2.5"/>
+          <line x1="86.6" y1="20" x2="86.6" y2="150" stroke="#4D9DE0" stroke-width="1.5"/>
+          <line x1="153.3" y1="20" x2="153.3" y2="150" stroke="#4D9DE0" stroke-width="1.5"/>
+          <line x1="20" y1="85" x2="220" y2="85" stroke="#4D9DE0" stroke-width="1.5"/>
+          <text x="120" y="12" text-anchor="middle" font-size="11" fill="#1F2A44">ยาว 3a</text>
+          <text x="8" y="88" font-size="11" fill="#1F2A44">2a</text>
+          <text x="53" y="55" text-anchor="middle" font-size="12" fill="#5B3FC0">a</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        1) เส้นรอบรูปที่ดินทั้งหมด = 2×(2a+3a) = 10a<br>
+        2) จาก 10a = 100 → a = <b>10 เมตร</b><br>
+        3) แต่ละแปลงย่อยเป็นสี่เหลี่ยมจัตุรัสด้านยาว a = 10 เมตร<br>
+        4) เส้นรอบรูปแปลงย่อย = 4×10 = <b>40 เมตร</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 40 เมตร (พื้นที่แปลงละ 100 ตร.ม.)</div>
+      <div class="tip"><b>เทคนิค:</b> ตั้งตัวแปรจากรูปที่กำหนด (กว้าง-ยาวเป็นสัดส่วนกับ a) แล้วแทนค่าเส้นรอบรูปรวมเพื่อหาค่า a ก่อน จากนั้นค่อยตอบคำถามปลายทาง</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
