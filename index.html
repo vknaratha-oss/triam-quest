@@ -6052,6 +6052,369 @@ const GEOMETRY_HTML = `
       <div class="gp-answer">✓ คำตอบ: 52</div>
       <div class="gp-tip"><b>เทคนิค:</b> เมื่อลำดับตัวเลขไม่ใช่เลขคณิตปกติ (ผลต่างไม่คงที่) ให้ลองหาผลต่างของผลต่าง (ผลต่างชั้นที่ 2) ถ้าคงที่ แสดงว่าลำดับเป็นรูปแบบกำลังสอง</div>
     </div>
+  </div>
+
+  <div class="gp-section-title"><span class="gp-n">8</span> โจทย์ระดับแข่งขัน (Advanced Challenge Problems)</div>
+  <p class="gp-section-sub">โจทย์ระดับสูงแนวข้อสอบแข่งขัน/Gifted — รวมเทคนิคพื้นที่แพะผูกเชือก, ค่าเฉลี่ยถ่วงน้ำหนัก, จำนวนเหลือเศษแบบแผน, ตารางเรียงงู, ตัวดำเนินการพิเศษ และปริศนาตรรกะตัวเลข</p>
+
+  <div class="gp-problem">
+    <div class="gp-problem-head"><span class="gp-pnum">33</span><h3>พื้นที่แพะกินหญ้ารอบมุมคอก (โจทย์คลาสสิกระดับแข่งขัน)</h3></div>
+    <div class="gp-problem-body">
+      <div class="gp-problem-text">คอกรูปสี่เหลี่ยมมุมฉากกว้าง 7 เมตร ยาว 14 เมตร มีทุ่งหญ้าอยู่รอบด้านนอก แพะตัวหนึ่งถูกล่ามไว้ที่เสาตรงมุมคอกด้วยเชือกยาว 21 เมตร จงหาว่าแพะกินหญ้าได้พื้นที่ทั้งหมดกี่ตารางเมตร <span style="color:var(--ink-soft)">(กำหนด π ≈ 22/7)</span></div>
+      <div class="gp-fig-wrap">
+        <svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
+          <rect x="90" y="70" width="90" height="45" fill="#fff" stroke="#1F2A44" stroke-width="2.5"/>
+          <text x="135" y="98" text-anchor="middle" font-size="10" fill="#1F2A44">คอก 7×14 ม.</text>
+          <path d="M 90,70 A 150,150 0 1 1 240,220 L 90,220 Z" fill="#E9FBF3" stroke="none" opacity=".5"/>
+          <path d="M 90,70 A 150,150 0 0 1 90,220" fill="none" stroke="#2c7fc0" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <circle cx="90" cy="70" r="4" fill="#c9436b"/>
+          <text x="78" y="60" font-size="9.5" fill="#c9436b">เสา (มุมคอก)</text>
+          <text x="150" y="180" text-anchor="middle" font-size="9.5" fill="#1c9b85">บริเวณที่แพะเดินกินหญ้าได้ (โดยรอบ)</text>
+        </svg>
+      </div>
+      <div class="gp-solution">
+        <div class="gp-stitle">วิธีทำ (แบ่งเป็น 3 ส่วน)</div>
+        1) <b>ส่วนหลัก:</b> แพะแกว่งได้ 3/4 ของวงกลมรัศมี 21 ม. (มุม 90° ถูกคอกบัง) = 3/4 × 22/7 × 21² = <b>1,039.5 ตร.ม.</b><br>
+        2) <b>อ้อมมุมด้านกว้าง (7 ม.):</b> เชือกเหลือ 21−7=14 ม. แกว่งเพิ่ม 1/4 วงกลมรัศมี 14 = 1/4 × 22/7 × 14² = <b>154 ตร.ม.</b><br>
+        3) <b>อ้อมมุมด้านยาว (14 ม.):</b> เชือกเหลือ 21−14=7 ม. แกว่งเพิ่ม 1/4 วงกลมรัศมี 7 = 1/4 × 22/7 × 7² = <b>38.5 ตร.ม.</b><br>
+        รวมทั้งหมด = 1,039.5 + 154 + 38.5 = <b>1,232 ตร.ม.</b>
+      </div>
+      <div class="gp-answer">✓ คำตอบ: 1,232 ตารางเมตร</div>
+      <div class="gp-tip"><b>เทคนิค:</b> เมื่อเชือกยาวกว่าด้านของคอก แพะจะ "อ้อมมุม" ไปกินหญ้าต่อได้อีก ต้องคำนวณส่วนโค้งเพิ่มทีละมุมด้วยรัศมีที่สั้นลง (เชือกเดิม−ด้านคอก)</div>
+    </div>
+  </div>
+
+  <div class="gp-problem">
+    <div class="gp-problem-head"><span class="gp-pnum">34</span><h3>ค่าเฉลี่ยถ่วงน้ำหนักของ 3 ห้องเรียน</h3></div>
+    <div class="gp-problem-body">
+      <div class="gp-problem-text">นักเรียน ป.6 มี 3 ห้อง สอบวิชาหนึ่งคะแนนเต็ม 100 คะแนน ห้อง 6/1 มี 40 คน คะแนนเฉลี่ย 90 คะแนน ห้อง 6/2 มี 40 คน (ยังไม่ทราบคะแนนเฉลี่ย) ห้อง 6/3 มี 20 คน คะแนนเฉลี่ย 70 คะแนน ถ้าคะแนนเฉลี่ยรวมของนักเรียนทั้ง 100 คนเท่ากับ 82 คะแนน จงหาคะแนนเฉลี่ยของห้อง 6/2</div>
+      <div class="gp-fig-wrap">
+        <svg viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="10" width="80" height="50" rx="8" fill="#E8F4FF" stroke="#4D9DE0"/>
+          <text x="50" y="30" text-anchor="middle" font-size="10.5" fill="#2c7fc0">6/1: 40 คน</text>
+          <text x="50" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#2c7fc0">เฉลี่ย 90</text>
+          <rect x="110" y="10" width="80" height="50" rx="8" fill="#FFF3E6" stroke="#FF9F40"/>
+          <text x="150" y="30" text-anchor="middle" font-size="10.5" fill="#E8702A">6/2: 40 คน</text>
+          <text x="150" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#c9436b">เฉลี่ย ?</text>
+          <rect x="210" y="10" width="80" height="50" rx="8" fill="#E9FBF3" stroke="#2BC4A8"/>
+          <text x="250" y="30" text-anchor="middle" font-size="10.5" fill="#1c9b85">6/3: 20 คน</text>
+          <text x="250" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#1c9b85">เฉลี่ย 70</text>
+          <text x="150" y="90" text-anchor="middle" font-size="11" fill="#1F2A44">รวม 100 คน เฉลี่ยรวม = 82 คะแนน</text>
+        </svg>
+      </div>
+      <div class="gp-solution">
+        <div class="gp-stitle">วิธีทำ</div>
+        1) คะแนนรวมทั้งหมด = 100 × 82 = <b>8,200 คะแนน</b><br>
+        2) คะแนนรวมห้อง 6/1 = 40 × 90 = <b>3,600 คะแนน</b><br>
+        3) คะแนนรวมห้อง 6/3 = 20 × 70 = <b>1,400 คะแนน</b><br>
+        4) คะแนนรวมห้อง 6/2 = 8,200 − 3,600 − 1,400 = <b>3,200 คะแนน</b><br>
+        5) คะแนนเฉลี่ยห้อง 6/2 = 3,200 ÷ 40 = <b>80 คะแนน</b>
+      </div>
+      <div class="gp-answer">✓ คำตอบ: 80 คะแนน</div>
+      <div class="gp-tip"><b>เทคนิค:</b> "ค่าเฉลี่ยรวม" ต้องคำนวณจาก "ผลรวมคะแนนทั้งหมด ÷ จำนวนคนทั้งหมด" เสมอ ห้ามเอาค่าเฉลี่ยของแต่ละห้องมาเฉลี่ยกันตรง ๆ เพราะจำนวนคนแต่ละห้องไม่เท่ากัน</div>
+    </div>
+  </div>
+
+  <div class="gp-problem">
+    <div class="gp-problem-head"><span class="gp-pnum">35</span><h3>จำนวนนับที่หารแล้วเหลือเศษเป็นแบบแผน</h3></div>
+    <div class="gp-problem-body">
+      <div class="gp-problem-text">มีจำนวนเหรียญกองหนึ่ง เมื่อแบ่งเป็นกองละ 4 เหรียญ จะเหลือเศษ 3 เหรียญ เมื่อแบ่งกองละ 6 เหรียญ จะเหลือเศษ 5 เหรียญ เมื่อแบ่งกองละ 8 เหรียญ จะเหลือเศษ 7 เหรียญ และเมื่อแบ่งกองละ 10 เหรียญ จะเหลือเศษ 9 เหรียญ จงหาจำนวนเหรียญที่น้อยที่สุดที่เป็นไปได้</div>
+      <div class="gp-fig-wrap">
+        <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+          <g font-family="'Baloo Thai 2'" font-size="11" fill="#1F2A44">
+            <text x="10" y="20">÷4 เหลือ 3</text><text x="10" y="40">÷6 เหลือ 5</text>
+            <text x="160" y="20">÷8 เหลือ 7</text><text x="160" y="40">÷10 เหลือ 9</text>
+          </g>
+          <text x="150" y="75" text-anchor="middle" font-size="12" font-weight="bold" fill="#c9436b">สังเกต: เศษ = ตัวหาร − 1 เสมอ!</text>
+        </svg>
+      </div>
+      <div class="gp-solution">
+        <div class="gp-stitle">วิธีทำ (สังเกตแบบแผน)</div>
+        สังเกตว่าเศษที่เหลือ = ตัวหาร − 1 ทุกครั้ง (4−1=3, 6−1=5, 8−1=7, 10−1=9)<br>
+        แสดงว่า <b>ถ้าเพิ่มเหรียญอีก 1 เหรียญ จะหารลงตัวพอดีทุกตัวหาร</b> (N+1 หารด้วย 4,6,8,10 ลงตัวหมด)<br><br>
+        1) หา ค.ร.น. ของ 4, 6, 8, 10 → ค.ร.น. = <b>120</b><br>
+        2) จำนวนเหรียญน้อยที่สุด (N) = ค.ร.น. − 1 = 120 − 1 = <b>119 เหรียญ</b>
+      </div>
+      <div class="gp-answer">✓ คำตอบ: 119 เหรียญ</div>
+      <div class="gp-tip"><b>เทคนิคจำ:</b> ทุกครั้งที่เจอโจทย์ "หารแล้วเหลือเศษน้อยกว่าตัวหารอยู่ 1 เสมอ" ให้บวก 1 เข้าไปก่อน หา ค.ร.น. ของตัวหารทั้งหมด แล้วค่อยลบ 1 กลับออกมา</div>
+    </div>
+  </div>
+
+  <div class="gp-problem">
+    <div class="gp-problem-head"><span class="gp-pnum">36</span><h3>แผนภูมิวงกลม: งบประมาณท่องเที่ยวพนักงาน</h3></div>
+    <div class="gp-problem-body">
+      <div class="gp-problem-text">บริษัทแห่งหนึ่งสำรวจพนักงาน 200 คน เกี่ยวกับประเทศที่อยากไปเที่ยว ได้ผลดังแผนภูมิ: ไทย 25%, ญี่ปุ่น 15%, เกาหลีใต้ 20%, สิงคโปร์ 10%, เวียดนาม 30% หากบริษัทตัดเงินสนับสนุนพนักงานที่เลือกไปญี่ปุ่นและเกาหลีใต้ ลงคนละ 40 ดอลลาร์สหรัฐ บริษัทจะประหยัดงบประมาณรวมได้กี่ดอลลาร์สหรัฐ</div>
+      <div class="gp-fig-wrap">
+        <svg viewBox="0 0 240 200" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="120" cy="100" r="80" fill="none" stroke="#1F2A44" stroke-width="1.5"/>
+          <path d="M120,100 L120,20 A80,80 0 0 1 196,68 Z" fill="#FDECEF" stroke="#1F2A44"/>
+          <path d="M120,100 L196,68 A80,80 0 0 1 171,171 Z" fill="#FFF3E6" stroke="#1F2A44"/>
+          <path d="M120,100 L171,171 A80,80 0 0 1 44,164 Z" fill="#E8F4FF" stroke="#1F2A44"/>
+          <path d="M120,100 L44,164 A80,80 0 1 1 120,20 Z" fill="#E9FBF3" stroke="#1F2A44"/>
+          <text x="160" y="55" font-size="10" fill="#c9436b">ญี่ปุ่น 15%</text>
+          <text x="150" y="130" font-size="10" fill="#E8702A">เกาหลี 20%</text>
+          <text x="70" y="150" font-size="10" fill="#2c7fc0">สิงคโปร์10%/ไทย25%</text>
+          <text x="55" y="90" font-size="10" fill="#1c9b85">เวียดนาม 30%</text>
+        </svg>
+      </div>
+      <div class="gp-solution">
+        <div class="gp-stitle">วิธีทำ</div>
+        1) จำนวนคนเลือกญี่ปุ่น = 200 × 15% = <b>30 คน</b><br>
+        2) จำนวนคนเลือกเกาหลีใต้ = 200 × 20% = <b>40 คน</b><br>
+        3) รวมคนที่ถูกตัดงบ = 30 + 40 = <b>70 คน</b><br>
+        4) ประหยัดงบรวม = 70 × 40 = <b>2,800 ดอลลาร์สหรัฐ</b>
+      </div>
+      <div class="gp-answer">✓ คำตอบ: 2,800 ดอลลาร์สหรัฐ</div>
+      <div class="gp-tip"><b>เทคนิค:</b> แปลงร้อยละเป็นจำนวนคนจริงก่อนเสมอ (ร้อยละ × จำนวนรวม ÷ 100) แล้วจึงคำนวณต่อ อย่าลืมรวมเฉพาะกลุ่มที่โจทย์ถามเท่านั้น</div>
+    </div>
+  </div>
+
+  <div class="gp-problem">
+    <div class="gp-problem-head"><span class="gp-pnum">37</span><h3>ตารางเรียงเลขแบบงูเลื้อย (Boustrophedon)</h3></div>
+    <div class="gp-problem-body">
+      <div class="gp-problem-text">มีการเรียงจำนวนนับลงในตาราง 6 คอลัมน์ (A ถึง F) โดยแถวที่ 1 เรียงจากซ้ายไปขวา (1,2,3,4,5,6) แถวที่ 2 เรียงจากขวาไปซ้ายต่อเนื่อง (12,11,10,9,8,7) สลับทิศทางไปเรื่อย ๆ เช่นนี้ทุกแถว จงหาว่าจำนวนที่อยู่ในแถวที่ 300 คอลัมน์ F คือจำนวนใด</div>
+      <div class="gp-fig-wrap">
+        <svg viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg">
+          <g font-family="'Baloo Thai 2'" font-size="11" text-anchor="middle">
+            <rect x="10" y="10" width="270" height="25" fill="#E8F4FF" stroke="#1F2A44"/>
+            <text x="30" y="27" fill="#1F2A44">1</text><text x="75" y="27" fill="#1F2A44">2</text><text x="120" y="27" fill="#1F2A44">3</text>
+            <text x="165" y="27" fill="#1F2A44">4</text><text x="210" y="27" fill="#1F2A44">5</text><text x="255" y="27" fill="#1F2A44">6</text>
+            <rect x="10" y="38" width="270" height="25" fill="#FFF3E6" stroke="#1F2A44"/>
+            <text x="30" y="55" fill="#E8702A">12</text><text x="75" y="55" fill="#E8702A">11</text><text x="120" y="55" fill="#E8702A">10</text>
+            <text x="165" y="55" fill="#E8702A">9</text><text x="210" y="55" fill="#E8702A">8</text><text x="255" y="55" fill="#E8702A">7</text>
+          </g>
+          <text x="150" y="90" text-anchor="middle" font-size="10.5" fill="#6B6490">แถวคี่ → เรียงซ้ายไปขวา, แถวคู่ → เรียงขวาไปซ้าย</text>
+          <text x="150" y="112" text-anchor="middle" font-size="10.5" fill="#c9436b">แถว 300 (คู่) คอลัมน์ A จะมีค่ามากสุดในแถว</text>
+        </svg>
+      </div>
+      <div class="gp-solution">
+        <div class="gp-stitle">วิธีทำ</div>
+        แถวคู่จะเรียงจากขวาไปซ้าย ดังนั้นคอลัมน์ A = ค่ามากที่สุดในแถวนั้น = 6 × หมายเลขแถว<br>
+        แถวที่ 300 คอลัมน์ A = 6 × 300 = 1,800 และคอลัมน์ F (ตัวสุดท้าย ค่าน้อยสุด) = 6×300 − 5 = <b>1,795</b><br>
+        ตรวจสอบกับแถวที่ 2: คอลัมน์ F = 6×2−5 = 7 ✓ ตรงกับตารางตัวอย่าง
+      </div>
+      <div class="gp-answer">✓ คำตอบ: 1,795</div>
+      <div class="gp-tip"><b>เทคนิค:</b> หาสูตรทั่วไปจากแถวตัวอย่างเล็ก ๆ ก่อน (เช่นแถว 1,2) แล้วจึงแทนค่าแถวใหญ่ ไม่ต้องนับไล่ทีละแถวจริง ๆ</div>
+    </div>
+  </div>
+
+  <div class="gp-problem">
+    <div class="gp-problem-head"><span class="gp-pnum">38</span><h3>ตัวดำเนินการพิเศษ (ค.ร.น. และ ห.ร.ม.)</h3></div>
+    <div class="gp-problem-body">
+      <div class="gp-problem-text">กำหนดตัวดำเนินการพิเศษ x ⊕ y = (ค.ร.น. ของ x และ y ÷ ห.ร.ม. ของ x และ y) + ห.ร.ม. ของ x และ y จงหาค่าของ 90 ⊕ 60</div>
+      <div class="gp-fig-wrap">
+        <svg viewBox="0 0 300 90" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="10" width="280" height="70" rx="10" fill="#F3EFFD" stroke="#9B5DE5"/>
+          <text x="150" y="35" text-anchor="middle" font-size="12" font-weight="bold" fill="#5B3FC0">x ⊕ y = (ค.ร.น.(x,y) ÷ ห.ร.ม.(x,y)) + ห.ร.ม.(x,y)</text>
+          <text x="150" y="60" text-anchor="middle" font-size="12" fill="#5B3FC0">หาค่า 90 ⊕ 60 = ?</text>
+        </svg>
+      </div>
+      <div class="gp-solution">
+        <div class="gp-stitle">วิธีทำ</div>
+        1) หา ห.ร.ม.(90,60): แยกตัวประกอบ 90=2×3²×5, 60=2²×3×5 → ห.ร.ม. = 2×3×5 = <b>30</b><br>
+        2) หา ค.ร.น.(90,60) = (90×60)÷ห.ร.ม. = 5400÷30 = <b>180</b><br>
+        3) แทนค่าในสูตร: 90⊕60 = (180÷30) + 30 = 6 + 30 = <b>36</b>
+      </div>
+      <div class="gp-answer">✓ คำตอบ: 36</div>
+      <div class="gp-tip"><b>เทคนิค:</b> โจทย์ตัวดำเนินการพิเศษ (สัญลักษณ์แปลก ๆ) ให้อ่านนิยามให้ละเอียด แล้วแทนค่าไปทีละขั้นตามสูตรที่โจทย์กำหนดให้ ไม่ต้องตกใจกับสัญลักษณ์ที่ไม่คุ้นเคย</div>
+    </div>
+  </div>
+
+  <div class="gp-problem">
+    <div class="gp-problem-head"><span class="gp-pnum">39</span><h3>ปริศนารหัสผ่านตู้เซฟ (โจทย์ตรรกะตัวเลข)</h3></div>
+    <div class="gp-problem-body">
+      <div class="gp-problem-text">รหัสผ่านตู้เซฟเป็นจำนวน 4 หลัก (ABCD) สร้างจากเลขโดด 1 ถึง 9 ที่ไม่ซ้ำกัน และตรงตามเงื่อนไข: หลักพัน (A) เป็นจำนวนกำลังสองสมบูรณ์ (เช่น 1,4,9) • หลักร้อย (B) เป็นจำนวนเฉพาะ • หลักสิบ (C) เท่ากับผลต่างของ A กับ B • ผลรวมของเลขโดดทั้ง 4 หลักเท่ากับ 20 • ตัวเลขทั้งหมดหารด้วย 4 ลงตัว จงหารหัสผ่านนี้</div>
+      <div class="gp-fig-wrap">
+        <svg viewBox="0 0 300 90" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="15" width="60" height="60" rx="8" fill="#F3EFFD" stroke="#9B5DE5"/><text x="50" y="52" text-anchor="middle" font-size="18" fill="#5B3FC0">A</text>
+          <rect x="90" y="15" width="60" height="60" rx="8" fill="#E8F4FF" stroke="#4D9DE0"/><text x="120" y="52" text-anchor="middle" font-size="18" fill="#2c7fc0">B</text>
+          <rect x="160" y="15" width="60" height="60" rx="8" fill="#E9FBF3" stroke="#2BC4A8"/><text x="190" y="52" text-anchor="middle" font-size="18" fill="#1c9b85">C</text>
+          <rect x="230" y="15" width="60" height="60" rx="8" fill="#FFF3E6" stroke="#FF9F40"/><text x="260" y="52" text-anchor="middle" font-size="18" fill="#E8702A">D</text>
+        </svg>
+      </div>
+      <div class="gp-solution">
+        <div class="gp-stitle">วิธีทำ (ไล่เงื่อนไขทีละข้อ)</div>
+        1) A เป็นกำลังสอง: ลองได้ A ∈ {1,4,9}<br>
+        2) B เป็นจำนวนเฉพาะ: B ∈ {2,3,5,7}<br>
+        3) C = |A−B| ต้องเป็นเลขโดดที่ไม่ซ้ำกับ A,B<br>
+        4) ลองไล่ค่า A=4, B=7 → C=|4−7|=3<br>
+        5) ผลรวม A+B+C+D=20 → 4+7+3+D=20 → D=6 (ไม่ซ้ำกับตัวอื่น ✓)<br>
+        6) ตรวจ 4736 ÷ 4 = 1184 ลงตัวพอดี ✓ (เช็คจากสองหลักท้าย 36÷4=9 ลงตัว)
+      </div>
+      <div class="gp-answer">✓ คำตอบ: รหัสผ่านคือ 4736</div>
+      <div class="gp-tip"><b>เทคนิค:</b> โจทย์ปริศนาตัวเลขหลายเงื่อนไข ให้ไล่จากเงื่อนไขที่จำกัดตัวเลือกน้อยที่สุดก่อน (ในที่นี้คือ A ที่มีแค่ 3 ค่าให้ลอง) จะช่วยลดจำนวนกรณีที่ต้องตรวจสอบ</div>
+    </div>
+  </div>
+
+  <div class="gp-problem">
+    <div class="gp-problem-head"><span class="gp-pnum">40</span><h3>คะแนนขั้นต่ำเพื่อผ่านเกณฑ์รางวัล</h3></div>
+    <div class="gp-problem-body">
+      <div class="gp-problem-text">การสอบแข่งขันครั้งหนึ่งมี 3 ตอน: ตอนที่ 1 (10 ข้อ ข้อละ 2 คะแนน) ตอนที่ 2 (10 ข้อ ข้อละ 3 คะแนน) ตอนที่ 3 (10 ข้อ ข้อละ 5 คะแนน) ผู้ที่ได้คะแนนรวมอย่างน้อย 80% ของคะแนนเต็มทั้งฉบับจะได้รับรางวัล นักเรียนคนหนึ่งทำตอนที่ 1 ถูกทุกข้อ และทำตอนที่ 2 ถูก 7 ข้อ นักเรียนคนนี้ต้องทำตอนที่ 3 ถูกอย่างน้อยกี่ข้อ จึงจะได้รับรางวัล</div>
+      <div class="gp-fig-wrap">
+        <svg viewBox="0 0 300 90" xmlns="http://www.w3.org/2000/svg">
+          <g font-family="'Baloo Thai 2'" font-size="10.5" text-anchor="middle">
+            <rect x="10" y="10" width="85" height="40" fill="#E9FBF3" stroke="#1c9b85"/><text x="52" y="28" fill="#1c9b85">ตอน1: 20 คะแนน</text><text x="52" y="44" fill="#1c9b85">ได้ครบ 20</text>
+            <rect x="107" y="10" width="85" height="40" fill="#FFF3E6" stroke="#E8702A"/><text x="150" y="28" fill="#E8702A">ตอน2: 30 คะแนน</text><text x="150" y="44" fill="#E8702A">ได้ 7×3=21</text>
+            <rect x="204" y="10" width="85" height="40" fill="#FDECEF" stroke="#c9436b"/><text x="247" y="28" fill="#c9436b">ตอน3: 50 คะแนน</text><text x="247" y="44" fill="#c9436b">ต้องได้อย่างน้อย?</text>
+          </g>
+          <text x="150" y="72" text-anchor="middle" font-size="11" fill="#1F2A44">คะแนนเต็มรวม 100 • ต้องได้ ≥ 80 คะแนน</text>
+        </svg>
+      </div>
+      <div class="gp-solution">
+        <div class="gp-stitle">วิธีทำ</div>
+        1) คะแนนเต็มทั้งฉบับ = 20+30+50 = 100 → เกณฑ์รางวัล = 80% × 100 = <b>80 คะแนน</b><br>
+        2) คะแนนตอนที่ 1 = 10×2 = <b>20 คะแนน</b> (ถูกทุกข้อ)<br>
+        3) คะแนนตอนที่ 2 = 7×3 = <b>21 คะแนน</b><br>
+        4) คะแนนสะสมจาก 2 ตอนแรก = 20+21 = <b>41 คะแนน</b><br>
+        5) ต้องการคะแนนตอนที่ 3 อย่างน้อย = 80−41 = 39 คะแนน → 39÷5 = 7.8 ข้อ<br>
+        6) ต้องปัดขึ้นเป็นจำนวนเต็มข้อ (ตอบผิดบางส่วนไม่ได้) = <b>8 ข้อ</b>
+      </div>
+      <div class="gp-answer">✓ คำตอบ: อย่างน้อย 8 ข้อ</div>
+      <div class="gp-tip"><b>เทคนิค:</b> เมื่อหารได้ผลเป็นทศนิยม (7.8 ข้อ) ต้อง "ปัดขึ้น" เสมอในโจทย์แบบนี้ เพราะทำ 7 ข้อได้แค่ 35 คะแนน ยังไม่ถึงเกณฑ์ ต้องทำให้ครบ 8 ข้อจึงจะผ่าน</div>
+    </div>
+  </div>
+
+  <div class="gp-problem">
+    <div class="gp-problem-head"><span class="gp-pnum">41</span><h3>มุมจากเส้นแบ่งครึ่งมุมสองเส้นตัดกัน (โจทย์ไล่มุมหลายชั้น)</h3></div>
+    <div class="gp-problem-body">
+      <div class="gp-problem-text">สามเหลี่ยม ABC มีมุม A = 72° และมุม B = 48° เส้นแบ่งครึ่งมุม B และเส้นแบ่งครึ่งมุม C ตัดกันที่จุด P (ภายในสามเหลี่ยม) จงหาขนาดของมุม BPC</div>
+      <div class="gp-fig-wrap">
+        <svg viewBox="0 0 280 190" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="40,160 240,160 130,20" fill="#F3EFFD" stroke="#9B5DE5" stroke-width="2.5"/>
+          <text x="26" y="175" font-size="11">B</text><text x="242" y="175" font-size="11">C</text><text x="126" y="14" font-size="11">A</text>
+          <line x1="40" y1="160" x2="150" y2="80" stroke="#2c7fc0" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <line x1="240" y1="160" x2="110" y2="70" stroke="#c9436b" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <circle cx="128" cy="112" r="3" fill="#1F2A44"/>
+          <text x="134" y="110" font-size="11" font-weight="bold" fill="#1F2A44">P</text>
+          <text x="126" y="34" text-anchor="middle" font-size="11" fill="#5B3FC0">72°</text>
+          <text x="55" y="150" font-size="11" fill="#2c7fc0">48°</text>
+        </svg>
+      </div>
+      <div class="gp-solution">
+        <div class="gp-stitle">วิธีทำ (ไล่มุมทีละชั้น)</div>
+        1) หามุม C ก่อน: มุม C = 180−72−48 = <b>60°</b><br>
+        2) เส้นแบ่งครึ่งมุม B แบ่งมุม B ออกเป็น 2 ส่วนเท่า ๆ กัน: มุม PBC = 48÷2 = <b>24°</b><br>
+        3) เส้นแบ่งครึ่งมุม C แบ่งมุม C ออกเป็น 2 ส่วนเท่า ๆ กัน: มุม PCB = 60÷2 = <b>30°</b><br>
+        4) ในสามเหลี่ยม BPC: มุม BPC = 180 − มุม PBC − มุม PCB = 180 − 24 − 30 = <b>126°</b>
+      </div>
+      <div class="gp-answer">✓ คำตอบ: มุม BPC = 126°</div>
+      <div class="gp-tip"><b>สูตรลัด (จำไว้ใช้ตรวจคำตอบ):</b> เมื่อเส้นแบ่งครึ่งมุม B และมุม C ของสามเหลี่ยมตัดกันที่จุด P มุม BPC = 90° + (มุม A ÷ 2) เสมอ = 90+36 = 126° ตรงกัน!</div>
+    </div>
+  </div>
+
+  <div class="gp-problem">
+    <div class="gp-problem-head"><span class="gp-pnum">42</span><h3>ปริมาตรกล่องจากพื้นที่ 3 หน้าที่ไม่ซ้ำกัน</h3></div>
+    <div class="gp-problem-body">
+      <div class="gp-problem-text">กล่องทรงสี่เหลี่ยมมุมฉากใบหนึ่งมีพื้นที่หน้า 3 หน้าที่ไม่ซ้ำกัน (กว้าง×ยาว, ยาว×สูง, กว้าง×สูง) เท่ากับ 24, 40 และ 60 ตารางนิ้ว ตามลำดับ จงหาปริมาตรของกล่องใบนี้ โดยไม่ต้องหาความกว้าง ยาว สูง แยกทีละด้านก่อน</div>
+      <div class="gp-fig-wrap">
+        <svg viewBox="0 0 260 170" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="40,120 40,50 100,20 160,50 160,120 100,150" fill="none" stroke="#1F2A44" stroke-width="0"/>
+          <polygon points="40,50 100,20 160,50 100,80" fill="#E8F4FF" stroke="#2c7fc0" stroke-width="2"/>
+          <polygon points="40,50 40,120 100,150 100,80" fill="#FFF3E6" stroke="#E8702A" stroke-width="2"/>
+          <polygon points="100,80 100,150 160,120 160,50" fill="#E9FBF3" stroke="#1c9b85" stroke-width="2"/>
+          <text x="100" y="52" text-anchor="middle" font-size="10.5" fill="#2c7fc0">กว้าง×ยาว=24</text>
+          <text x="55" y="100" font-size="10" fill="#E8702A" transform="rotate(-20 55 100)">ยาว×สูง=40</text>
+          <text x="145" y="100" font-size="10" fill="#1c9b85" transform="rotate(20 145 100)">กว้าง×สูง=60</text>
+        </svg>
+      </div>
+      <div class="gp-solution">
+        <div class="gp-stitle">วิธีทำ (เทคนิคลัด ไม่ต้องหาแต่ละด้านก่อน)</div>
+        1) ให้ กว้าง=x ยาว=y สูง=z จะได้ xy=24, yz=40, xz=60<br>
+        2) คูณทั้งสามสมการเข้าด้วยกัน: (xy)(yz)(xz) = (xyz)² = 24×40×60 = <b>57,600</b><br>
+        3) ปริมาตร = xyz = √57,600 = <b>240 ลูกบาศก์นิ้ว</b><br><br>
+        <b>ตรวจคำตอบ</b> (หาแต่ละด้านจริง): x=240÷40=6, y=240÷60=4, z=240÷24=10 → ตรวจ xy=24✓ yz=40✓ xz=60✓
+      </div>
+      <div class="gp-answer">✓ คำตอบ: 240 ลูกบาศก์นิ้ว</div>
+      <div class="gp-tip"><b>เทคนิค:</b> เมื่อรู้พื้นที่ 3 หน้าที่ไม่ซ้ำกันของกล่อง ให้คูณทั้ง 3 ค่าเข้าด้วยกันแล้วถอดรากที่สอง จะได้ปริมาตรทันที โดยไม่ต้องแก้สมการหาด้านแต่ละด้านก่อน (ปริมาตร² = ผลคูณพื้นที่ 3 หน้า)</div>
+    </div>
+  </div>
+
+  <div class="gp-problem">
+    <div class="gp-problem-head"><span class="gp-pnum">43</span><h3>ลูกบาศก์ทาสีแล้วตัดแบ่ง (โจทย์นับเชิงเรขาคณิต)</h3></div>
+    <div class="gp-problem-body">
+      <div class="gp-problem-text">ลูกบาศก์ไม้ขนาดใหญ่ถูกตัดแบ่งเป็นลูกบาศก์เล็กเท่า ๆ กัน 5×5×5 = 125 ก้อน ก่อนตัดแบ่งได้ทาสีทุกหน้าด้านนอกของลูกบาศก์ใหญ่ไว้แล้ว จงหาว่ามีลูกบาศก์เล็กกี่ก้อนที่มีสีทาติดอยู่ "พอดี 2 หน้า" (ไม่ใช่ 1 หน้า หรือ 3 หน้า)</div>
+      <div class="gp-fig-wrap">
+        <svg viewBox="0 0 220 190" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="40,150 40,50 110,20 180,50 180,150 110,180" fill="none"/>
+          <polygon points="40,50 110,20 180,50 110,80" fill="#FFF3E6" stroke="#1F2A44" stroke-width="1.5"/>
+          <polygon points="40,50 40,150 110,180 110,80" fill="#E8F4FF" stroke="#1F2A44" stroke-width="1.5"/>
+          <polygon points="110,80 110,180 180,150 180,50" fill="#E9FBF3" stroke="#1F2A44" stroke-width="1.5"/>
+          <g stroke="#1F2A44" stroke-width=".7" opacity=".6">
+            <line x1="54" y1="44" x2="54" y2="144"/><line x1="68" y1="38" x2="68" y2="138"/><line x1="82" y1="32" x2="82" y2="132"/><line x1="96" y1="26" x2="96" y2="126"/>
+            <line x1="124" y1="26" x2="124" y2="176"/><line x1="138" y1="32" x2="138" y2="182"/><line x1="152" y1="38" x2="152" y2="164"/><line x1="166" y1="44" x2="166" y2="158"/>
+          </g>
+          <rect x="10" y="10" width="16" height="16" fill="#FF6B6B" rx="3"/><text x="30" y="22" font-size="9.5">ขอบ (2 หน้า) = คำตอบที่ต้องการ</text>
+        </svg>
+      </div>
+      <div class="gp-solution">
+        <div class="gp-stitle">วิธีทำ (แยกตามตำแหน่ง)</div>
+        ลูกบาศก์เล็กแบ่งตามตำแหน่งได้ 4 กลุ่ม (n=5 ด้านต่อแถว):<br>
+        • <b>มุม (3 หน้า):</b> มีเสมอ 8 ก้อน (8 มุมของลูกบาศก์ใหญ่)<br>
+        • <b>ขอบ (2 หน้า):</b> อยู่ตามแนวขอบ 12 เส้น เส้นละ (n−2) = 5−2 = 3 ก้อน → 12×3 = <b>36 ก้อน</b> ← คำตอบที่ต้องการ<br>
+        • <b>หน้า (1 หน้า):</b> 6 หน้า × (n−2)² = 6×9 = 54 ก้อน<br>
+        • <b>ด้านใน (0 หน้า):</b> (n−2)³ = 3³ = 27 ก้อน<br>
+        <b>ตรวจสอบ:</b> 8+36+54+27 = 125 = 5³ ✓ ครบพอดี
+      </div>
+      <div class="gp-answer">✓ คำตอบ: 36 ก้อน</div>
+      <div class="gp-tip"><b>สูตรจำ:</b> มุม = 8 เสมอ (ทุกขนาด) • ขอบ(2หน้า) = 12×(n−2) • หน้า(1หน้า) = 6×(n−2)² • ด้านใน(0หน้า) = (n−2)³ เมื่อ n คือจำนวนก้อนต่อด้าน</div>
+    </div>
+  </div>
+
+  <div class="gp-problem">
+    <div class="gp-problem-head"><span class="gp-pnum">44</span><h3>เลือกการ์ดให้ผลรวมตรงตามกำหนด (การนับเชิงจัดหมู่)</h3></div>
+    <div class="gp-problem-body">
+      <div class="gp-problem-text">มีการ์ดหมายเลข 6 ใบ คือ 3, 5, 7, 9, 11 และ 13 ต้องการเลือกการ์ดพร้อมกัน 3 ใบ โดยให้ผลรวมของตัวเลขบนการ์ดทั้ง 3 ใบเท่ากับ 21 พอดี จงหาว่ามีวิธีเลือกได้ทั้งหมดกี่วิธี (การ์ดชุดที่มีตัวเลขเหมือนกันแต่สลับลำดับ ถือเป็นวิธีเดียวกัน)</div>
+      <div class="gp-fig-wrap">
+        <svg viewBox="0 0 320 90" xmlns="http://www.w3.org/2000/svg">
+          <g font-family="'Baloo Thai 2'" font-size="16" font-weight="bold" text-anchor="middle">
+            <rect x="10" y="10" width="45" height="60" rx="8" fill="#F3EFFD" stroke="#9B5DE5" stroke-width="2"/><text x="32" y="47" fill="#5B3FC0">3</text>
+            <rect x="65" y="10" width="45" height="60" rx="8" fill="#E8F4FF" stroke="#4D9DE0" stroke-width="2"/><text x="87" y="47" fill="#2c7fc0">5</text>
+            <rect x="120" y="10" width="45" height="60" rx="8" fill="#E9FBF3" stroke="#2BC4A8" stroke-width="2"/><text x="142" y="47" fill="#1c9b85">7</text>
+            <rect x="175" y="10" width="45" height="60" rx="8" fill="#FFF3E6" stroke="#FF9F40" stroke-width="2"/><text x="197" y="47" fill="#E8702A">9</text>
+            <rect x="230" y="10" width="45" height="60" rx="8" fill="#FDECEF" stroke="#FF6B6B" stroke-width="2"/><text x="252" y="47" fill="#c9436b">11</text>
+            <rect x="285" y="10" width="30" height="60" rx="8" fill="#FFF8E6" stroke="#FFC23C" stroke-width="2"/><text x="300" y="47" fill="#E8702A" font-size="14">13</text>
+          </g>
+        </svg>
+      </div>
+      <div class="gp-solution">
+        <div class="gp-stitle">วิธีทำ (ไล่แบบเป็นระบบ)</div>
+        เรียงการ์ดจากน้อยไปมาก แล้วไล่เลือกทีละชุดอย่างเป็นระบบ (ไม่ให้ตกหล่นหรือซ้ำ):<br>
+        • เริ่มจาก 3: (3,5,13)=21✓ (3,7,11)=21✓ (3,9,?)=21ต้องการ9→ซ้ำ✗ ลองอื่นไม่ครบ<br>
+        • เริ่มจาก 5 (ไม่มี 3): (5,7,9)=21✓<br>
+        • เริ่มจาก 7 (ไม่มี 3,5): (7,9,11)=27 เกินแล้ว หยุดค้นหา<br><br>
+        พบชุดที่ผลรวม=21 ทั้งหมด: <b>(3,5,13), (3,7,11), (5,7,9)</b>
+      </div>
+      <div class="gp-answer">✓ คำตอบ: 3 วิธี</div>
+      <div class="gp-tip"><b>เทคนิค:</b> โจทย์นับจำนวนวิธีแบบนี้ ให้ไล่แบบมีระบบ (fix ตัวเล็กสุดไว้ก่อน แล้วหาคู่ที่เหลือ) จะไม่พลาดและไม่นับซ้ำ ดีกว่าการเดาสุ่ม</div>
+    </div>
+  </div>
+
+  <div class="gp-problem">
+    <div class="gp-problem-head"><span class="gp-pnum">45</span><h3>ปริมาตรของเหลวในกล่องทรงลูกบาศก์ 4 ใบ</h3></div>
+    <div class="gp-problem-body">
+      <div class="gp-problem-text">มีกล่องบรรจุของเหลวทรงลูกบาศก์ขนาดเท่ากันทุกใบ จำนวน 4 ใบ แต่ละใบมีการแรเงาไว้ 1 หน้า (หน้าเท่ากันทุกใบ) รวมพื้นที่แรเงาทั้ง 4 ใบเท่ากับ 400 ตารางเซนติเมตร ขณะนี้มีของเหลวอยู่ในกล่องรวมกันแล้ว 3,200 มิลลิลิตร ถ้าต้องการเติมของเหลวให้เต็มทั้ง 4 กล่องพอดี ต้องเติมของเหลวเพิ่มอีกกี่มิลลิลิตร <span style="color:var(--ink-soft)">(กำหนด 1 ลูกบาศก์เซนติเมตร = 1 มิลลิลิตร)</span></div>
+      <div class="gp-fig-wrap">
+        <svg viewBox="0 0 300 110" xmlns="http://www.w3.org/2000/svg">
+          <g>
+            <polygon points="20,80 20,40 45,25 70,40 70,80 45,95" fill="#E8F4FF" stroke="#2c7fc0" stroke-width="1.5"/>
+            <polygon points="90,80 90,40 115,25 140,40 140,80 115,95" fill="#E8F4FF" stroke="#2c7fc0" stroke-width="1.5"/>
+            <polygon points="160,80 160,40 185,25 210,40 210,80 185,95" fill="#E8F4FF" stroke="#2c7fc0" stroke-width="1.5"/>
+            <polygon points="230,80 230,40 255,25 280,40 280,80 255,95" fill="#E8F4FF" stroke="#2c7fc0" stroke-width="1.5"/>
+          </g>
+          <text x="150" y="106" text-anchor="middle" font-size="10.5" fill="#1F2A44">กล่องลูกบาศก์เท่ากัน 4 ใบ • แต่ละหน้าแรเงารวม 400 ตร.ซม.</text>
+        </svg>
+      </div>
+      <div class="gp-solution">
+        <div class="gp-stitle">วิธีทำ</div>
+        1) พื้นที่หน้าแรเงาต่อ 1 กล่อง = 400 ÷ 4 = <b>100 ตร.ซม.</b><br>
+        2) ความยาวด้านของลูกบาศก์ = √100 = <b>10 ซม.</b><br>
+        3) ปริมาตรกล่อง 1 ใบ = 10×10×10 = <b>1,000 ลูกบาศก์เซนติเมตร = 1,000 มล.</b><br>
+        4) ปริมาตรรวม 4 กล่อง (เต็มพอดี) = 1,000×4 = <b>4,000 มล.</b><br>
+        5) ต้องเติมเพิ่ม = 4,000 − 3,200 = <b>800 มิลลิลิตร</b>
+      </div>
+      <div class="gp-answer">✓ คำตอบ: 800 มิลลิลิตร</div>
+      <div class="gp-tip"><b>เทคนิค:</b> จากพื้นที่หน้าที่แรเงา หาความยาวด้าน (√พื้นที่) ก่อน แล้วจึงคำนวณปริมาตรทีละขั้น อย่าลืมคูณด้วยจำนวนกล่องทั้งหมดก่อนนำไปลบกับปริมาณที่มีอยู่แล้ว</div>
+    </div>
   </div>`;
 
 function openGeometryProbs(){ go('geometryprobs'); document.getElementById('gpWrap').innerHTML = GEOMETRY_HTML; }
