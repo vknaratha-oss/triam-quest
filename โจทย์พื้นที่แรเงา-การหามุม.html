@@ -1318,6 +1318,377 @@
     </div>
   </div>
 
+<div class="problem">
+    <div class="problem-head"><span class="pnum">46</span><h3>สี่เหลี่ยมจัตุรัสซ้อนใน 3 ชั้น (จุดกึ่งกลางด้าน)</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">ABCD เป็นสี่เหลี่ยมจัตุรัสด้านยาว 12 หน่วย จุด E, F, G, H เป็นจุดกึ่งกลางด้านของ ABCD เชื่อมกันเป็นสี่เหลี่ยม EFGH จากนั้นจุด I, J, K, L เป็นจุดกึ่งกลางด้านของ EFGH เชื่อมกันเป็นสี่เหลี่ยม IJKL จงหาพื้นที่ของสี่เหลี่ยม IJKL</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="20" width="180" height="180" fill="#E8F4FF" stroke="#2c7fc0" stroke-width="2"/>
+          <polygon points="110,20 200,110 110,200 20,110" fill="#FFF3E6" stroke="#E8702A" stroke-width="2"/>
+          <polygon points="110,65 155,110 110,155 65,110" fill="#E9FBF3" stroke="#1c9b85" stroke-width="2"/>
+          <text x="30" y="15" font-size="10" fill="#2c7fc0">A</text><text x="195" y="15" font-size="10" fill="#2c7fc0">D</text>
+          <text x="30" y="212" font-size="10" fill="#2c7fc0">B</text><text x="195" y="212" font-size="10" fill="#2c7fc0">C</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ (สูตรลัด: เชื่อมจุดกึ่งกลางด้าน → พื้นที่เหลือครึ่งหนึ่งเสมอ)</div>
+        1) พื้นที่ ABCD = 12×12 = <b>144 ตร.หน่วย</b><br>
+        2) EFGH เกิดจากจุดกึ่งกลางด้านของ ABCD → พื้นที่ EFGH = 144÷2 = <b>72 ตร.หน่วย</b><br>
+        3) IJKL เกิดจากจุดกึ่งกลางด้านของ EFGH → พื้นที่ IJKL = 72÷2 = <b>36 ตร.หน่วย</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 36 ตารางหน่วย</div>
+      <div class="tip"><b>ทำไมพื้นที่เหลือครึ่งเดียว:</b> สี่เหลี่ยมจัตุรัสเดิมแบ่งเป็น 4 สามเหลี่ยมมุมฉากเล็กที่มุม + สี่เหลี่ยมใหม่ตรงกลาง สามเหลี่ยม 4 มุมรวมกันมีพื้นที่เท่ากับสี่เหลี่ยมใหม่พอดี จึงเหลือพื้นที่ครึ่งหนึ่งของเดิมทุกครั้งที่ทำซ้ำ</div>
+    </div>
+  </div>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">47</span><h3>ตารางผลรวมเท่ากัน + ปริมาตรกล่อง (โจทย์ผสม 2 ชั้น)</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">ตารางสี่เหลี่ยมจัตุรัส 9 ช่อง (3×3) มีตัวเลขดังนี้: แถวที่ 1 คือ A, B, 5 • แถวที่ 2 คือ 8, 9, 10 • แถวที่ 3 คือ 13, C, D โดยผลรวมของทุกแถว ทุกคอลัมน์ และเส้นทแยงมุมทั้ง 2 เส้น เท่ากันหมด จงหาค่า A, B, C, D จากนั้นหาปริมาตรของกล่องทรงสี่เหลี่ยมมุมฉากที่มีพื้นที่ 3 หน้าเท่ากับ A, B×C และ D ตารางนิ้ว ตามลำดับ</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 220 170" xmlns="http://www.w3.org/2000/svg">
+          <g font-family="'Baloo Thai 2'" font-size="15" text-anchor="middle">
+            <rect x="10" y="10" width="60" height="45" fill="#F3EFFD" stroke="#1F2A44" stroke-width="1.5"/><text x="40" y="37" fill="#5B3FC0">A</text>
+            <rect x="70" y="10" width="60" height="45" fill="#F3EFFD" stroke="#1F2A44" stroke-width="1.5"/><text x="100" y="37" fill="#5B3FC0">B</text>
+            <rect x="130" y="10" width="60" height="45" fill="#fff" stroke="#1F2A44" stroke-width="1.5"/><text x="160" y="37" fill="#1F2A44">5</text>
+            <rect x="10" y="55" width="60" height="45" fill="#fff" stroke="#1F2A44" stroke-width="1.5"/><text x="40" y="82" fill="#1F2A44">8</text>
+            <rect x="70" y="55" width="60" height="45" fill="#fff" stroke="#1F2A44" stroke-width="1.5"/><text x="100" y="82" fill="#1F2A44">9</text>
+            <rect x="130" y="55" width="60" height="45" fill="#fff" stroke="#1F2A44" stroke-width="1.5"/><text x="160" y="82" fill="#1F2A44">10</text>
+            <rect x="10" y="100" width="60" height="45" fill="#fff" stroke="#1F2A44" stroke-width="1.5"/><text x="40" y="127" fill="#1F2A44">13</text>
+            <rect x="70" y="100" width="60" height="45" fill="#F3EFFD" stroke="#1F2A44" stroke-width="1.5"/><text x="100" y="127" fill="#5B3FC0">C</text>
+            <rect x="130" y="100" width="60" height="45" fill="#F3EFFD" stroke="#1F2A44" stroke-width="1.5"/><text x="160" y="127" fill="#5B3FC0">D</text>
+          </g>
+          <text x="110" y="160" text-anchor="middle" font-size="10.5" fill="#6B6490">ทุกแถว/คอลัมน์/ทแยงมุม ผลรวมเท่ากันหมด</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ (ขั้นที่ 1: หาตัวเลขในตาราง)</div>
+        1) ผลรวมเป้าหมาย S = แถว 2 = 8+9+10 = <b>27</b><br>
+        2) จากคอลัมน์ 3: 5+10+D=27 → D = <b>12</b><br>
+        3) จากแถว 3: 13+C+12=27 → C = <b>2</b><br>
+        4) จากคอลัมน์ 2: B+9+2=27 → B = <b>16</b><br>
+        5) จากแถว 1: A+16+5=27 → A = <b>6</b><br>
+        <i>ตรวจทแยงมุม: A+9+D=6+9+12=27 ✓ และ 5+9+13=27 ✓ ถูกต้องครบ</i><br><br>
+        <div class="stitle">ขั้นที่ 2: หาปริมาตรกล่อง</div>
+        พื้นที่ 3 หน้า = A=6, B×C=16×2=32, D=12<br>
+        (ปริมาตร)² = 6×32×12 = 2,304 → ปริมาตร = √2,304 = <b>48 ลูกบาศก์นิ้ว</b>
+      </div>
+      <div class="answer">✓ คำตอบ: A=6, B=16, C=2, D=12 และปริมาตรกล่อง = 48 ลูกบาศก์นิ้ว</div>
+      <div class="tip"><b>เทคนิค:</b> ไล่หาตัวเลขที่ขาดจากแถว/คอลัมน์ที่มีตัวเลขครบมากที่สุดก่อน (ในที่นี้คือแถว 2) แล้วค่อยไล่หาช่องที่เหลือทีละขั้น จากนั้นจึงนำไปใช้ต่อกับสูตรปริมาตรกล่อง</div>
+    </div>
+  </div>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">48</span><h3>บรรจุลูกบาศก์แข็งลงกล่อง (กับดักที่พลาดบ่อย)</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">นำลูกบาศก์ไม้แข็งด้านยาวด้านละ 3 เซนติเมตร ไปบรรจุใส่กล่องกระดาษที่มีขนาดกว้าง 10 เซนติเมตร ยาว 14 เซนติเมตร และสูง 8 เซนติเมตร จะบรรจุลูกบาศก์ได้มากที่สุดกี่ก้อน</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 260 140" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="30,110 30,50 60,30 60,90" fill="#FFF3E6" stroke="#E8702A" stroke-width="1"/>
+          <polygon points="30,50 60,30 220,30 190,50" fill="#FFF3E6" stroke="#E8702A" stroke-width="1"/>
+          <polygon points="30,110 190,110 220,90 220,30 190,50 60,50 60,90 30,110" fill="none" stroke="#1F2A44" stroke-width="2.5"/>
+          <line x1="60" y1="30" x2="60" y2="90" stroke="#1F2A44" stroke-width="2"/>
+          <line x1="60" y1="90" x2="190" y2="90" stroke="#1F2A44" stroke-width="1" stroke-dasharray="2 2"/>
+          <line x1="190" y1="90" x2="220" y2="70" stroke="#1F2A44" stroke-width="1" stroke-dasharray="2 2"/>
+          <text x="130" y="122" text-anchor="middle" font-size="10.5" fill="#1F2A44">กว้าง 10 × ยาว 14 × สูง 8 ซม.</text>
+          <text x="10" y="70" font-size="9.5" fill="#c9436b">ลูกบาศก์ 3×3×3 ซม.</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">⚠️ วิธีที่ผิด (ห้ามใช้กับของแข็ง):</div>
+        ปริมาตรกล่อง÷ปริมาตรลูกบาศก์ = (10×14×8)÷(3×3×3) = 1,120÷27 ≈ 41.5 → <span style="color:#c9436b">ตอบ 41 ก้อน (ผิด!)</span><br>
+        <i>วิธีนี้ใช้ไม่ได้เพราะลูกบาศก์เป็นของแข็ง บีบอัดยัดเข้าไปตามเศษที่เหลือไม่ได้ ต่างจากของเหลว/เม็ดทรายที่ไหลเข้าเติมช่องว่างได้</i><br><br>
+        <div class="stitle">✅ วิธีที่ถูกต้อง (ต้องคิดทีละด้าน)</div>
+        หาว่าแต่ละด้านของกล่องวางลูกบาศก์ (ด้านละ 3 ซม.) ได้เต็มจำนวนกี่แถว โดย<b>ปัดเศษทิ้ง</b>เสมอ:<br>
+        • ด้านกว้าง 10 ÷ 3 = 3.33 → วางได้ <b>3 แถว</b> (เหลือเศษ 1 ซม. ใช้ไม่ได้)<br>
+        • ด้านยาว 14 ÷ 3 = 4.67 → วางได้ <b>4 แถว</b><br>
+        • ด้านสูง 8 ÷ 3 = 2.67 → วางได้ <b>2 ชั้น</b><br>
+        รวม = 3×4×2 = <b>24 ก้อน</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 24 ก้อน (ไม่ใช่ 41 ก้อนจากการหารปริมาตรตรง ๆ)</div>
+      <div class="tip"><b>ข้อควรระวังสำคัญ:</b> โจทย์บรรจุ "ของแข็งเป็นก้อน" (ลูกบาศก์ กล่อง เหรียญ) ห้ามหารปริมาตรตรง ๆ ต้องคิดทีละมิติ (กว้าง ยาว สูง) แล้วปัดเศษทิ้งทุกด้านก่อนคูณกัน — วิธีหารปริมาตรตรง ๆ ใช้ได้เฉพาะของเหลว/แก๊ส/วัสดุที่เปลี่ยนรูปได้เท่านั้น</div>
+    </div>
+  </div>
+
+<div class="problem">
+    <div class="problem-head"><span class="pnum">49</span><h3>ผสมเครื่องดื่ม 2 ขั้นตอน + เติมแก้ว (โจทย์อัตราส่วนหลายชั้น)</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">ร้าน Fruito มีเมนูเครื่องดื่มหลัก 3 สูตร: <b>Tropical Sunrise</b> มีน้ำส้มเป็น 1/2 ส่วน (ที่เหลือเป็นน้ำเบอร์รี่) • <b>Berry Mist</b> มีน้ำส้มเป็น 1/4 ส่วน (ที่เหลือเป็นน้ำเลมอน) • <b>Golden Glow</b> มีน้ำส้มเป็น 3/4 ส่วน (ที่เหลือเป็นน้ำสับปะรด) ทางร้านคิดค้นเมนูใหม่ "Signature Blend" โดย<br>
+      <b>ขั้นที่ 1:</b> ผสม Tropical Sunrise กับ Berry Mist ในอัตราส่วน 1:1<br>
+      <b>ขั้นที่ 2:</b> ผสมของเหลวจากขั้นที่ 1 กับ Golden Glow ในอัตราส่วน 1:1<br><br>
+      เมื่อผสมเสร็จ นำไปเทลงแก้วทรงสี่เหลี่ยมมุมฉาก กว้าง 5 ซม. ยาว 10 ซม. สูง 20 ซม. โดยรินให้สูงเพียง 80% ของความสูงแก้ว หากลูกค้าสั่ง Signature Blend 2 แก้ว ทางร้านต้องใช้น้ำส้มทั้งหมดกี่มิลลิลิตร</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg">
+          <g font-family="'Baloo Thai 2'" font-size="10.5" text-anchor="middle">
+            <rect x="10" y="10" width="90" height="34" rx="6" fill="#FFF3E6" stroke="#E8702A"/><text x="55" y="31" fill="#E8702A">Tropical Sunrise (น้ำส้ม 1/2)</text>
+            <rect x="10" y="50" width="90" height="34" rx="6" fill="#F3EFFD" stroke="#9B5DE5"/><text x="55" y="71" fill="#5B3FC0">Berry Mist (น้ำส้ม 1/4)</text>
+            <text x="112" y="50" font-size="16" fill="#1F2A44">➜</text>
+            <rect x="130" y="30" width="90" height="34" rx="6" fill="#E9FBF3" stroke="#2BC4A8"/><text x="175" y="51" fill="#1c9b85">ขั้น 1 (1:1) = น้ำส้ม 3/8</text>
+            <text x="222" y="50" font-size="16" fill="#1F2A44">➜</text>
+            <rect x="10" y="94" width="90" height="30" rx="6" fill="#FDECEF" stroke="#FF6B6B"/><text x="55" y="113" fill="#c9436b">Golden Glow (น้ำส้ม 3/4)</text>
+            <rect x="240" y="30" width="70" height="34" rx="6" fill="#E8F4FF" stroke="#4D9DE0"/><text x="275" y="46" fill="#2c7fc0" font-size="10">Signature Blend</text><text x="275" y="60" fill="#2c7fc0" font-size="10">(2:1) = น้ำส้ม 9/16</text>
+          </g>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">ขั้นที่ 1: หาสัดส่วนน้ำส้มใน Signature Blend</div>
+        ขั้นที่ 1 (Tropical Sunrise : Berry Mist = 1:1): สัดส่วนน้ำส้ม = (1×½ + 1×¼) ÷ 2 = (¾) ÷ 2 = <b>3/8</b><br>
+        ขั้นที่ 2 (ผลจากขั้น1 : Golden Glow = 1:1): สัดส่วนน้ำส้ม = (1×3/8 + 1×¾) ÷ 2 = (9/8) ÷ 2 = <b>9/16</b><br><br>
+        <div class="stitle">ขั้นที่ 2: หาปริมาตรที่ต้องเติมทั้งหมด</div>
+        ความสูงที่รินจริง = 20 × 80% = 16 ซม.<br>
+        ปริมาตรต่อแก้ว = 5×10×16 = 800 มล.<br>
+        ปริมาตรรวม 2 แก้ว = 800×2 = <b>1,600 มล.</b><br><br>
+        <div class="stitle">ขั้นที่ 3: หาปริมาณน้ำส้ม</div>
+        น้ำส้มทั้งหมด = 1,600 × 9/16 = <b>900 มิลลิลิตร</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 900 มิลลิลิตร</div>
+      <div class="tip"><b>เทคนิค:</b> โจทย์ผสมหลายขั้นตอน ให้หา "สัดส่วนน้ำส้มสุดท้าย" ก่อนเป็นเศษส่วนเดียวทีละขั้น แล้วค่อยคูณกับปริมาตรรวมทั้งหมดในตอนท้าย จะไม่สับสนและไม่ต้องคำนวณซ้ำหลายรอบ</div>
+    </div>
+  </div>
+
+<div class="problem">
+    <div class="problem-head"><span class="pnum">50</span><h3>สี่เหลี่ยมรูปว่าว: อัตราส่วนเส้นทแยงมุมจากพื้นที่</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">รูปสี่เหลี่ยม ABCD เป็นรูปว่าว มีเส้นทแยงมุมยาว 8 และ 12 เซนติเมตร (AC ตัดกับ BD ที่จุด E ในแนวตั้งฉาก) ถ้าพื้นที่รูปสี่เหลี่ยม ABCD เป็น 4 เท่าของพื้นที่รูปสามเหลี่ยม ABD แล้วความยาวด้าน AC ยาวเป็นกี่เท่าของความยาวด้าน AE</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="100,20 160,90 100,200 40,90" fill="#F3EFFD" stroke="#9B5DE5" stroke-width="2.5"/>
+          <line x1="100" y1="20" x2="100" y2="200" stroke="#2c7fc0" stroke-width="1.5"/>
+          <line x1="40" y1="90" x2="160" y2="90" stroke="#c9436b" stroke-width="1.5"/>
+          <text x="100" y="12" text-anchor="middle" font-size="11">A</text>
+          <text x="30" y="94" font-size="11">B</text><text x="168" y="94" font-size="11">D</text>
+          <text x="100" y="215" text-anchor="middle" font-size="11">C</text>
+          <circle cx="100" cy="90" r="3" fill="#1F2A44"/><text x="106" y="86" font-size="10" fill="#1F2A44">E</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        1) พื้นที่ ABCD = ½ × AC × BD (สูตรพื้นที่รูปว่าวจากเส้นทแยงมุมตั้งฉาก) = ½×8×12 = <b>48 ตร.ซม.</b><br>
+        2) พื้นที่ ABD = ½ × BD × AE (ฐาน BD สูง AE เพราะ AC⊥BD)<br>
+        3) จากโจทย์: พื้นที่ ABCD = 4 × พื้นที่ ABD → 48 = 4 × พื้นที่ ABD → พื้นที่ ABD = <b>12 ตร.ซม.</b><br>
+        4) เทียบอัตราส่วน: (½×AC×BD)/(½×BD×AE) = AC/AE = พื้นที่ ABCD/พื้นที่ ABD = 48/12 = <b>4</b>
+      </div>
+      <div class="answer">✓ คำตอบ: AC ยาวเป็น 4 เท่าของ AE</div>
+      <div class="tip"><b>ข้อสังเกตสำคัญ:</b> อัตราส่วน AC:AE จะเท่ากับอัตราส่วนพื้นที่เสมอ (ไม่ขึ้นกับความยาวเส้นทแยงมุมจริง) เพราะทั้งสองรูปมีฐาน BD ร่วมกัน ต่างกันแค่ความสูง (AC กับ AE) เท่านั้น</div>
+    </div>
+  </div>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">51</span><h3>นับหัว-ขาสัตว์ในฟาร์ม (3 ชนิด)</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">ในฟาร์มแห่งหนึ่งมีเป็ด ไก่ และกระต่าย โดยจำนวนเป็ดต่อจำนวนไก่เป็นอัตราส่วน 3:2 นับหัวสัตว์ทั้งหมดได้ 90 หัว และนับขาสัตว์ทั้งหมดได้ 250 ขา จงหาว่ามีกระต่ายกี่ตัว</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 280 90" xmlns="http://www.w3.org/2000/svg">
+          <g font-family="'Baloo Thai 2'" font-size="11" text-anchor="middle">
+            <rect x="10" y="10" width="80" height="40" rx="6" fill="#E8F4FF" stroke="#2c7fc0"/><text x="50" y="34" fill="#2c7fc0">เป็ด : ไก่ = 3:2</text>
+            <rect x="100" y="10" width="80" height="40" rx="6" fill="#FFF3E6" stroke="#E8702A"/><text x="140" y="27" fill="#E8702A">หัวรวม</text><text x="140" y="42" fill="#E8702A">90 หัว</text>
+            <rect x="190" y="10" width="80" height="40" rx="6" fill="#FDECEF" stroke="#c9436b"/><text x="230" y="27" fill="#c9436b">ขารวม</text><text x="230" y="42" fill="#c9436b">250 ขา</text>
+          </g>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        ให้เป็ด = 3k, ไก่ = 2k, กระต่าย = r (เป็ด/ไก่มี 2 ขา, กระต่ายมี 4 ขา)<br>
+        1) สมการหัว: 3k+2k+r = 90 → 5k+r=90 → r = 90−5k<br>
+        2) สมการขา: 2(3k)+2(2k)+4r = 250 → 10k+4r=250<br>
+        3) แทน r: 10k+4(90−5k)=250 → 10k+360−20k=250 → −10k=−110 → k=<b>11</b><br>
+        4) r = 90−5(11) = 90−55 = <b>35</b><br>
+        <i>ตรวจ: เป็ด=33, ไก่=22, กระต่าย=35 → หัว=33+22+35=90✓ ขา=66+44+140=250✓</i>
+      </div>
+      <div class="answer">✓ คำตอบ: กระต่าย 35 ตัว</div>
+      <div class="tip"><b>เทคนิค:</b> ตั้งตัวแปรตามอัตราส่วนที่ให้มาก่อน (3k, 2k) แล้วใช้สมการหัว+ขาสร้างระบบสมการ 2 ตัวแปร (k, r) แก้พร้อมกัน</div>
+    </div>
+  </div>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">52</span><h3>ต่อเชือก 2 เส้น (หารอยต่อที่ถูกตัด)</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">เชือกเส้นหนึ่งยาว 3 เมตร 85 เซนติเมตร เชือกอีกเส้นยาว 4 เมตร 62 เซนติเมตร นำเชือกทั้ง 2 เส้นมาผูกต่อกัน แล้ววัดความยาวใหม่ได้ 7 เมตร 62 เซนติเมตร อยากทราบว่าส่วนที่เป็นรอยต่อ (ทับซ้อนกันตอนผูก) มีความยาวเท่าใด</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+          <line x1="20" y1="40" x2="150" y2="40" stroke="#2c7fc0" stroke-width="6"/>
+          <line x1="140" y1="40" x2="280" y2="40" stroke="#E8702A" stroke-width="6"/>
+          <rect x="135" y="30" width="20" height="20" fill="#c9436b" opacity=".6"/>
+          <text x="80" y="60" text-anchor="middle" font-size="10.5" fill="#2c7fc0">3.85 ม.</text>
+          <text x="210" y="60" text-anchor="middle" font-size="10.5" fill="#E8702A">4.62 ม.</text>
+          <text x="145" y="20" text-anchor="middle" font-size="10" fill="#c9436b">รอยต่อ</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        1) ความยาวรวมก่อนต่อ = 3.85 + 4.62 = <b>8.47 เมตร</b><br>
+        2) ความยาวที่วัดได้จริงหลังต่อ = <b>7.62 เมตร</b><br>
+        3) ส่วนที่หายไปตรงรอยต่อ (ส่วนทับซ้อนตอนผูกเงื่อน) = 8.47 − 7.62 = <b>0.85 เมตร</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 0.85 เมตร</div>
+      <div class="tip"><b>เทคนิค:</b> ความยาวที่ "หายไป" จากการต่อเชือก = ผลรวมความยาวเดิม − ความยาวที่วัดได้จริงหลังต่อ เสมอ</div>
+    </div>
+  </div>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">53</span><h3>วงกลมแบ่งส่วนเท่า ๆ กันแล้วตัดทิ้ง</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">กระดาษแผ่นหนึ่งมีลักษณะเป็นรูปวงกลม มีความยาวรอบรูป 176 เซนติเมตร ถ้าแบ่งกระดาษวงกลมออกเป็น 8 ส่วนเท่า ๆ กัน แล้วตัดทิ้งไป 1 ส่วน จะเหลือกระดาษที่มีพื้นที่เท่าใด <span style="color:var(--ink-soft)">(กำหนด π ≈ 22/7)</span></div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="100" r="80" fill="#E9FBF3" stroke="#2BC4A8" stroke-width="2"/>
+          <path d="M 100,100 L 100,20 A 80,80 0 0 1 156.6,43.4 Z" fill="#fff" stroke="#c9436b" stroke-width="2"/>
+          <g stroke="#1F2A44" stroke-width="1" opacity=".4">
+            <line x1="100" y1="100" x2="156.6" y2="43.4"/>
+            <line x1="100" y1="100" x2="180" y2="100"/>
+            <line x1="100" y1="100" x2="156.6" y2="156.6"/>
+            <line x1="100" y1="100" x2="100" y2="180"/>
+            <line x1="100" y1="100" x2="43.4" y2="156.6"/>
+            <line x1="100" y1="100" x2="20" y2="100"/>
+            <line x1="100" y1="100" x2="43.4" y2="43.4"/>
+          </g>
+          <text x="125" y="55" font-size="10" fill="#c9436b">ตัดทิ้ง 1/8</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        1) เส้นรอบรูป = 2πr → 176 = 2×22/7×r → r = 176×7÷44 = <b>28 ซม.</b><br>
+        2) พื้นที่วงกลมเต็มวง = πr² = 22/7×28×28 = <b>2,464 ตร.ซม.</b><br>
+        3) เหลือ 7 ใน 8 ส่วน (ตัดทิ้งไป 1 ส่วน): พื้นที่ที่เหลือ = 2,464 × 7/8 = <b>2,156 ตร.ซม.</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 2,156 ตารางเซนติเมตร</div>
+      <div class="tip"><b>เทคนิค:</b> หารัศมีจากเส้นรอบรูปก่อนเสมอ (r = เส้นรอบรูป ÷ 2π) แล้วจึงหาพื้นที่เต็มวง สุดท้ายคูณด้วยเศษส่วนที่เหลืออยู่จริง</div>
+    </div>
+  </div>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">54</span><h3>สี่เหลี่ยมจัตุรัส 2 รูป ล้อมและแนบในวงกลมเดียวกัน</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">วงกลมวงหนึ่งมีรัศมี 9 หน่วย มีสี่เหลี่ยมจัตุรัสรูปเล็กแนบในวงกลม (มุมแตะเส้นรอบวง) และมีสี่เหลี่ยมจัตุรัสรูปใหญ่ล้อมรอบวงกลม (ด้านสัมผัสเส้นรอบวง) จงหาว่าสี่เหลี่ยมจัตุรัสรูปใหญ่มีพื้นที่มากกว่ารูปเล็กอยู่เท่าใด</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="20" width="160" height="160" fill="none" stroke="#1F2A44" stroke-width="2"/>
+          <circle cx="100" cy="100" r="80" fill="#E8F4FF" stroke="#2c7fc0" stroke-width="2"/>
+          <polygon points="100,20 180,100 100,180 20,100" fill="#E9FBF3" stroke="#1c9b85" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        1) <b>สี่เหลี่ยมรูปเล็ก (แนบใน):</b> เส้นทแยงมุม = เส้นผ่านศูนย์กลาง = 2×9=18 → พื้นที่ = 18²÷2 = <b>162 ตร.หน่วย</b><br>
+        2) <b>สี่เหลี่ยมรูปใหญ่ (ล้อมรอบ):</b> ด้าน = เส้นผ่านศูนย์กลาง = 18 → พื้นที่ = 18×18 = <b>324 ตร.หน่วย</b><br>
+        3) ผลต่างพื้นที่ = 324 − 162 = <b>162 ตร.หน่วย</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 162 ตารางหน่วย</div>
+      <div class="tip"><b>ข้อสังเกตที่น่าสนใจ:</b> สี่เหลี่ยมรูปใหญ่จะมีพื้นที่เป็น 2 เท่าของรูปเล็กเสมอ (162×2=324) เพราะทั้งคู่คำนวณจากเส้นผ่านศูนย์กลางเดียวกัน เพียงแต่ใช้สูตรต่างกัน (ด้าน² กับ ทแยงมุม²÷2)</div>
+    </div>
+  </div>
+
+<div class="problem">
+    <div class="problem-head"><span class="pnum">55</span><h3>ปิรามิดตัวเลข: หาค่า A จากผลรวมยอด</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">ปิรามิดตัวเลขแถวล่างสุดมี 6 ช่อง โดยแต่ละช่องที่อยู่สูงขึ้นไปมีค่าเท่ากับผลบวกของ 2 ช่องที่อยู่ติดกันด้านล่างเสมอ แถวล่างสุดคือ 3, A, 7, 11, 4, 9 ตามลำดับ ถ้ายอดบนสุดของปิรามิด (หลังบวกขึ้นไปจนเหลือช่องเดียว) มีค่าเท่ากับ 337 จงหาค่า A</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg">
+          <g font-family="'Baloo Thai 2'" font-size="12" text-anchor="middle">
+            <rect x="155" y="5" width="30" height="26" fill="#F3EFFD" stroke="#9B5DE5"/><text x="170" y="23" fill="#5B3FC0">337</text>
+            <rect x="125" y="35" width="30" height="26" fill="#fff" stroke="#1F2A44"/><text x="140" y="53">?</text>
+            <rect x="185" y="35" width="30" height="26" fill="#fff" stroke="#1F2A44"/><text x="200" y="53">?</text>
+            <rect x="95" y="65" width="30" height="26" fill="#fff" stroke="#1F2A44"/><text x="110" y="83">?</text>
+            <rect x="155" y="65" width="30" height="26" fill="#fff" stroke="#1F2A44"/><text x="170" y="83">?</text>
+            <rect x="215" y="65" width="30" height="26" fill="#fff" stroke="#1F2A44"/><text x="230" y="83">?</text>
+            <rect x="65" y="95" width="30" height="26" fill="#fff" stroke="#1F2A44"/><text x="80" y="113">?</text>
+            <rect x="125" y="95" width="30" height="26" fill="#fff" stroke="#1F2A44"/><text x="140" y="113">?</text>
+            <rect x="185" y="95" width="30" height="26" fill="#fff" stroke="#1F2A44"/><text x="200" y="113">?</text>
+            <rect x="245" y="95" width="30" height="26" fill="#fff" stroke="#1F2A44"/><text x="260" y="113">?</text>
+            <rect x="35" y="125" width="30" height="26" fill="#E9FBF3" stroke="#1c9b85"/><text x="50" y="143" fill="#1c9b85">3</text>
+            <rect x="95" y="125" width="30" height="26" fill="#FFF3E6" stroke="#E8702A"/><text x="110" y="143" fill="#c9436b" font-weight="bold">A</text>
+            <rect x="155" y="125" width="30" height="26" fill="#E9FBF3" stroke="#1c9b85"/><text x="170" y="143" fill="#1c9b85">7</text>
+            <rect x="215" y="125" width="30" height="26" fill="#E9FBF3" stroke="#1c9b85"/><text x="230" y="143" fill="#1c9b85">11</text>
+            <rect x="275" y="125" width="30" height="26" fill="#E9FBF3" stroke="#1c9b85"/><text x="290" y="143" fill="#1c9b85">4</text>
+            <rect x="305" y="125" width="30" height="26" fill="#E9FBF3" stroke="#1c9b85"/><text x="320" y="143" fill="#1c9b85">9</text>
+          </g>
+          <text x="170" y="175" text-anchor="middle" font-size="10.5" fill="#6B6490">แต่ละช่อง = ผลบวกของ 2 ช่องด้านล่างที่ติดกัน</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ (แทน A แล้วบวกขึ้นไปทีละชั้น)</div>
+        แถวล่างสุด: 3, A, 7, 11, 4, 9<br>
+        แถวถัดไป: (3+A), (A+7), 18, 15, 13<br>
+        แถวถัดไป: (3+2A+7)=(10+2A), (A+25), 33, 28<br>
+        แถวถัดไป: (10+3A+7)=(17+3A)... <i>(สังเกตว่าเมื่อบวกขึ้นไปเรื่อย ๆ สัมประสิทธิ์ของ A จะเพิ่มขึ้นตามรูปแบบสามเหลี่ยมปาสคาล 1,5,10,10,5,1)</i><br><br>
+        เมื่อบวกจนถึงยอดบนสุด จะได้: ยอด = (1×3)+(5×A)+(10×7)+(10×11)+(5×4)+(1×9) = 212 + 5A<br>
+        กำหนดให้ยอด = 337: 212+5A = 337 → 5A = 125 → <b>A = 25</b><br><br>
+        <i>ตรวจสอบโดยแทนค่าจริง: แถวล่าง 3,25,7,11,4,9 → บวกขึ้นไปทีละชั้นจนถึงยอด ได้ 337 พอดี ✓</i>
+      </div>
+      <div class="answer">✓ คำตอบ: A = 25</div>
+      <div class="tip"><b>เทคนิคขั้นเทพ:</b> ปิรามิดบวกเลข 6 แถว ยอดบนสุด = ผลรวมถ่วงน้ำหนักของแถวล่างสุดด้วยสัมประสิทธิ์ 1,5,10,10,5,1 (แถวของสามเหลี่ยมปาสคาล) เสมอ ใช้ลัดได้แทนการบวกทีละชั้น</div>
+    </div>
+  </div>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">56</span><h3>รูปคลี่กล่อง หาปริมาตรเมื่อพับเป็นกล่อง</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">รูปคลี่ของกล่องกระดาษใบหนึ่งเป็นดังภาพ (หน่วยเป็นเซนติเมตร) เมื่อพับตามรอยประกอบเป็นกล่องทรงสี่เหลี่ยมมุมฉากที่มีฝาปิดครบทุกด้าน กล่องใบนี้จะมีปริมาตรเท่าใด</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 260 220" xmlns="http://www.w3.org/2000/svg">
+          <g fill="#E8F4FF" stroke="#2c7fc0" stroke-width="2">
+            <rect x="90" y="10" width="80" height="40"/>
+            <rect x="90" y="50" width="80" height="60"/>
+            <rect x="90" y="110" width="80" height="40"/>
+            <rect x="90" y="150" width="80" height="60"/>
+            <rect x="10" y="50" width="80" height="60"/>
+            <rect x="170" y="50" width="80" height="60"/>
+          </g>
+          <g font-family="'Baloo Thai 2'" font-size="11" text-anchor="middle" fill="#1F2A44">
+            <text x="130" y="33">บน (12×8)</text>
+            <text x="130" y="83">หน้า (12×15)</text>
+            <text x="130" y="133">ล่าง (12×8)</text>
+            <text x="130" y="183">หลัง (12×15)</text>
+            <text x="50" y="83">ซ้าย (8×15)</text>
+            <text x="210" y="83">ขวา (8×15)</text>
+          </g>
+          <text x="130" y="205" text-anchor="middle" font-size="10" fill="#6B6490">L=12, W=8, H=15 (ซม.)</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        จากรูปคลี่ อ่านขนาดของกล่องที่จะได้เมื่อพับ:<br>
+        • ความยาว (L) = 12 ซม. (ด้านที่ใช้ร่วมกันของหน้า/หลัง/บน/ล่าง)<br>
+        • ความกว้าง (W) = 8 ซม. (ด้านที่ใช้ร่วมกันของบน/ล่าง/ซ้าย/ขวา)<br>
+        • ความสูง (H) = 15 ซม. (ด้านที่ใช้ร่วมกันของหน้า/หลัง/ซ้าย/ขวา)<br><br>
+        ปริมาตร = กว้าง × ยาว × สูง = 8 × 12 × 15 = <b>1,440 ลูกบาศก์เซนติเมตร</b>
+      </div>
+      <div class="answer">✓ คำตอบ: 1,440 ลูกบาศก์เซนติเมตร</div>
+      <div class="tip"><b>เทคนิคอ่านรูปคลี่:</b> หาหน้า "หน้า/หลัง" ก่อน (มักมีขนาดใหญ่สุดตรงกลาง) จะได้ 2 ใน 3 มิติทันที (L และ H) จากนั้นดูหน้า "ซ้าย/ขวา" หรือ "บน/ล่าง" เพื่อหามิติที่ 3 (W) ที่เหลือ</div>
+    </div>
+  </div>
+
+  <div class="problem">
+    <div class="problem-head"><span class="pnum">57</span><h3>รูปคลี่ลูกบาศก์ที่พับแล้วไม่เป็นลูกบาศก์</h3></div>
+    <div class="problem-body">
+      <div class="problem-text">รูปคลี่ทั้งสองแบบด้านล่างประกอบด้วยสี่เหลี่ยมจัตุรัสขนาดเท่ากัน 6 รูป จงพิจารณาว่ารูปคลี่แบบใดสามารถพับเป็นลูกบาศก์ปิดสนิทได้ และแบบใดพับแล้วจะมีหน้าซ้อนทับกัน (พับไม่ได้จริง)</div>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+          <g fill="#E9FBF3" stroke="#1c9b85" stroke-width="2">
+            <rect x="60" y="10" width="30" height="30"/>
+            <rect x="30" y="40" width="30" height="30"/><rect x="60" y="40" width="30" height="30"/><rect x="90" y="40" width="30" height="30"/>
+            <rect x="60" y="70" width="30" height="30"/>
+            <rect x="60" y="100" width="30" height="30"/>
+          </g>
+          <text x="70" y="145" text-anchor="middle" font-size="11" fill="#1c9b85" font-weight="bold">แบบ ก (รูปกางเขน)</text>
+          <g fill="#FDECEF" stroke="#c9436b" stroke-width="2">
+            <rect x="200" y="40" width="30" height="30"/><rect x="230" y="40" width="30" height="30"/><rect x="260" y="40" width="30" height="30"/>
+            <rect x="200" y="70" width="30" height="30"/><rect x="230" y="70" width="30" height="30"/><rect x="260" y="70" width="30" height="30"/>
+          </g>
+          <text x="245" y="145" text-anchor="middle" font-size="11" fill="#c9436b" font-weight="bold">แบบ ข (บล็อก 2×3)</text>
+        </svg>
+      </div>
+      <div class="solution">
+        <div class="stitle">วิธีทำ</div>
+        <b>แบบ ก (รูปกางเขน/บวก):</b> เมื่อพับหน้ากลางเป็นฐาน แล้วพับ 4 ด้านรอบข้างขึ้นมาเป็นผนัง และพับหน้าบนสุดปิดเป็นฝา จะได้ลูกบาศก์ปิดสนิทพอดี ไม่มีหน้าซ้อนทับ → <b>พับเป็นลูกบาศก์ได้</b><br><br>
+        <b>แบบ ข (บล็อกทึบ 2 แถว 3 คอลัมน์):</b> เมื่อพับแถวบนลงมาประกบแถวล่าง จะเกิดหน้าที่ซ้อนทับกัน 2 คู่ (ไม่สามารถกางออกมาครบ 6 หน้าที่ตำแหน่งถูกต้องของลูกบาศก์ได้) → <b>พับเป็นลูกบาศก์ไม่ได้จริง</b>
+      </div>
+      <div class="answer">✓ คำตอบ: แบบ ก พับเป็นลูกบาศก์ได้ / แบบ ข พับไม่ได้ (มีหน้าซ้อนทับ)</div>
+      <div class="tip"><b>ความรู้เสริม:</b> รูปคลี่ของลูกบาศก์ที่ถูกต้องมีอยู่เพียง 11 แบบเท่านั้น (จากการจัดเรียงสี่เหลี่ยมจัตุรัส 6 รูปที่เป็นไปได้ทั้งหมด) รูปแบบ "บล็อกทึบ" อย่าง 2×3 หรือ 1×6 ไม่ใช่หนึ่งใน 11 แบบนั้น จึงพับเป็นลูกบาศก์ไม่ได้เสมอ</div>
+    </div>
+  </div>
+
 </div>
 </body>
 </html>
